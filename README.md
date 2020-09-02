@@ -1,4 +1,6 @@
 # bb-web
+Using the Clojure Interpreter Babashka for client side scripting
+
 ## Run project
 Although written in the Clojure language, no Clojure installation is needed. Instead, Babashka drives this small client-server application. Make sure you have a version of [Babashka with httpkit](https://github.com/borkdude/babashka/issues/556) installed. Open a terminal window and type: 
 
