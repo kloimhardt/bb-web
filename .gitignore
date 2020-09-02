@@ -1,0 +1,9 @@
+/src/.DS_Store
+.DS_Store
+
+js/.shadow-cljs/
+js/bb_web/cljs-runtime/
+js/bb_web/manifest.edn
+js/node_modules/
+js/package-lock.json
+js/package.json
