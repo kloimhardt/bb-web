@@ -1,6 +1,5 @@
 (require '[org.httpkit.server :as srv]
-         '[clojure.java.browse :as browse]
-         '[clojure.string :as s])
+         '[clojure.java.browse :as browse])
 
 (def html
   (str "
@@ -14,10 +13,7 @@
   <body>
   <div id=\"app\"></div>
   <script>"
-
-       (s/replace (slurp "js/bb_web/bb_web.js")
-                  #"</script>\""
-                  "</scr\" + \"ipt>\"")
+       (slurp "js/bb_web/bb_web.js")
        "</script>
   </body>
   </html>"))

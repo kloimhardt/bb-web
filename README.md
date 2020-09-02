@@ -28,7 +28,7 @@ One valid objection to bb-web is: one does not need client-side scripting for sm
 
 You need to install Clojure and Shadow-cljs to do this advanced step.
 
-Only one ClojureScript file is behind the scenes of bb-web: ``js/src/bb_web/app.cljs``. It is 20 lines and compiles to 6MB Javascript code (`js/bb_web/bb_web.js` is pre-compiled in the repository). 
+Only one ClojureScript file is behind the scenes of bb-web: ``js/src/bb_web/app.cljs``. It is 20 lines and compiles to 1MB Javascript code (`js/bb_web/bb_web.js` is pre-compiled in the repository). 
 
 As you can see in the ``:require`` section of `app.cljs`, two libraries are made available for use with Babashka: Reagent and Ajax.
 
@@ -39,9 +39,9 @@ To compile, type:
     cd js
     npm init -y
     npm install shadow-cljs
-    shadow-cljs compile bbjs
+    shadow-cljs release bbjs
     cd ..
     bb server.clj
 
 
-Of course, additional libraries will increase the initial 6MB size. 
+Of course, additional libraries will increase the initial 1MB size. 
