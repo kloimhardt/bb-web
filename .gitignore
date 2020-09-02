@@ -1,5 +1,6 @@
 /src/.DS_Store
 .DS_Store
+README.md.temp
 
 js/.shadow-cljs/
 js/bb_web/cljs-runtime/

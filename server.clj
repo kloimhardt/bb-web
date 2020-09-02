@@ -26,9 +26,9 @@
   (case [request-method uri]
     [:get "/"] {:body html
                 :status 200}
-    [:get "/code"] {:body (slurp "app.cljs") #_(pr-str f1 comp2 sci-comp)
+    [:get "/code"] {:body (slurp "browser.cljs") #_(pr-str f1 comp2 sci-comp)
                     :status 200}
-    [:get "/data"] {:body "the data 3"
+    [:get "/data"] {:body "Hello from the server-side"
                     :status 200}))
 
 (srv/run-server app {:port 8000})
