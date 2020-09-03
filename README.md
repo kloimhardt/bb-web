@@ -1,8 +1,10 @@
 # bb-web
-Using the Clojure Interpreter Babashka for scripting a Web-GUI.
+Using the Clojure interpreter Babashka for scripting a Web-GUI.
 
 ## Run project
-This small client-server demo is written in Clojure. The main feature is that no Clojure installation is needed, nevertheless you can live code the Web-GUI yourself. Make sure you have a version of [Babashka with httpkit](https://github.com/borkdude/babashka/issues/556) on your computer. After getting Babashka, which is just a single executable file, open a terminal window and type: 
+This small client-server demo is written in Clojure. The main feature is that no Clojure installation is needed. Nevertheless you can live code the Web-GUI yourself. 
+
+Make sure you have a version of [Babashka with httpkit](https://github.com/borkdude/babashka/issues/556) on your computer, it is just a single executable file. Having that in place, open a terminal window, change into your bb-web directory and type: 
 
     bb server.clj
 
