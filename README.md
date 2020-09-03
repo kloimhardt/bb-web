@@ -8,9 +8,9 @@ Make sure you have a version of [Babashka with httpkit](https://github.com/borkd
 
     bb server.clj
 
-Your web-browser will open and show some buttons. Try them out and see Babashka in action on the client side.
+ If you see the `Could not find: org.httpkit.server` error in your console, your local Babashka does not support http-kit. Again, get one that does.
 
- If you see the `Could not find: org.httpkit.server` error, your local Babashka does not support http-kit. Again, get one that does.
+If everything works as expected, your web-browser will open and show some buttons. Try them out and see Babashka in action on the client side.
 
 To code your own ideas, edit the file `client.cljs`. Maybe change the text that is displayed on top of the web-page. Press `hot reload` and see the changes.
 
@@ -53,7 +53,7 @@ If you are compiling for the first time, instead of the (effectless) `echo` comm
     npm init -y
     npm install shadow-cljs
 
-If you want the full shadow-cljs experience while editing, instead of `echo`, type `shadow-cljs watch cljs` and open `http://localhost:8081` in your browser. You will not see any buttons as the Babashka scripts are not loaded. Only the familiar bottom message text is there, maybe change it in `app.cljs`, save and watch shadows' hot reloading magic happen immediately.
+If you want the full shadow-cljs experience while editing, instead of `echo`, type `shadow-cljs watch cljs` and open `http://localhost:8081` in your browser. You will not see any buttons as the Babashka scripts are not loaded. Only the familiar bottom message text is there, maybe change it in `app.cljs`, save and watch Shadows' hot reloading magic happen immediately.
 
 ## Further examples
 
