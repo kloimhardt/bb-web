@@ -16,6 +16,8 @@ To code your own ideas, edit the file `client.cljs`. Maybe change the text that 
 
 You can also edit the file `server.clj`. Maybe change the server greeting text. To see the effect, stop the server in the console by pressing `Ctrl+C` and restart with `bb server.clj`.
 
+Further down, you will learn how to run other client code examples.
+
 ## Rationale of bb-web
 It shows some of the good Clojure stuff: same language on the client and the server, Hiccup syntax, Reagent's clean client state management, hot reloading (at least a glimpse).
 
@@ -52,3 +54,7 @@ If you are compiling for the first time, instead of the (effectless) `echo` comm
     npm install shadow-cljs
 
 If you want the full shadow-cljs experience while editing, instead of `echo`, type `shadow-cljs watch cljs` and open `http://localhost:8081` in your browser. You will not see any buttons as the Babashka part is not loaded. Only the familiar bottom message text is there, maybe change it in `app.cljs`, save and watch shadows' hot reloading magic happen immediately.
+
+## Further examples
+
+Try `bb server.clj examples/dropdown.cljs`

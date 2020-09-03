@@ -31,7 +31,7 @@
   (case [request-method uri]
     [:get "/"] {:body html
                 :status 200}
-    [:get "/code"] {:body (slurp "client.cljs")
+    [:get "/code"] {:body (slurp (or (first *command-line-args*) "client.cljs"))
                     :status 200}
     [:get "/data"] {:body "Hello from the server-side"
                     :status 200}))
