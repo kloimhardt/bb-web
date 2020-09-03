@@ -15,7 +15,8 @@
   <head>
   <meta charset=\"UTF-8\">
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
-  <title>Kreuzfahrt</title>
+  <link rel=\"icon\" href=\"data:,\">
+  <title>bb-web</title>
   </head>
   <body>
   <div id=\"app\"></div>
@@ -37,7 +38,7 @@
 
 (srv/run-server app {:port port})
 
-(println "serving " (url))
+(println "serving" (url))
 
 (browse/browse-url (url))
 
