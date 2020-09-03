@@ -1,5 +1,5 @@
 (defn server-get [kw]
-  (GET (str "http://localhost:8000/" (name kw))
+  (GET (str url (name kw))
        :handler (fn [response]
                   (swap! state assoc kw response))))
 
@@ -25,5 +25,4 @@
  [:div
   [:button {:on-click increase} "Click me"]
   (str " " (:counter @state))]
- [second-component]
- ]
+ [second-component]]

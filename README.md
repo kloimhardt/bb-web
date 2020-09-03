@@ -10,7 +10,7 @@ Your web-browser will open on `localhost:8000` and show some buttons. Try them o
 
  If your terminal shows a `Could not find: org.httpkit.server` error, your currently installed Babashka does not support http-kit.
 
-To code your own ideas, edit the file `browser.cljs`. Maybe change the text that is displayed on top of the web-page. Press `hot reload` and see the changes.
+To code your own ideas, edit the file `client.cljs`. Maybe change the text that is displayed on top of the web-page. Press `hot reload` and see the changes.
 
 You can also edit the file `server.clj`. Maybe change the server greeting text. To see the effect, stop the server in the console by pressing `Ctrl+C` and restart with `bb server.clj`.
 

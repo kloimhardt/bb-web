@@ -7,14 +7,16 @@
 
 (defonce state (ra/atom {}))
 
+(def url js/url)
+
 (defn main-comp []
-  (let [_ (GET "http://localhost:8000/code"
+  (let [_ (GET (str url "code")
                :handler (fn [response]
                           (swap! state assoc :code response)))]
     (fn []
       [:div
        (sci/eval-string (:code @state)
-                        {:bindings {'state state 'GET GET}})])))
+                        {:bindings {'state state 'GET GET 'url url}})])))
 
 (defn ^:dev/after-load main []
   (rd/render [main-comp] (gd/getElement "app")))
