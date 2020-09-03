@@ -4,7 +4,7 @@ Using the Clojure interpreter Babashka for scripting a Web-GUI.
 ## Run project
 This small client-server demo is written in Clojure. The main feature is that no Clojure installation is needed. Nevertheless you can live code the Web-GUI yourself. 
 
-Make sure you have a version of [Babashka with httpkit](https://github.com/borkdude/babashka/issues/556) on your computer, it is just a single executable file with the two letter name `bb`. Having that in place, open a console window, change into your bb-web directory and type: 
+Make sure you have a version of [Babashka with httpkit](https://github.com/borkdude/babashka/issues/556) on your computer, it is just a single executable file with the two letter name `bb`. Clone or download this repository. Open a console window, change into your `bb-web` directory (with `bb` copied into or accessible via %PATH%) and type: 
 
     bb server.clj
 
@@ -21,7 +21,7 @@ Further down, you will learn how to run other client code examples.
 ## Rationale of bb-web
 It shows some of the good Clojure stuff: same language on the client and the server, Hiccup syntax, Reagent's clean client state management, hot reloading (at least a glimpse).
 
-It lowers the bar to Clojure Web-development. There is no involved installation process. Here I especially have Windows users with company laptops and no Admin rights in mind.
+It offers a low entry bar to Web-development. There is no involved installation process. Here I especially have Windows users with company laptops and no Admin rights in mind.
 
 Of course, some power tools are not available. Especially Cljs-REPL or integrant/mount. As powerful as those concepts are, they first need to be mastered. And some of the lack is made up by Babashka's brisk start up time.
 
@@ -32,7 +32,7 @@ One valid objection to bb-web is: one does not need client-side scripting for sm
 
 You need to install Clojure and Shadow-cljs to do this advanced step.
 
-Only one ClojureScript file is behind the scenes of bb-web: ``js/src/bb_web/app.cljs``. It is 25 lines and compiles to 1MB Javascript code (`js/bb_web/bb_web.js` is pre-compiled in the repository). 
+Only one ClojureScript file is behind the scenes of bb-web: ``js/src/bb_web/app.cljs``. It is 25 lines and compiles to the 1MB Javascript file `js/bb_web/bb_web.js` (which is pre-compiled in the repository). 
 
 As you can see in the ``:require`` section of `app.cljs`, two libraries are made available for use with Babashka: Reagent and Ajax.
 
@@ -53,7 +53,7 @@ If you are compiling for the first time, instead of the (effectless) `echo` comm
     npm init -y
     npm install shadow-cljs
 
-If you want the full shadow-cljs experience while editing, instead of `echo`, type `shadow-cljs watch cljs` and open `http://localhost:8081` in your browser. You will not see any buttons as the Babashka part is not loaded. Only the familiar bottom message text is there, maybe change it in `app.cljs`, save and watch shadows' hot reloading magic happen immediately.
+If you want the full shadow-cljs experience while editing, instead of `echo`, type `shadow-cljs watch cljs` and open `http://localhost:8081` in your browser. You will not see any buttons as the Babashka scripts are not loaded. Only the familiar bottom message text is there, maybe change it in `app.cljs`, save and watch shadows' hot reloading magic happen immediately.
 
 ## Further examples
 
