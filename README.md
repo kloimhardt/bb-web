@@ -4,13 +4,13 @@ Using the Clojure interpreter Babashka for scripting a Web-GUI.
 ## Run project
 This small client-server demo is written in Clojure. The main feature is that no Clojure installation is needed. Nevertheless you can live code the Web-GUI yourself. 
 
-Make sure you have a version of [Babashka with httpkit](https://github.com/borkdude/babashka/issues/556) on your computer, it is just a single executable file. Having that in place, open a terminal window, change into your bb-web directory and type: 
+Make sure you have a version of [Babashka with httpkit](https://github.com/borkdude/babashka/issues/556) on your computer, it is just a single executable file with the two letter name `bb`. Having that in place, open a console window, change into your bb-web directory and type: 
 
     bb server.clj
 
 Your web-browser will open and show some buttons. Try them out and see Babashka in action on the client side.
 
- If your terminal shows a `Could not find: org.httpkit.server` error, your currently installed Babashka does not support http-kit.
+ If you see the `Could not find: org.httpkit.server` error, your local Babashka does not support http-kit. Again, get one that does.
 
 To code your own ideas, edit the file `client.cljs`. Maybe change the text that is displayed on top of the web-page. Press `hot reload` and see the changes.
 
@@ -36,14 +36,19 @@ As you can see in the ``:require`` section of `app.cljs`, two libraries are made
 
 You can add additional libraries  to the `:require` section and add new functions to the ``:bindings`` map.
 
-To compile, type:
+To compile, open a console window, change into your bb_web directory and type:
     
     cd js
-    npm init -y
-    npm install shadow-cljs
+    echo
     shadow-cljs release bbjs
     cd ..
     bb server.clj
 
-
 Of course, additional libraries will increase the initial 1MB size. 
+
+If you are compiling for the first time, instead of the (effectless) `echo` command above, type the following two lines:
+
+    npm init -y
+    npm install shadow-cljs
+
+If you want the full shadow-cljs experience while editing, instead of `echo`, type `shadow-cljs watch cljs` and open `http://localhost:8081` in your browser. You will not see any buttons as the Babashka part is not loaded. Only the familiar bottom message text is there, maybe change it in `app.cljs`, save and watch shadows' hot reloading magic happen immediately.
