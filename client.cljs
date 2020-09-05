@@ -20,7 +20,7 @@
     (str " " (:data @state))]])
 
 ;; Shows "This message is from behind the scenes of bb_web" at bottom.
-;; Replace true with false to get rid of it with hot-reload,
+;; Replace true with false to get rid of it on hot-reload,
 ;; or delete the entire line (and browser-reload)
 (swap! state assoc :app-text true)
 
@@ -28,6 +28,6 @@
  [:button {:on-click server-code} "hot reload"]
  [:p "Press the following button to increase the counter"]
  [:div
-  [:button {:on-click increase} "Click me"]
-  (str " " (:counter @state))]
+  [:button {:on-click increase} "Count up"]
+  (str " " (or (:counter @state) 0))]
  [second-component]]
