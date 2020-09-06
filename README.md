@@ -1,20 +1,25 @@
 # bb-web
-Using the Clojure interpreter Babashka for scripting a Web-GUI.
+Using Babashka for scripting a Web-GUI.
 
-## Run project
-This small client-server demo is written in Clojure. The main feature is that no Clojure installation is needed. Nevertheless you can live code the Web-GUI yourself. 
+## Description
 
-Make sure you have a version of [Babashka with httpkit](https://github.com/borkdude/babashka/issues/556) on your computer, it is just a single executable file with the two letter name `bb`. Clone or download this repository. Open a console window and change into your `bb-web` directory via the  `cd` command. Then type: 
+This small "Dynamic Web Page" demo is written in Clojure. You can live code a Web-GUI yourself. The main feature is that no Java+Clojurescript installation is needed to begin with. The only prerequisite is Babashka, a single executable file.
+
+
+## Getting Started
+Download [Babashka with httpkit](https://github.com/borkdude/babashka/issues/556), a file with the two letter name `bb`. 
+
+Then, clone or download this repository via Github's `Code` button above, thereby creating a `bb-web` directory. Open a command prompt (on MS-Windows(TM) via Start->Run->cmd, on Mac via Applications->Utilities->Terminal) and make `bb-web` the current directory using the `cd` command. Then type: 
 
     bb server.clj
 
- If you see the `Could not find: org.httpkit.server` error in your console, your local Babashka does not support http-kit. Again, get one that does and copy `bb` into the `bb-web` directory. The latter also helps when you see `command not found`.
+ If you see the `Could not find: org.httpkit.server` error, your local Babashka does not support http-kit. Again, download one that does and copy `bb` into the `bb-web` directory. The latter also solves an eventual `command not found` error.
 
 If everything works as expected, your web-browser will open and show some buttons. Try them out and see Babashka in action on the client side.
 
 To code your own ideas, edit the file `client.cljs`. Maybe change the text that is displayed on top of the web-page. Press `hot reload` and see the changes (or a nice error message if a sytax error should occur). Also press the browser reload button and notice, as opposed to `hot reload`, the resetting of the displayed number.
 
-You can also edit the file `server.clj`. Maybe change the server greeting text. To see the effect, stop the server in the console by pressing `Ctrl+C` and restart with `bb server.clj`.
+You can also edit the file `server.clj`. Maybe change the server greeting text. To see the effect, stop the server pressing `Ctrl+C` and restarting with the familiar `bb server.clj`.
 
 Further down, you will learn how to run other client code examples.
 
@@ -32,15 +37,15 @@ One valid objection to bb-web is: one does not need client-side scripting for sm
 
 ## Advanced: add Javascript libraries for use with Babashka
 
-You need to install Clojure and Shadow-cljs to do this advanced step.
+You need to install [Clojure](https://www.clojure.org) and [Shadow-cljs](http://shadow-cljs.org) to do this advanced step.
 
-Only one ClojureScript file is behind the scenes of bb-web: ``js/src/bb_web/app.cljs``. It is 25 lines and compiles to the 1MB Javascript file `js/bb_web/bb_web.js` (which is pre-compiled in the repository). 
+Only one Clojurescript file is behind the scenes of bb-web: ``js/src/bb_web/app.cljs``. It is 40 lines and compiles to the 1MB Javascript file `js/bb_web/bb_web.js` (which is pre-compiled in the repository). 
 
 As you can see in the ``:require`` section of `app.cljs`, two libraries are made available for use with Babashka: Reagent and Ajax.
 
 You can add additional libraries  to the `:require` section and add new functions to the ``:bindings`` map.
 
-To compile, open a console window, change into your bb_web directory and type:
+To compile, make `bb_web` the current directory and type:
     
     cd js
     echo
@@ -60,3 +65,7 @@ If you want the full Shadow-cljs experience while editing, instead of `echo`, ty
 ## Further examples
 
 Try `bb server.clj examples/dropdown.cljs`
+
+## Related projects
+
+[Lightmod](https://sekao.net/lightmod/) is a long existing full stack Clojure environment with an editor and REPL included. It also does not need Java installation.
