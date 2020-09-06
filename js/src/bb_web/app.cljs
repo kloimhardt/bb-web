@@ -1,9 +1,10 @@
 (ns bb-web.app
-  (:require [goog.dom :as gd]
+  (:require [ajax.core :refer [GET POST]]
+            [clojure.string :as string]
+            [goog.dom :as gd]
             [reagent.dom :as rd]
             [reagent.ratom :as ra]
-            [sci.core :as sci]
-            [ajax.core :refer [GET]]))
+            [sci.core :as sci]))
 
 (defonce state (ra/atom {}))
 
@@ -27,7 +28,9 @@
       [:div
        (try
          (sci/eval-string (:code @state)
-                          {:bindings {'state state 'GET GET 'url url}})
+                          {:bindings {'state state 'GET GET 'POST POST 'url url 'println println}
+                           :namespaces {'reagent.ratom {'atom atom}
+                                        'clojure.string {'join 'join}}})
          (catch :default e
            [:div
             [:button {:on-click server-code} "hot reload"]
