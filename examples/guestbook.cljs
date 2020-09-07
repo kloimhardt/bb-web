@@ -1,13 +1,17 @@
 (require '[reagent.ratom :as r]
          '[clojure.string :as string])
 
-(defn get-messages [messages]
-  (reset! messages  [{:name "Markus" :message "This is a new message" :timestamp "2020-09-06T13:47:57.914-00:00"}]))
+(defn get-messages []
+  (swap! state assoc :messages [{:name "Markus" :message "This is a new messageiii" :timestamp "2020-09-06T13:47:57.914-00:00"}]))
+
+(defn click [messages]
+  (fn [e]
+    (log (str messages))))
 
 (defn message-list [messages]
   (println messages)
   [:ul.messages
-   (for [{:keys [timestamp message name]} @messages]
+   (for [{:keys [timestamp message name]} (:messages {})]
      ^{:key timestamp}
      [:li
       [:time timestamp]
@@ -15,7 +19,7 @@
       [:p " - " name]])])
 
 (defn errors-component [errors id]
-  (when-let [error (id @errors)]
+  (when-let [error (id errors)]
     [:div.notification.is-danger (string/join error)]))
 
 (defn message-form [messages]
@@ -44,15 +48,14 @@
          ;;:on-click #(send-message! fields errors messages)
          :value "comment"}]])))
 
-(defn home []
-  (let [messages (r/atom nil)]
-    (get-messages messages)
-    (fn []
-      [:div.content>div.columns.is-centered>div.column.is-two-thirds
-       [:div.columns>div.column
-        [:h3 "Messages"]
-        [message-list messages]]
-       [:div.columns>div.column
-        [message-form messages]]])))
+(defn main-comp []
+  (let [_ (get-messages)]
+    [:div.content>div.columns.is-centered>div.column.is-two-thirds
+     [:div.columns>div.column
+      [:h3 "Messages"]
+      [:button {:on-click (click (:messages @state))} "test"]
+      [message-list (:messages @state)]]
+     [:div.columns>div.column
+      [message-form (:messages @state)]]]))
 
-[home]
+[main-comp]

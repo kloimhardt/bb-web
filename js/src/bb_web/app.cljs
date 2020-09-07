@@ -1,6 +1,6 @@
 (ns bb-web.app
   (:require [ajax.core :refer [GET POST]]
-            [clojure.string :as string]
+            [clojure.string :refer [join]]
             [goog.dom :as gd]
             [reagent.dom :as rd]
             [reagent.ratom :as ra]
@@ -10,33 +10,33 @@
 
 (def url js/url)
 
-(defn server-get [kw]
-  (GET (str url (name kw))
+(defn log [s]
+  (.log js/console (str s)))
+
+(declare main-comp)
+
+(defn get-code [_]
+  (GET (str url "code")
        :handler (fn [response]
-                  (swap! state assoc kw response))))
+                  (rd/render [main-comp response] (gd/getElement "app")))
+       :error-handler (fn [_]
+                        (.log js/console "Babashka server not responding")
+                        (rd/render [main-comp nil] (gd/getElement "app")))))
 
-(defn server-code [_]
-  (server-get :code))
-
-(defn main-comp []
-  (let [_ (GET (str url "code")
-               :handler (fn [response]
-                          (swap! state assoc :code response))
-               :error-handler (fn [_]
-                                (.log js/console "Babashka server not responding")))]
-    (fn []
-      [:div
-       (try
-         (sci/eval-string (:code @state)
-                          {:bindings {'state state 'GET GET 'POST POST 'url url 'println println}
-                           :namespaces {'reagent.ratom {'atom atom}
-                                        'clojure.string {'join 'join}}})
-         (catch :default e
-           [:div
-            [:button {:on-click server-code} "hot reload"]
-            [:div>code (.-message e)]]))
-       (when (or (:app-text @state)  (exists? js/app_text))
-         [:p "This message is from behind the scenes of bb_web"])])))
+(defn main-comp [code]
+  [:div
+   (when-not (:no-hot-reload @state)
+     [:button {:on-click get-code} "hot reload"])
+   (try
+     (sci/eval-string code
+                      {:bindings {'state state 'GET GET 'POST POST 'url url
+                                  'println println 'log log}
+                       :namespaces {'reagent.ratom {'atom atom}
+                                    'clojure.string {'join join}}})
+     (catch :default e
+       [:div>code (.-message e)]))
+   (when (or (:app-text @state) (exists? js/app_text))
+     [:p "This message is from behind the scenes of bb_web"])])
 
 (defn ^:dev/after-load main []
-  (rd/render [main-comp] (gd/getElement "app")))
+  (get-code nil))
