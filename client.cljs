@@ -24,11 +24,12 @@
 (defn main-comp []
   (let [_ (swap! state assoc :app-text true)
         _ (swap! state assoc :no-hot-reload false)]
-    [:div
-     [:p "Press the following button to increase the counter"]
-     [:div
-      [:button {:on-click increase} "Count up"]
-      (str " " (or (:counter @state) 0))]
-     [second-component]]))
+    (fn []
+      [:div
+       [:p "Press the following button to increase the counter"]
+       [:div
+        [:button {:on-click increase} "Count up"]
+        (str " " (or (:counter @state) 0))]
+       [second-component]])))
 
 [main-comp]
