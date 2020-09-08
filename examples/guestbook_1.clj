@@ -11,11 +11,6 @@
 
 (def port 8080)
 
-(defn url []
-  (str host ":" port "/"))
-
-(def filename "examples/m.txt")
-
 (def html
   (str "
   <!DOCTYPE html>
@@ -25,11 +20,11 @@
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
   <link rel=\"icon\" href=\"data:,\">
   <title>bb-web</title>
+  <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css\">
   </head>
   <body>
   <div id=\"app\"></div>
   <script>"
-       (str "const url=\"" (url) "\";")
        (slurp "js/bb_web/bb_web.js")
        "</script>
   </body>
@@ -39,37 +34,41 @@
 
 (def formatter (DateTimeFormatter/ofPattern "yyyy-MM-dd HH:mm:ss"))
 
+(def filename "examples/m.txt")
+
 (defn readfile []
-  (when (.exists (io/file filename))
-    (edn/read-string (slurp filename))))
+  (if (.exists (io/file filename))
+    (edn/read-string (slurp filename))
+    {:messages []}))
 
-(defn messages-answer [req]
-  (readfile))
-
-(defn message-answer [req]
+(defn message [req]
   (let [m (readfile)
         nm (transit/read (transit/reader (:body req) :json))]
-    (spit filename (pr-str (update m
-                                   :messages
-                                   conj
-                                   (assoc nm :timestamp (.format (date) formatter))))))
-  "server post")
+    (->> formatter
+         (.format (date))
+         (assoc nm :timestamp)
+         (update m :messages conj)
+         pr-str
+         (spit filename)))
+  "post success!")
 
 (defn app [{:keys [:request-method :uri] :as req}]
   (case [request-method uri]
     [:get "/"] {:body html
                 :status 200}
-    [:get "/code"] {:body (slurp (or (first *command-line-args*) "client.cljs"))
+    [:get "/code"] {:body (slurp (first *command-line-args*))
                     :status 200}
-    [:get "/messages"] {:body (pr-str (messages-answer req))
+    [:get "/messages"] {:body (pr-str (readfile))
                         :status 200}
-    [:post "/message"] {:body (message-answer req)
+    [:post "/message"] {:body (message req)
                         :status 200}))
 
 (srv/run-server app {:port port})
 
-(println "serving" (url))
+(def url (str host ":" port "/"))
 
-(browse/browse-url (url))
+(println "serving" url)
+
+(browse/browse-url url)
 
 @(promise)

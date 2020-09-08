@@ -7,14 +7,15 @@
 ; Visit http://www.pragmaticprogrammer.com/titles/dswdcloj3 for more book information.
 ;---
 ; small changes made for use with https://github.com/kloimhardt/bb-web
-; retrieved from
+; zip archive retrieved from the "Resources" section of
 ; https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/
+; file: guestbook-reagent/src/cljs/guestbook/core.cljs
 
 (require '[reagent.core :as r]
          ;; '[reagent.dom :as dom]
          '[ajax.core :refer [GET POST]]
          '[clojure.string :as string]
-         ;;'[cljs.pprint :refer [pprint]]
+         ;; '[cljs.pprint :refer [pprint]]
 
          '[goog.object :as go]
          '[cljs.reader :as edn])
@@ -92,10 +93,10 @@
          :on-click (fn [_] (send-message! fields errors messages))
          :value "comment"}]])))
 
-(defn home [_]
+(defn home []
   (let [messages (r/cursor state [:messages])]
     (get-messages messages)
-    (fn [_]
+    (fn []
       [:div.content>div.columns.is-centered>div.column.is-two-thirds
        [:div.columns>div.column
         [:h3 "Messages"]

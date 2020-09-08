@@ -21,7 +21,11 @@ To code your own ideas, edit the file `client.cljs`. Maybe change the text that 
 
 You can also edit the file `server.clj`. Maybe change the server greeting text. To see the effect, stop the server pressing `Ctrl+C` and restarting with the familiar `bb server.clj`.
 
-Further down, you will learn how to run other client code examples.
+## Further example
+
+### Guestbook
+
+    bb examples/guestbook_1.clj examples/guestbook_1.cljs
 
 ## Rationale of bb-web
 Babashka (or rather SCI) displays nice error messages. They are more readable than, say, those of self hosted Clojurescript.
@@ -39,7 +43,7 @@ One valid objection to bb-web is: one does not need client-side scripting for sm
 
 You need to install [Clojure](https://www.clojure.org) and [Shadow-cljs](http://shadow-cljs.org) to do this advanced step.
 
-Only one Clojurescript file is behind the scenes of bb-web: ``js/src/bb_web/app.cljs``. It is 40 lines and compiles to the 1MB Javascript file `js/bb_web/bb_web.js` (which is pre-compiled in the repository). 
+Only one Clojurescript file is behind the scenes of bb-web: ``js/src/bb_web/app.cljs``. It is 50 lines and compiles to the 1MB Javascript file `js/bb_web/bb_web.js` (which is pre-compiled in the repository). 
 
 As you can see in the ``:require`` section of `app.cljs`, two libraries are made available for use with Babashka: Reagent and Ajax.
 
@@ -61,10 +65,6 @@ If you are compiling for the first time, instead of the (effectless) `echo` comm
     npm install shadow-cljs
 
 If you want the full Shadow-cljs experience while editing, instead of `echo`, type `shadow-cljs watch cljs` and open `http://localhost:8081` in your browser. You will not see any buttons as the Babashka scripts are not loaded. Only the familiar bottom message text is there, maybe change it in `app.cljs`, save and watch Shadows' hot reloading magic happen immediately.
-
-## Further examples
-
-Try `bb server.clj examples/dropdown.cljs`
 
 ## Related projects
 

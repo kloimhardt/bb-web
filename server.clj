@@ -5,9 +5,6 @@
 
 (def port 8080)
 
-(defn url []
-  (str host ":" port "/"))
-
 (def html
   (str "
   <!DOCTYPE html>
@@ -21,7 +18,6 @@
   <body>
   <div id=\"app\"></div>
   <script>"
-       (str "const url=\"" (url) "\";")
        (slurp "js/bb_web/bb_web.js")
        "</script>
   </body>
@@ -38,8 +34,10 @@
 
 (srv/run-server app {:port port})
 
-(println "serving" (url))
+(def url (str host ":" port "/"))
 
-(browse/browse-url (url))
+(println "serving" url)
+
+(browse/browse-url url)
 
 @(promise)
