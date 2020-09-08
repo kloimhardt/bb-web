@@ -96,6 +96,7 @@
 (defn home []
   (let [messages (r/cursor state [:messages])]
     (get-messages messages)
+    (swap! state assoc :no-hot-reload true) ;;false= enable hot reload button
     (fn []
       [:div.content>div.columns.is-centered>div.column.is-two-thirds
        [:div.columns>div.column
