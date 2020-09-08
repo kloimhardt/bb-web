@@ -9,3 +9,5 @@ js/public/assets/
 js/node_modules/
 js/package-lock.json
 js/package.json
+
+examples/m.txt

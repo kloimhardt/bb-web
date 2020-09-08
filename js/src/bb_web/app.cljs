@@ -1,5 +1,6 @@
 (ns bb-web.app
   (:require [ajax.core :refer [GET POST]]
+            [cljs.reader :as edn]
             [clojure.string :refer [join]]
             [goog.dom :as gd]
             [goog.object :as go]
@@ -11,8 +12,7 @@
 
 (def url js/url)
 
-(defn log [s]
-  (.log js/console (str s)))
+(defn timestamp [] (str (js/Date.)))
 
 (declare main-comp)
 
@@ -23,10 +23,11 @@
                              (sci/eval-string response
                                               {:bindings {'state state 'GET GET 'POST POST
                                                           'url url 'println println
-                                                          'log log}
+                                                          'timestamp timestamp}
                                                :namespaces {'reagent.ratom {'atom atom}
                                                             'clojure.string {'join join}
-                                                            'goog.object {'get go/get}}})
+                                                            'goog.object {'get go/get}
+                                                            'cljs.reader {'read-string edn/read-string}}})
                              (catch :default e
                                [:div>code (.-message e)]))]
                       (rd/render [main-comp ev] (gd/getElement "app"))))
