@@ -1,14 +1,32 @@
-(require '[goog.object :as go]
-         '[ajax.core :refer [GET POST]]
-         '[cljs.reader :as edn]
-         '[clojure.string :as string]
-         '[reagent.core :as r])
+;---
+; Excerpted from "Web Development with Clojure, Third Edition",
+; published by The Pragmatic Bookshelf.
+; Copyrights apply to this code. It may not be used to create training material,
+; courses, books, articles, and the like. Contact us if you are in doubt.
+; We make no guarantees that this code is fit for any purpose.
+; Visit http://www.pragmaticprogrammer.com/titles/dswdcloj3 for more book information.
+;---
+; small changes made for use with https://github.com/kloimhardt/bb-web
+; retrieved from
+; https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/
 
+(require '[reagent.core :as r]
+         ;; '[reagent.dom :as dom]
+         '[ajax.core :refer [GET POST]]
+         '[clojure.string :as string]
+         ;;'[cljs.pprint :refer [pprint]]
+
+         '[goog.object :as go]
+         '[cljs.reader :as edn])
+
+;
 (defn get-messages [messages]
   (GET "/messages"
-       {:handler (fn [response]
-                   (reset! messages (:messages (edn/read-string response))))}))
+       {;; :headers {"Accept" "application/transit+json"}
+        :handler (fn [r] (reset! messages (:messages (edn/read-string r))))}))
+;
 
+;
 (defn message-list [messages]
   (println messages)
   [:ul.messages
@@ -18,22 +36,34 @@
       [:time timestamp]
       [:p message]
       [:p " - " name]])])
+;
 
+;
 (defn send-message! [fields errors messages]
   (POST "/message"
-        {:params @fields
-         :handler (fn [e] (do
-                            (swap! messages conj (assoc @fields :timestamp (timestamp)))
-                            (reset! fields nil)
-                            (reset! errors nil)))
-         :error-handler (fn [e] (do
-                                  (println (str e))
-                                  (reset! errors (get-in e [:response :errors]))))}))
+        {;; :format :json
+         ;; :headers
+         ;; {"Accept" "application/transit+json"
+         ;;  "x-csrf-token" (.-value (.getElementById js/document "token"))}
+         :params @fields
+         :handler (fn [_]
+                    (do
+                      (swap! messages conj (assoc @fields :timestamp (timestamp)))
+                      (reset! fields nil)
+                      (reset! errors nil)))
+         :error-handler (fn [e]
+                          (do
+                            (println (str e))
+                            (reset! errors (get-in e [:response :errors]))))}))
+;
 
+;
 (defn errors-component [errors id]
   (when-let [error (id @errors)]
     [:div.notification.is-danger (string/join error)]))
+;
 
+;
 (defn message-form [messages]
   (let [fields (r/cursor state [:fields])
         errors (r/cursor state [:errors])]
@@ -63,9 +93,8 @@
          :value "comment"}]])))
 
 (defn home [_]
-  (let [messages (r/cursor state [:messages])
-        _ (get-messages messages)
-        _ (println "thestate " @state)]
+  (let [messages (r/cursor state [:messages])]
+    (get-messages messages)
     (fn [_]
       [:div.content>div.columns.is-centered>div.column.is-two-thirds
        [:div.columns>div.column
@@ -73,5 +102,6 @@
         [message-list messages]]
        [:div.columns>div.column
         [message-form messages]]])))
+;
 
 home

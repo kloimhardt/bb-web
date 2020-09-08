@@ -1,30 +1,32 @@
 (ns bb-web.app
-  (:require [ajax.core :refer [GET POST]]
+  (:require [ajax.core :as aj]
             [cljs.reader :as edn]
             [clojure.string :refer [join]]
             [goog.dom :as gd]
             [goog.object :as go]
             [reagent.dom :as rd]
             [reagent.ratom :as ra]
+            [reagent.core :as rc]
             [sci.core :as sci]))
 
 (defonce state (ra/atom {}))
 
 (def url js/url)
 
-(defn timestamp [] (str (js/Date.)))
+(defn timestamp [] (.toLocaleString (js/Date.)))
 
 (declare main-comp)
 
 (defn get-code [_]
-  (GET (str url "code")
+  (aj/GET (str url "code")
        :handler (fn [response]
                   (let [ev (try
                              (sci/eval-string response
-                                              {:bindings {'state state 'GET GET 'POST POST
+                                              {:bindings {'state state
                                                           'url url 'println println
                                                           'timestamp timestamp}
-                                               :namespaces {'reagent.ratom {'atom atom}
+                                               :namespaces {'ajax.core {'GET aj/GET 'POST aj/POST}
+                                                            'reagent.core {'cursor rc/cursor}
                                                             'clojure.string {'join join}
                                                             'goog.object {'get go/get}
                                                             'cljs.reader {'read-string edn/read-string}}})
@@ -39,7 +41,7 @@
   [:div
    (when-not (:no-hot-reload @state)
      [:button {:on-click get-code} "hot reload"])
-   ev
+   [ev state]
    (when (or (:app-text @state) (exists? js/app_text))
      [:p "This message is from behind the scenes of bb_web"])])
 
