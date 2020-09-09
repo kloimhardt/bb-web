@@ -8,11 +8,11 @@ The following single page demo is written in Clojure. You can live code its Web-
 
 Download [Babashka with httpkit](https://github.com/borkdude/babashka/issues/556), a file with the two letter name `bb`. 
 
-Then, clone or download this repository via Github's `Code` button above, thereby creating a `bb-web` directory. Open a command prompt (on MS-Windows(TM) via Start->Run->cmd, on Mac via Applications->Utilities->Terminal) and make `bb-web` the current directory using the `cd` command. Then type: 
+Then, download this repository via Github's `Code` button above, thereby creating a directory called `bb-web` or similar. Copy the `bb` executable into this directory and double click `bb_web_demo.bat`. Non MS-Windows(TM) users open a command prompt <sup>[1](#myfootnote1)</sup> and type:
 
     bb server.clj
 
- If you see the `Could not find: org.httpkit.server` error, your local Babashka does not support http-kit. Again, download one that does and copy `bb` into the `bb-web` directory. The latter also solves an eventual `command not found` error.
+ If you see the `Could not find: org.httpkit.server` error, by accident you are using a Babashka version that does not support http-kit.
 
 If everything works as expected, your web-browser will open and show some buttons. Try them out and see Babashka in action on the client side.
 
@@ -68,3 +68,7 @@ If you want the full Shadow-cljs experience while editing, instead of `echo`, ty
 ## Related projects
 
 [Lightmod](https://sekao.net/lightmod/) is a long existing full stack Clojure environment with an editor and REPL included. It also does not need Java installation.
+
+## Footnotes
+
+<a name="myfootnote1">1</a>: Opening a command prompt on Mac is via Applications->Utilities->Terminal, on Windows via Start->Run->cmd. Make `bb-web` the current directory using the `cd` command before typing the `bb server.clj` command.
