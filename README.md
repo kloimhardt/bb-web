@@ -18,6 +18,8 @@ If everything works as expected, your web-browser will open and show some button
 
 To code your own ideas, edit the file `client.cljs`. Maybe change the text that is displayed on top of the web-page. Press `hot reload` and see the changes (or a nice error message if a sytax error should occur). Also press the browser reload button and notice, as opposed to `hot reload`, the resetting of the displayed number.
 
+Another idea is to change `true` to `false` where it appears in the code and find out what it does.
+
 You can also edit the file `server.clj`. Maybe change the server greeting text. To see the effect, stop the server pressing `Ctrl+C` and restarting with the familiar `bb server.clj`.
 
 ## Further example
