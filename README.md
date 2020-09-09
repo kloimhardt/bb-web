@@ -20,11 +20,15 @@ To code your own ideas, edit the file `client.cljs`. Maybe change the text that 
 
 Another idea is to change `true` to `false` where it appears in the code and find out what it does.
 
-You can also edit the file `server.clj`. Maybe change the server greeting text. To see the effect, stop the server pressing `Ctrl+C` and restarting with the familiar `bb server.clj`.
+In a first step, it is not needed to understand the back-end part of a web-app to create a nice Web-GUI. But of course you can also edit the file `server.clj`. Maybe change the server greeting text. To see the effect, stop the server pressing `Ctrl+C` and restarting with the familiar `bb server.clj`.
 
 ## Further example
 
 ### Guestbook
+This example is more involved. The file ``guestbook_1.cljs`` is delibarately taken from the guestbook-reagent example of the [Luminus book](https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/) <sup>[2](#myfootnote2)</sup>, so there is plenty of explanations if needed. Only small code changes were needed to accommodate for Babashka (and not the JVM) being the server back-end.
+
+Start by double-clicking on `bb_web_guestbook.bat` or typing
+
 
     bb examples/guestbook_1.clj examples/guestbook_1.cljs
 
@@ -74,3 +78,5 @@ If you want the full Shadow-cljs experience while editing, instead of `echo`, ty
 ## Footnotes
 
 <a name="myfootnote1">1</a>: Opening a command prompt on Mac is via Applications->Utilities->Terminal, on Windows via Start->Run->cmd. Make `bb-web` the current directory using the `cd` command before typing the `bb server.clj` command.
+
+<a name="myfootnote2">2</a>: I have no affiliations with Luminus. But I think the book-format AND -market is still the best way to advance new technology.
