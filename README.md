@@ -1,5 +1,5 @@
 # bb-web
-Using Babashka for scripting a Web-GUI.
+Scripting small web apps with Babashka/SCI and Reagent
 
 ## Description
 
