@@ -1,12 +1,11 @@
 # bb-web
+
 Scripting small web apps with Babashka/SCI and Reagent
 
-## Description
-
-This small "Dynamic Web Page" demo is written in Clojure. You can live code a Web-GUI yourself. The main feature is that no Java+Clojurescript installation is needed to begin with. The only prerequisite is Babashka, a single executable file.
-
-
 ## Getting Started
+
+The following single page demo is written in Clojure. You can live code its Web-GUI yourself. The main feature is that no Java+Clojurescript installation is needed to begin with. The only prerequisite is Babashka, a single executable file.
+
 Download [Babashka with httpkit](https://github.com/borkdude/babashka/issues/556), a file with the two letter name `bb`. 
 
 Then, clone or download this repository via Github's `Code` button above, thereby creating a `bb-web` directory. Open a command prompt (on MS-Windows(TM) via Start->Run->cmd, on Mac via Applications->Utilities->Terminal) and make `bb-web` the current directory using the `cd` command. Then type: 
