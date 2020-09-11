@@ -31,18 +31,18 @@ Start by double-clicking on `bb_web_guestbook.bat` or typing
 
     bb examples/guestbook_1.clj examples/guestbook_1.cljs
 
-### yogthos/graal-web-app-example
+### WIP: yogthos/graal-web-app-example
 
-This example needs a Babashka version with reitit and ring included. It can be build with the `luminus_bb_subset` branch of my Babashka fork. I work on providing an executable.
+This example needs a Babashka version with reitit and ring included. A version can be compiled from the `luminus_bb_subset` branch of my Babashka fork. The web-page is displayed, so the routing works. But the `resources/public` cannot be located due to different classpath handling of Graal and Babashka. This will be resolved using ``io/resource``. Moreover the executable is 105M (vs the 65M of standard Babashka), this hints at compilation issues and needs investigation. 
 
 ```
 bb -cp examples -m yogthos-graal-web-app-example
 ```
 
-If you have Clojure installed, type:
+If you have Clojure installed and the fork in place, to get the right css formatting, type:
 
 ```
-clojure -Sdeps '{:deps {http-kit {:mvn/version "2.5.0-alpha2"} metosin/reitit {:mvn/version "0.3.10"} ring/ring-defaults {:mvn/version "0.3.2"}} :paths ["examples"]}' -m yogthos-graal-web-app-example
+clojure -A:luminus_bb_subset -cp examples -m yogthos-graal-web-app-example
 
 ```
 
