@@ -29,8 +29,22 @@ This example is more involved. The file ``guestbook_1.cljs`` is delibarately tak
 
 Start by double-clicking on `bb_web_guestbook.bat` or typing
 
-
     bb examples/guestbook_1.clj examples/guestbook_1.cljs
+
+### yogthos/graal-web-app-example
+
+This example needs a Babashka version with reitit and ring included. It can be build with the `luminus_bb_subset` branch of my Babashka fork. I work on providing an executable.
+
+```
+bb -cp examples -m yogthos-graal-web-app-example
+```
+
+If you have Clojure installed, type:
+
+```
+clojure -Sdeps '{:deps {http-kit {:mvn/version "2.5.0-alpha2"} metosin/reitit {:mvn/version "0.3.10"} ring/ring-defaults {:mvn/version "0.3.2"}} :paths ["examples"]}' -m yogthos-graal-web-app-example
+
+```
 
 ## Rationale of bb-web
 Babashka (or rather SCI) displays nice error messages. They are more readable than, say, those of self hosted Clojurescript.
