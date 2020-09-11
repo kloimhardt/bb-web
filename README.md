@@ -39,7 +39,7 @@ This example needs a Babashka version with reitit and ring included. A version c
 bb -cp examples -m yogthos-graal-web-app-example
 ```
 
-If you have Clojure installed and the fork in place, to get the right css formatting, type:
+If you have Clojure installed and the fork in place, no compilation is needed, type:
 
 ```
 clojure -A:luminus_bb_subset -cp examples -m yogthos-graal-web-app-example

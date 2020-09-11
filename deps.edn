@@ -1,9 +1,4 @@
-{:deps {http-kit {:mvn/version "2.5.0-alpha2"}
-        com.cognitect/transit-clj {:mvn/version"1.0.324"}
-        metosin/reitit {:mvn/version "0.3.10"}
-        ring/ring-defaults {:mvn/version "0.3.2"}}
- :paths ["examples"]
- :aliases {:luminus_bb_subset {:extra-deps
+{:aliases {:luminus_bb_subset {:extra-deps
                                {borkdude/babashka {:local/root "../babashka"}}
                                :main-opts ["-m" "babashka.main"]}}}
 
