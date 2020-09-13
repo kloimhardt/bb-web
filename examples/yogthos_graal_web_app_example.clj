@@ -9,7 +9,8 @@
   '[reitit.ring :as ring]
   '[ring.middleware.defaults
    :refer [wrap-defaults api-defaults]]
-  '[ring.util.response :as response])
+  '[ring.util.response :as response]
+  '[clojure.java.io :as io])
 
 (def port 8080)
 
@@ -35,7 +36,8 @@
   (http/run-server
     (wrap-defaults
       handler
-      (assoc api-defaults :static {:resources "public"}))
+      (assoc api-defaults :static {:resources "public"
+                                   :io-resource-fn io/resource}))
     {:port port})
 
   @(promise))
