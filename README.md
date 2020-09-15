@@ -33,11 +33,16 @@ Start by double-clicking on `bb_web_guestbook.bat` or typing
 
 ### yogthos/graal-web-app-example
 
-This example needs a Babashka version with Reitit and Ring included. A version can be compiled from the `luminus_bb_subset` branch of my Babashka fork. Ring and Reitit had to be patched so that the Graal compile size stays at 70M (instead of 105M). Also Ring needed a patch to access the io/resource function of Babashka and not Java's, this is because Graal has a different notion of Classpath than Babashka.
+This example needs a Babashka version with Reitit and Ring included. It would not be in existence without the invaluable help and support of its creator Michiel Borkent. A Windows binary is provided: 
+
+[https://ci.appveyor.com/api/buildjobs/yjlneqm3mh61taex/artifacts/babashka-0.2.1-SNAPSHOT-windows-amd64.zip]
+(https://ci.appveyor.com/api/buildjobs/yjlneqm3mh61taex/artifacts/babashka-0.2.1-SNAPSHOT-windows-amd64.zip)
+
+Binaries for Mac and Linux can be buildt from this [Babashka fork](https://github.com/kloimhardt/babashka). Ring and Reitit had to be patched so that the Graal compile size stays at 70M (instead of 105M). Also Ring needed a patch to access the io/resource function of Babashka and not Java's, this is because Graal has a different notion of Classpath than Babashka.
 ```
 bb -cp examples -m yogthos-graal-web-app-example
 ```
-If you have Clojure installed and the fork in place, no compilation is needed, type:
+If you have Clojure installed, but do not want to compile, type:
 ```
 clojure -A:luminus_bb_subset -cp examples -m yogthos-graal-web-app-example
 
