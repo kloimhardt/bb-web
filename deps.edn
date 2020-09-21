@@ -1,4 +1,5 @@
-{:aliases {:luminus_bb_subset {:extra-deps
-                               {borkdude/babashka {:local/root "../babashka"}}
-                               :main-opts ["-m" "babashka.main"]}}}
+{:aliases {:bb-kloimhardt {:extra-deps
+                            {borkdude/babashka {:local/root "../babashka"}}
+                            :main-opts ["-m" "babashka.main"]}}}
+
 
