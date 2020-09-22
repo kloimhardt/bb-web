@@ -3,8 +3,6 @@
 (declare second-component)
 
 (defn main-comp []
-  (swap! state assoc :app-text true)
-  (swap! state assoc :no-hot-reload false)
   (fn []
     [:div
      [:p "Press the following button to increase the counter"]

@@ -36,7 +36,7 @@
 
 (defn main-comp [ev]
   [:div
-   (when-not (:no-hot-reload @state)
+   (when (:hot-reload @state)
      [:button {:on-click get-code} "hot reload"])
    [ev]
    (when (:app-text @state)
