@@ -9,7 +9,8 @@
          '[ring.middleware.content-type :refer [wrap-content-type]]
          '[ring.middleware.webjars :refer [wrap-webjars]]
          '[ring.middleware.defaults
-           :refer [wrap-defaults api-defaults]]
+           :refer [wrap-defaults api-defaults site-defaults]]
+         '[ring.middleware.reload :refer [wrap-reload]]
          '[ring.util.response :as response])
 
 (import 'java.time.format.DateTimeFormatter
@@ -119,18 +120,36 @@
              {:status 406, :title "406 - Not acceptable"}))}))
     ))
 
+(defn wrap-dev [handler]
+  (-> handler
+      wrap-reload)) ;;TODO: wrap-relaod blows up the GraalVM-binary
+
+(defn wrap-internal-error [handler]
+  (fn [req]
+    (try
+      (handler req)
+      (catch Throwable t
+        (println t (.getMessage t))
+        (error-page {:status 500
+                     :title "Something very bad has happened!"
+                     :message "We've dispatched a team of highly trained
+                               gnomes to take care of the problem."})))))
+
+(defn wrap-base [handler]
+  (-> (wrap-dev handler)
+      (wrap-defaults
+        (-> site-defaults
+            (assoc-in [:security :anti-forgery] false)))
+      wrap-internal-error))
+
 (defn -main [& _args]
   (let [url (str host ":" port "/")]
     (println "serving" url)
     (browse/browse-url url))
-
   (http/run-server
-    (wrap-defaults
-      handler
-      (assoc api-defaults :static {:resources "public"
-                                   :io-resource-fn io/resource}))
-    {:port port})
-
+      (wrap-base
+        handler)
+      {:port port})
   @(promise))
 
 
