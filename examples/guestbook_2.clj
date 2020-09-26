@@ -6,6 +6,8 @@
          '[cognitect.transit :as transit]
          '[org.httpkit.server :as http]
          '[reitit.ring :as ring]
+         '[ring.middleware.content-type :refer [wrap-content-type]]
+         '[ring.middleware.webjars :refer [wrap-webjars]]
          '[ring.middleware.defaults
            :refer [wrap-defaults api-defaults]]
          '[ring.util.response :as response])
@@ -36,6 +38,19 @@
   </body>
   </html>"))
 
+(defn error-page
+  "error-details should be a map containing the following keys:
+   :status - error status
+   :title - error title (optional)
+   :message - detailed error message (optional)
+
+   returns a response map with the error page as the body
+   and the status specified by the status key"
+  [error-details]
+  {:status  (:status error-details)
+   :headers {"Content-Type" "text/html; charset=utf-8"}
+   :body  (str "<p> error: " error-details " </p>")})
+
 (defn date [] (LocalDateTime/now))
 
 (def formatter (DateTimeFormatter/ofPattern "yyyy-MM-dd HH:mm:ss"))
@@ -58,40 +73,51 @@
          (spit filename)))
   "post success!")
 
+(defn home-routes []
+  [["/"
+    {:get (fn [request]
+            (-> html
+                (response/response)
+                (response/header "content-type" "text/html")))}]
+   ["/code"
+    {:get (fn [request]
+            (-> (slurp "examples/guestbook_1.cljs")
+                (response/response)
+                (response/header "content-type" "text/html")))}]
+   ["/messages"
+    {:get (fn [request]
+            (-> (pr-str (readfile))
+                (response/response)
+                (response/header "content-type" "text/html")))}]
+   ["/message"
+    {:post (fn [request]
+             (-> (message request)
+                 (response/response)
+                 (response/header "content-type" "text/html")))}]])
+
 (def handler
   (ring/ring-handler
     (ring/router
-      [["/"
-        {:get (fn [request]
-                (-> html
-                    (response/response)
-                    (response/header "content-type" "text/html")))}]
-       ["/code"
-        {:get (fn [request]
-                (-> (slurp "examples/guestbook_1.cljs")
-                    (response/response)
-                    (response/header "content-type" "text/html"))
-                )}]
-
-
-       ])))
-
-(defmethod response/resource-data :resource
-  [^java.net.URL url]
-  (let [conn (.openConnection url)]
-    {:content        (.getInputStream conn)
-     :content-length (let [len (.getContentLength conn)] (if-not (pos? len) len))}))
-
-(defn app [{:keys [:request-method :uri] :as req}]
-  (case [request-method uri]
-    [:get "/"] {:body html
-                :status 200}
-    [:get "/code"] {:body (slurp (first *command-line-args*))
-                    :status 200}
-    [:get "/messages"] {:body (pr-str (readfile))
-                        :status 200}
-    [:post "/message"] {:body (message req)
-                        :status 200}))
+      [(home-routes)])
+    (ring/routes
+      (ring/create-resource-handler
+        {:path "/"})
+      (wrap-content-type
+        (wrap-webjars (constantly nil)))
+      (ring/create-default-handler
+        {:not-found
+         (constantly
+           (error-page
+             {:status 404, :title "404 - Page not found"}))
+         :method-not-allowed
+         (constantly
+           (error-page
+             {:status 405, :title "405 - Not allowed"}))
+         :not-acceptable
+         (constantly
+           (error-page
+             {:status 406, :title "406 - Not acceptable"}))}))
+    ))
 
 (defn -main [& _args]
   (let [url (str host ":" port "/")]
