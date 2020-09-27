@@ -14,7 +14,9 @@
          '[ring.middleware.defaults
            :refer [wrap-defaults api-defaults site-defaults]]
          ;; '[ring.middleware.reload :refer [wrap-reload]]
-         '[ring.util.response :as response])
+         '[ring.util.response :as response]
+         '[ring.util.http-response :as http-response]
+         )
 
 (import 'java.time.format.DateTimeFormatter
         'java.time.LocalDateTime)
@@ -95,19 +97,29 @@
       ;; since they're not compatible with this middleware
       ((if (:websocket? request) handler wrapped) request))))
 
+(defn get-messages []
+  (:messages (readfile)))
+
+(defn message-list [_]
+  (http-response/ok {:messages (vec (get-messages))}))
+
 (defn home-routes []
-  [["/"
+  [""
+   {:middleware [wrap-csrf
+                 wrap-formats]}
+   ["/"
     {:get (fn [request]
             (-> html
                 (response/response)
                 (response/header "content-type" "text/html")))}]
    ["/code"
     {:get (fn [request]
-            (-> (slurp "examples/guestbook_1.cljs")
+            (-> (slurp "examples/guestbook_2.cljs")
                 (response/response)
                 (response/header "content-type" "text/html")))}]
    ["/messages"
-    {:get (fn [request]
+    {:get message-list
+     #_(fn [request]
             (-> (pr-str (readfile))
                 (response/response)
                 (response/header "content-type" "text/html")))}]
