@@ -3,44 +3,26 @@
 (require '[clojure.edn :as edn]
          '[clojure.java.browse :as browse]
          '[clojure.java.io :as io]
-         '[cognitect.transit :as transit]
          '[muuntaja.core :as m]
          '[muuntaja.middleware :refer [wrap-format wrap-params]]
          '[org.httpkit.server :as http]
          '[reitit.ring :as ring]
-         '[ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
+         '[ring.middleware.anti-forgery :refer [wrap-anti-forgery
+                                                get-anti-forgery-token]]
          '[ring.middleware.content-type :refer [wrap-content-type]]
          '[ring.middleware.webjars :refer [wrap-webjars]]
-         '[ring.middleware.defaults
-           :refer [wrap-defaults api-defaults site-defaults]]
-         ;; '[ring.middleware.reload :refer [wrap-reload]]
-         '[ring.util.http-response :as response])
+         '[ring.middleware.defaults :refer [wrap-defaults site-defaults]]
+         '[ring.util.http-response :as response]
+         '[selmer.parser :as parser])
 
 (import 'java.time.format.DateTimeFormatter
         'java.time.LocalDateTime)
 
+(parser/set-resource-path!  (clojure.java.io/resource "html"))
+
 (def host "http://localhost")
 
 (def port 8080)
-
-(def html
-  (str "
-  <!DOCTYPE html>
-  <html>
-  <head>
-  <meta charset=\"UTF-8\">
-  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
-  <link rel=\"icon\" href=\"data:,\">
-  <title>bb-web</title>
-  <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css\">
-  </head>
-  <body>
-  <div id=\"app\"></div>
-  <script>"
-       (slurp "js/bb_web/bb_web.js")
-       "</script>
-  </body>
-  </html>"))
 
 (defn error-page
   "error-details should be a map containing the following keys:
@@ -115,7 +97,13 @@
 (defn layout-render
   [request template & [params]]
   (response/content-type
-    (response/ok html)
+    (response/ok
+      (parser/render-file
+        template
+        (assoc params
+               :page template
+               :csrf-token (get-anti-forgery-token)
+               :bb-web-js (slurp "js/bb_web/bb_web.js"))))
     "text/html; charset=utf-8"))
 
 (defn home-page [request]
@@ -125,7 +113,7 @@
 
 (defn home-routes []
   [""
-   {:middleware [;;wrap-csrf ;;TODO activate this
+   {:middleware [wrap-csrf
                  wrap-formats]}
    ["/"
     {:get home-page}]

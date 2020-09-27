@@ -1,0 +1,18 @@
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" href="data:,">
+      <title>bb-web</title>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+  </head>
+
+  <body>
+      <input id="token" type="hidden" value="{{csrf-token}}">
+      <div id="app"></div>
+      <script>{% safe %} {{bb-web-js}} {% endsafe %}</script>
+  </body>
+
+  </html>

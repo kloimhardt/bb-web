@@ -16,6 +16,7 @@
          '[ajax.core :refer [GET POST]]
          '[clojure.string :as string]
          ;; '[cljs.pprint :refer [pprint]]
+         '[goog.dom :as gd]
          '[goog.object :as go]
          '[cljs.reader :as edn])
 
@@ -44,8 +45,7 @@
         {:format :json
          :headers
          {"Accept" "application/transit+json"
-          ;;  "x-csrf-token" (.-value (.getElementById js/document "token"))
-          }
+          "x-csrf-token" (go/get (gd/getElement "token") "value")}
          :params @fields
          :handler (fn [_]
                     (do

@@ -22,6 +22,7 @@
                       'reagent.core {'cursor rc/cursor}
                       'clojure.string {'join st/join}
                       'goog.object {'get go/get}
+                      'goog.dom {'getElement gd/getElement}
                       'cljs.reader {'read-string edn/read-string}}}]
     (aj/GET "/code"
             :handler (fn [response]
