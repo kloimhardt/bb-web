@@ -1,6 +1,6 @@
 # bb-web
 
-Scripting small web apps with Babashka/SCI and Reagent
+Scripting small web apps in Clojure without installing it. A set of examples is provided, showing increasingly advanced features.
 
 ## Getting Started
 
@@ -20,10 +20,10 @@ To code your own ideas, edit the file `client.cljs`. Maybe change the text that 
 
 In a first step, it is not needed to understand the back-end part of a web-app to create a nice Web-GUI. But of course you can also edit the file `server.clj`. Maybe change the server greeting text. To see the effect, stop the server pressing `Ctrl+C` and then restart anew as explained above.
 
-## Further example
+## Further examples
 
-### Guestbook
-This example is more involved. The file ``guestbook_1.cljs`` is taken from the guestbook-reagent example of the [Luminus book](https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/)<sup>[2](#myfootnote2)</sup>. Only small code changes were needed to accommodate for Babashka (as opposed to the JVM) being the server back-end.
+### Guestbook 1
+The Clojurescript code in ``guestbook_1.cljs`` is based on the guestbook-reagent example of the [Luminus book](https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/)<sup>[2](#myfootnote2)</sup>. Only small changes were needed to accommodate for Babashka and not the JVM operating as the server back-end. Itself being still very bare bones, will see improvements in the next examples.
 
 Start by double-clicking on `bb_web_guestbook.bat` or typing
 
@@ -31,9 +31,9 @@ Start by double-clicking on `bb_web_guestbook.bat` or typing
 
 ### yogthos/graal-web-app-example
 
-Inspired by [this](https://github.com/yogthos/graal-web-app-example) repository, the example needs a Babashka version with Reitit and Ring included. It would not be in existence without the invaluable help and support of its creator Michiel Borkent. A Windows binary is provided:
+Inspired by [this](https://github.com/yogthos/graal-web-app-example) repository, the example needs a Babashka version with [Reitit](https://github.com/metosin/reitit) and [Ring](https://github.com/ring-clojure/ring) included. It would not be in existence without the invaluable help and support of its creator Michiel Borkent. A Windows binary is provided:
 
-https://ci.appveyor.com/api/buildjobs/sog2krqosvuw1n1v/artifacts/babashka-0.2.1-SNAPSHOT-windows-amd64.zip
+https://ci.appveyor.com/api/buildjobs/0pvayll0s4bfedgm/artifacts/babashka-0.2.1-SNAPSHOT-windows-amd64.zip
 
 Binaries for Mac and Linux can be buildt from this [Babashka fork](https://github.com/kloimhardt/babashka)<sup>[3](#myfootnote3)</sup>. 
 ```
@@ -43,6 +43,15 @@ If you have Clojure installed, but do not want to compile, type:
 ```
 clojure -A:luminus_bb_subset -cp examples -m yogthos-graal-web-app-example
 
+```
+
+### Guestbook 2
+The back-end has been significantly improved over Guestbook 1. Following and copying Luminus, it includes html templating with [Selmer](https://github.com/yogthos/Selmer), Ring's anti forgery protection, data encoding using [Muuntaja](https://github.com/metosin/muuntaja) and decent http-request error handling using Reitit.
+
+Start by double-clicking on `bb_web_guestbook_2.bat` or typing
+
+```
+bb -cp examples -m guestbook-2
 ```
 
 ## Related projects
@@ -96,4 +105,4 @@ If you want the full Shadow-cljs experience while editing, instead of `echo`, ty
 
 <a name="myfootnote2">2</a>: I have no affiliations with Luminus. But I think the book-format AND -market is still the best way to advance new technology.
 
-<a name="myfootnote3">3</a>: You need to have git installed. Checkout the `ringfeature` branch. Follow the [build instructions](https://github.com/borkdude/babashka/blob/master/doc/build.md). Make sure to have the `BABASHKA_FEATURE_RING` and `BABASHKA_FEATURE_REITIT` feature flags set to `true`.
+<a name="myfootnote3">3</a>: You need to have git installed. Checkout the `guestbook2` branch. Follow the [build instructions](https://github.com/borkdude/babashka/blob/master/doc/build.md). Make sure to have the `BABASHKA_FEATURE_RING` and `BABASHKA_FEATURE_REITIT` feature flags set to `true`. Also set `BABASHKA_FEATURE_SELMER` to `true`, to be ready for following examples.
