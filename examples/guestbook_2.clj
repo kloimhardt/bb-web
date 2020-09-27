@@ -14,9 +14,7 @@
          '[ring.middleware.defaults
            :refer [wrap-defaults api-defaults site-defaults]]
          ;; '[ring.middleware.reload :refer [wrap-reload]]
-         '[ring.util.response :as response]
-         '[ring.util.http-response :as http-response]
-         )
+         '[ring.util.http-response :as response])
 
 (import 'java.time.format.DateTimeFormatter
         'java.time.LocalDateTime)
@@ -97,37 +95,60 @@
       ;; since they're not compatible with this middleware
       ((if (:websocket? request) handler wrapped) request))))
 
+(defn validate-message [params] false) ;; stub
+
+(defn db-save-message! [params]
+  (let [m (readfile)
+        nm params]
+    (->> formatter
+         (.format (date))
+         (assoc nm :timestamp)
+         (update m :messages conj)
+         pr-str
+         (spit filename))))
+
+(defn save-message! [{:keys [params]}]
+  (if-let [errors (validate-message params)]
+    (response/bad-request {:errors errors})
+    (try
+      (db-save-message! params)
+      (response/ok {:status :ok})
+      (catch Exception e
+        (response/internal-server-error
+          {:errors {:server-error ["Failed to save message!"]}})))))
+
 (defn get-messages []
   (:messages (readfile)))
 
 (defn message-list [_]
-  (http-response/ok {:messages (vec (get-messages))}))
+  (response/ok {:messages (vec (get-messages))}))
+
+(defn layout-render
+  [request template & [params]]
+  (response/content-type
+    (response/ok html)
+    "text/html; charset=utf-8"))
+
+(defn home-page [request]
+  (layout-render
+    request
+    "home.html"))
 
 (defn home-routes []
   [""
-   {:middleware [wrap-csrf
+   {:middleware [;;wrap-csrf ;;TODO activate this
                  wrap-formats]}
    ["/"
-    {:get (fn [request]
-            (-> html
-                (response/response)
-                (response/header "content-type" "text/html")))}]
+    {:get home-page}]
+   ["/messages"
+    {:get message-list}]
+   ["/message"
+    {:post save-message!}]
    ["/code"
     {:get (fn [request]
             (-> (slurp "examples/guestbook_2.cljs")
-                (response/response)
-                (response/header "content-type" "text/html")))}]
-   ["/messages"
-    {:get message-list
-     #_(fn [request]
-            (-> (pr-str (readfile))
-                (response/response)
-                (response/header "content-type" "text/html")))}]
-   ["/message"
-    {:post (fn [request]
-             (-> (message request)
-                 (response/response)
-                 (response/header "content-type" "text/html")))}]])
+                (response/ok)
+                (response/content-type "text/html")))}]])
 
 (def handler
   (ring/ring-handler
@@ -150,8 +171,7 @@
          :not-acceptable
          (constantly
            (error-page
-             {:status 406, :title "406 - Not acceptable"}))}))
-    ))
+             {:status 406, :title "406 - Not acceptable"}))}))))
 
 (defn wrap-dev [handler]
   (-> handler
@@ -185,5 +205,3 @@
         handler)
       {:port port})
   @(promise))
-
-

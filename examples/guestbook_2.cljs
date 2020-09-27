@@ -41,10 +41,11 @@
 ;
 (defn send-message! [fields errors messages]
   (POST "/message"
-        {;; :format :json
-         ;; :headers
-         ;; {"Accept" "application/transit+json"
-         ;;  "x-csrf-token" (.-value (.getElementById js/document "token"))}
+        {:format :json
+         :headers
+         {"Accept" "application/transit+json"
+          ;;  "x-csrf-token" (.-value (.getElementById js/document "token"))
+          }
          :params @fields
          :handler (fn [_]
                     (do
