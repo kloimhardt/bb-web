@@ -66,17 +66,6 @@
     (edn/read-string (slurp filename))
     {:messages []}))
 
-(defn message [req]
-  (let [m (readfile)
-        nm (transit/read (transit/reader (:body req) :json))]
-    (->> formatter
-         (.format (date))
-         (assoc nm :timestamp)
-         (update m :messages conj)
-         pr-str
-         (spit filename)))
-  "post success!")
-
 (defn wrap-csrf [handler]
   (wrap-anti-forgery
     handler
