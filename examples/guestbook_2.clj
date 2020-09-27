@@ -162,11 +162,6 @@
            (error-page
              {:status 406, :title "406 - Not acceptable"}))}))))
 
-(defn wrap-dev [handler]
-  (-> handler
-      ;;wrap-reload ;;TODO: wrap-relaod blows up the GraalVM-binary
-      ))
-
 (defn wrap-internal-error [handler]
   (fn [req]
     (try
@@ -179,7 +174,7 @@
                                gnomes to take care of the problem."})))))
 
 (defn wrap-base [handler]
-  (-> (wrap-dev handler)
+  (-> handler
       (wrap-defaults
         (-> site-defaults
             (assoc-in [:security :anti-forgery] false)))
