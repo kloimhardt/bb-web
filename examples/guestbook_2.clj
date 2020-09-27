@@ -4,13 +4,16 @@
          '[clojure.java.browse :as browse]
          '[clojure.java.io :as io]
          '[cognitect.transit :as transit]
+         '[muuntaja.core :as m]
+         '[muuntaja.middleware :refer [wrap-format wrap-params]]
          '[org.httpkit.server :as http]
          '[reitit.ring :as ring]
+         '[ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
          '[ring.middleware.content-type :refer [wrap-content-type]]
          '[ring.middleware.webjars :refer [wrap-webjars]]
          '[ring.middleware.defaults
            :refer [wrap-defaults api-defaults site-defaults]]
-         '[ring.middleware.reload :refer [wrap-reload]]
+         ;; '[ring.middleware.reload :refer [wrap-reload]]
          '[ring.util.response :as response])
 
 (import 'java.time.format.DateTimeFormatter
@@ -74,6 +77,24 @@
          (spit filename)))
   "post success!")
 
+(defn wrap-csrf [handler]
+  (wrap-anti-forgery
+    handler
+    {:error-response
+     (error-page
+       {:status 403
+        :title "Invalid anti-forgery token"})}))
+
+(def formats-instance
+  (m/create m/default-options))
+
+(defn wrap-formats [handler]
+  (let [wrapped (-> handler wrap-params (wrap-format formats-instance))]
+    (fn [request]
+      ;; disable wrap-formats for websockets
+      ;; since they're not compatible with this middleware
+      ((if (:websocket? request) handler wrapped) request))))
+
 (defn home-routes []
   [["/"
     {:get (fn [request]
@@ -122,7 +143,8 @@
 
 (defn wrap-dev [handler]
   (-> handler
-      wrap-reload)) ;;TODO: wrap-relaod blows up the GraalVM-binary
+      ;;wrap-reload ;;TODO: wrap-relaod blows up the GraalVM-binary
+      ))
 
 (defn wrap-internal-error [handler]
   (fn [req]
