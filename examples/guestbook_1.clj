@@ -8,8 +8,6 @@
         'java.time.LocalDateTime
         'java.io.ByteArrayOutputStream)
 
-(def host "http://localhost")
-
 (def port 8080)
 
 (def html
@@ -42,41 +40,47 @@
     (edn/read-string (slurp filename))
     {:messages []}))
 
-(defn message [req]
-  (let [m (readfile)
-        nm (transit/read (transit/reader (:body req) :json))]
-    (->> formatter
-         (.format (date))
-         (assoc nm :timestamp)
-         (update m :messages conj)
-         pr-str
-         (spit filename)))
-  "post success!")
+(defn db-save-message! [params]
+  (->> formatter
+       (.format (date))
+       (assoc params :timestamp)
+       (update (readfile) :messages conj)
+       pr-str
+       (spit filename)))
 
-(defn edn->transit-string [o]
+(defn db-get-messages []
+  (:messages (readfile)))
+
+(defn home-save-message! [req]
+  (let [params (transit/read (transit/reader (:body req) :json))]
+    (db-save-message! params)
+    "post success!"))
+
+(defn home-message-list [_]
   (let [out (ByteArrayOutputStream. 4096)
         writer (transit/writer out :json)]
-    (transit/write writer o)
+    (transit/write writer {:messages (vec (db-get-messages))})
     (.toString out)))
 
-(defn app [{:keys [:request-method :uri] :as req}]
+(defn home-page [request] html)
+
+(defn home-routes [{:keys [:request-method :uri] :as req}]
   (case [request-method uri]
-    [:get "/"] {:body html
+    [:get "/"] {:body (home-page req)
                 :status 200}
-    [:get "/code"] {:body (slurp (first *command-line-args*))
-                    :status 200}
     [:get "/messages"] {:headers {"Content-type" "application/transit+json"}
-                        :body (edn->transit-string (readfile))
+                        :body (home-message-list req)
                         :status 200}
-    [:post "/message"] {:body (message req)
-                        :status 200}))
+    [:post "/message"] {:body (home-save-message! req)
+                        :status 200}
+    [:get "/code"] {:body (slurp (first *command-line-args*))
+                    :status 200}))
 
-(srv/run-server app {:port port})
+(defn core-http-server []
+  (srv/run-server home-routes {:port port}))
 
-(def url (str host ":" port "/"))
-
-(println "serving" url)
-
-(browse/browse-url url)
-
-@(promise)
+(let [url (str "http://localhost:" port "/")]
+  (core-http-server)
+  (println "serving" url)
+  (browse/browse-url url)
+  @(promise))

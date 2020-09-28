@@ -46,12 +46,12 @@ clojure -A:luminus_bb_subset -cp examples -m yogthos-graal-web-app-example
 ```
 
 ### Guestbook 2
-The back-end has been significantly improved over Guestbook 1. Following and copying Luminus, it includes html templating with [Selmer](https://github.com/yogthos/Selmer), Ring's anti forgery protection, data encoding using [Muuntaja](https://github.com/metosin/muuntaja) and decent http-request error handling using Reitit.
+The back-end is more sophisticated compared to Guestbook 1. Following and copying Luminus, it includes html templating with [Selmer](https://github.com/yogthos/Selmer), Ring's anti forgery protection, data encoding using [Muuntaja](https://github.com/metosin/muuntaja) and decent http-request error handling using Reitit. Note that the front-end code is still the same `guestbook_1.cljs`.
 
 Start by double-clicking on `bb_web_guestbook_2.bat` or typing
 
 ```
-bb -cp examples -m guestbook-2
+bb examples/guestbook_2.clj examples/guestbook_1.cljs
 ```
 
 ## Related projects

@@ -1,5 +1,3 @@
-(ns guestbook-2)
-
 (require '[clojure.edn :as edn]
          '[clojure.java.browse :as browse]
          '[clojure.java.io :as io]
@@ -17,8 +15,6 @@
 
 (import 'java.time.format.DateTimeFormatter
         'java.time.LocalDateTime)
-
-(def host "http://localhost")
 
 (def port 8080)
 
@@ -112,7 +108,7 @@
     {:post home-save-message!}]
    ["/code"
     {:get (fn [request]
-            (-> (slurp "examples/guestbook_2.cljs")
+            (-> (slurp (first *command-line-args*))
                 (response/ok)
                 (response/content-type "text/html")))}]])
 
@@ -163,9 +159,8 @@
 (defn core-http-server []
   (http/run-server (handler-app) {:port port}))
 
-(defn -main [& _args]
-  (let [url (str host ":" port "/")]
-    (println "serving" url)
-    (browse/browse-url url))
+(let [url (str "http://localhost:" port "/")]
   (core-http-server)
+  (println "serving" url)
+  (browse/browse-url url)
   @(promise))

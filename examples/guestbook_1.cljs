@@ -16,9 +16,8 @@
          '[ajax.core :refer [GET POST]]
          '[clojure.string :as string]
          ;; '[cljs.pprint :refer [pprint]]
-         '[goog.object :as go]
          '[goog.dom :as gd]
-         '[cljs.reader :as edn])
+         '[goog.object :as go])
 
 ;
 (defn get-messages [messages]
@@ -42,7 +41,7 @@
 ;
 (defn send-message! [fields errors messages]
   (POST "/message"
-        {;;:format :json
+        {;; :format :json
          :headers
          {"Accept" "application/transit+json"
           "x-csrf-token" (go/get (gd/getElement "token") "value")}
