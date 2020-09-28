@@ -6,7 +6,7 @@ Scripting small web apps in Clojure without installing it. A set of examples is 
 
 The following demo, a single page app, is written in Clojure. You can change and run its code without having Java or Clojurescript installed. The only prerequisite is Babashka, a single executable file.
 
-Download [Babashka with httpkit](https://github.com/borkdude/babashka/issues/556), a file with the two letter name `bb`.
+Download [Babashka with httpkit](https://github.com/borkdude/babashka/releases/tag/v0.2.1), a file with the two letter name `bb`.
 
 Then, download this `bb-web` repository via Github's `Code` button above, thereby creating a directory called `bb-web` or similar. Copy the `bb` executable into that directory and double click `bb_web_demo.bat`. Non MS-Windows(TM) users open a command prompt<sup>[1](#myfootnote1)</sup> and type:
 
