@@ -41,7 +41,7 @@
 ;
 (defn send-message! [fields errors messages]
   (POST "/message"
-        {:format :json
+        {;; :format :json
          :headers
          {"Accept" "application/transit+json"
           "x-csrf-token" (go/get (gd/getElement "token") "value")}

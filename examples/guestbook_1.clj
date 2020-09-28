@@ -5,7 +5,8 @@
          '[org.httpkit.server :as srv])
 
 (import 'java.time.format.DateTimeFormatter
-        'java.time.LocalDateTime)
+        'java.time.LocalDateTime
+        'java.io.ByteArrayOutputStream)
 
 (def host "http://localhost")
 
@@ -52,13 +53,20 @@
          (spit filename)))
   "post success!")
 
+(defn edn->transit-string [o]
+  (let [out (ByteArrayOutputStream. 4096)
+        writer (transit/writer out :json)]
+    (transit/write writer o)
+    (.toString out)))
+
 (defn app [{:keys [:request-method :uri] :as req}]
   (case [request-method uri]
     [:get "/"] {:body html
                 :status 200}
     [:get "/code"] {:body (slurp (first *command-line-args*))
                     :status 200}
-    [:get "/messages"] {:body (pr-str (readfile))
+    [:get "/messages"] {:headers {"Content-type" "application/transit+json"}
+                        :body (edn->transit-string (readfile))
                         :status 200}
     [:post "/message"] {:body (message req)
                         :status 200}))

@@ -17,13 +17,14 @@
          '[clojure.string :as string]
          ;; '[cljs.pprint :refer [pprint]]
          '[goog.object :as go]
+         '[goog.dom :as gd]
          '[cljs.reader :as edn])
 
 ;
 (defn get-messages [messages]
   (GET "/messages"
-       {;; :headers {"Accept" "application/transit+json"}
-        :handler (fn [r] (reset! messages (:messages (edn/read-string r))))}))
+       {:headers {"Accept" "application/transit+json"}
+        :handler (fn [r] (reset! messages (:messages r)))}))
 ;
 
 ;
@@ -41,10 +42,10 @@
 ;
 (defn send-message! [fields errors messages]
   (POST "/message"
-        {;; :format :json
-         ;; :headers
-         ;; {"Accept" "application/transit+json"
-         ;;  "x-csrf-token" (.-value (.getElementById js/document "token"))}
+        {;;:format :json
+         :headers
+         {"Accept" "application/transit+json"
+          "x-csrf-token" (go/get (gd/getElement "token") "value")}
          :params @fields
          :handler (fn [_]
                     (do
