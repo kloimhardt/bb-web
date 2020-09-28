@@ -7,8 +7,8 @@
          '[muuntaja.middleware :refer [wrap-format wrap-params]]
          '[org.httpkit.server :as http]
          '[reitit.ring :as ring]
-         '[ring.middleware.anti-forgery :refer [wrap-anti-forgery
-                                                get-anti-forgery-token]]
+         '[ring.middleware.anti-forgery :refer
+           [wrap-anti-forgery get-anti-forgery-token]]
          '[ring.middleware.content-type :refer [wrap-content-type]]
          '[ring.middleware.webjars :refer [wrap-webjars]]
          '[ring.middleware.defaults :refer [wrap-defaults site-defaults]]
@@ -18,24 +18,9 @@
 (import 'java.time.format.DateTimeFormatter
         'java.time.LocalDateTime)
 
-(parser/set-resource-path!  (clojure.java.io/resource "html"))
-
 (def host "http://localhost")
 
 (def port 8080)
-
-(defn error-page
-  "error-details should be a map containing the following keys:
-   :status - error status
-   :title - error title (optional)
-   :message - detailed error message (optional)
-
-   returns a response map with the error page as the body
-   and the status specified by the status key"
-  [error-details]
-  {:status  (:status error-details)
-   :headers {"Content-Type" "text/html; charset=utf-8"}
-   :body  (str "<p> error: " error-details " </p>")})
 
 (defn date [] (LocalDateTime/now))
 
@@ -48,38 +33,36 @@
     (edn/read-string (slurp filename))
     {:messages []}))
 
-(defn wrap-csrf [handler]
-  (wrap-anti-forgery
-    handler
-    {:error-response
-     (error-page
-       {:status 403
-        :title "Invalid anti-forgery token"})}))
+(defn db-save-message! [params]
+  (->> formatter
+       (.format (date))
+       (assoc params :timestamp)
+       (update (readfile) :messages conj)
+       pr-str
+       (spit filename)))
+
+(defn db-get-messages []
+  (:messages (readfile)))
 
 (def formats-instance
   (m/create m/default-options))
 
-(defn wrap-formats [handler]
-  (let [wrapped (-> handler wrap-params (wrap-format formats-instance))]
-    (fn [request]
-      ;; disable wrap-formats for websockets
-      ;; since they're not compatible with this middleware
-      ((if (:websocket? request) handler wrapped) request))))
+(defn layout-render
+  [request template & [params]]
+  (response/content-type
+    (response/ok
+      (parser/render
+        (slurp template)
+        (assoc params
+               :page template
+               :csrf-token (get-anti-forgery-token)
+               :bb-web-js (slurp "js/bb_web/bb_web.js"))))
+    "text/html; charset=utf-8"))
 
-(defn validate-message [params] false) ;; stub
+(defn home-validate-message [params] false) ;; stub
 
-(defn db-save-message! [params]
-  (let [m (readfile)
-        nm params]
-    (->> formatter
-         (.format (date))
-         (assoc nm :timestamp)
-         (update m :messages conj)
-         pr-str
-         (spit filename))))
-
-(defn save-message! [{:keys [params]}]
-  (if-let [errors (validate-message params)]
+(defn home-save-message! [{:keys [params]}]
+  (if-let [errors (home-validate-message params)]
     (response/bad-request {:errors errors})
     (try
       (db-save-message! params)
@@ -88,46 +71,52 @@
         (response/internal-server-error
           {:errors {:server-error ["Failed to save message!"]}})))))
 
-(defn get-messages []
-  (:messages (readfile)))
-
-(defn message-list [_]
-  (response/ok {:messages (vec (get-messages))}))
-
-(defn layout-render
-  [request template & [params]]
-  (response/content-type
-    (response/ok
-      (parser/render-file
-        template
-        (assoc params
-               :page template
-               :csrf-token (get-anti-forgery-token)
-               :bb-web-js (slurp "js/bb_web/bb_web.js"))))
-    "text/html; charset=utf-8"))
+(defn home-message-list [_]
+  (response/ok {:messages (vec (db-get-messages))}))
 
 (defn home-page [request]
   (layout-render
     request
-    "home.html"))
+    "examples/html/home.html"))
+
+(defn middleware-wrap-formats [handler]
+  (let [wrapped (-> handler wrap-params (wrap-format formats-instance))]
+    (fn [request]
+      ;; disable wrap-formats for websockets
+      ;; since they're not compatible with this middleware
+      ((if (:websocket? request) handler wrapped) request))))
+
+(defn layout-error-page
+ [error-details]
+  {:status  (:status error-details)
+   :headers {"Content-Type" "text/html; charset=utf-8"}
+   :body  (str "<p> error: " error-details " </p>")})
+
+(defn middleware-wrap-csrf [handler]
+  (wrap-anti-forgery
+    handler
+    {:error-response
+     (layout-error-page
+       {:status 403
+        :title "Invalid anti-forgery token"})}))
 
 (defn home-routes []
   [""
-   {:middleware [wrap-csrf
-                 wrap-formats]}
+   {:middleware [middleware-wrap-csrf
+                 middleware-wrap-formats]}
    ["/"
     {:get home-page}]
    ["/messages"
-    {:get message-list}]
+    {:get home-message-list}]
    ["/message"
-    {:post save-message!}]
+    {:post home-save-message!}]
    ["/code"
     {:get (fn [request]
             (-> (slurp "examples/guestbook_2.cljs")
                 (response/ok)
                 (response/content-type "text/html")))}]])
 
-(def handler
+(def handler-app-routes
   (ring/ring-handler
     (ring/router
       [(home-routes)])
@@ -139,41 +128,44 @@
       (ring/create-default-handler
         {:not-found
          (constantly
-           (error-page
+           (layout-error-page
              {:status 404, :title "404 - Page not found"}))
          :method-not-allowed
          (constantly
-           (error-page
+           (layout-error-page
              {:status 405, :title "405 - Not allowed"}))
          :not-acceptable
          (constantly
-           (error-page
+           (layout-error-page
              {:status 406, :title "406 - Not acceptable"}))}))))
 
-(defn wrap-internal-error [handler]
+(defn middleware-wrap-internal-error [handler]
   (fn [req]
     (try
       (handler req)
       (catch Throwable t
         (println t (.getMessage t))
-        (error-page {:status 500
+        (layout-error-page {:status 500
                      :title "Something very bad has happened!"
                      :message "We've dispatched a team of highly trained
                                gnomes to take care of the problem."})))))
 
-(defn wrap-base [handler]
+(defn middleware-wrap-base [handler]
   (-> handler
       (wrap-defaults
         (-> site-defaults
             (assoc-in [:security :anti-forgery] false)))
-      wrap-internal-error))
+      middleware-wrap-internal-error))
+
+(defn handler-app []
+  (middleware-wrap-base handler-app-routes))
+
+(defn core-http-server []
+  (http/run-server (handler-app) {:port port}))
 
 (defn -main [& _args]
   (let [url (str host ":" port "/")]
     (println "serving" url)
     (browse/browse-url url))
-  (http/run-server
-      (wrap-base
-        handler)
-      {:port port})
+  (core-http-server)
   @(promise))
