@@ -33,7 +33,7 @@ Start by double-clicking on `bb_web_guestbook.bat` or typing
 
 Inspired by [this](https://github.com/yogthos/graal-web-app-example) repository, the example needs a Babashka version with [Reitit](https://github.com/metosin/reitit) and [Ring](https://github.com/ring-clojure/ring) included. It would not be in existence without the invaluable help and support of its creator Michiel Borkent. A Windows binary is provided:
 
-https://ci.appveyor.com/api/buildjobs/0pvayll0s4bfedgm/artifacts/babashka-0.2.1-SNAPSHOT-windows-amd64.zip
+https://ci.appveyor.com/api/buildjobs/4swogfjqtuwm5r6j/artifacts/babashka-0.2.1-SNAPSHOT-windows-amd64.zip
 
 Binaries for Mac and Linux can be buildt from this [Babashka fork](https://github.com/kloimhardt/babashka)<sup>[3](#myfootnote3)</sup>. 
 ```

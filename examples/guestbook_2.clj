@@ -41,11 +41,10 @@
        pr-str
        (spit filename)))
 
+(defn home-validate-message [params] false) ;; stub
+
 (defn db-get-messages []
   (:messages (readfile)))
-
-(def formats-instance
-  (m/create m/default-options))
 
 (defn layout-render
   [request template & [params]]
@@ -59,7 +58,14 @@
                :bb-web-js (slurp "js/bb_web/bb_web.js"))))
     "text/html; charset=utf-8"))
 
-(defn home-validate-message [params] false) ;; stub
+(def formats-instance
+  (m/create m/default-options))
+
+(defn layout-error-page
+ [error-details]
+  {:status  (:status error-details)
+   :headers {"Content-Type" "text/html; charset=utf-8"}
+   :body  (str "<p> error: " error-details " </p>")})
 
 (defn home-save-message! [{:keys [params]}]
   (if-let [errors (home-validate-message params)]
@@ -86,12 +92,6 @@
       ;; since they're not compatible with this middleware
       ((if (:websocket? request) handler wrapped) request))))
 
-(defn layout-error-page
- [error-details]
-  {:status  (:status error-details)
-   :headers {"Content-Type" "text/html; charset=utf-8"}
-   :body  (str "<p> error: " error-details " </p>")})
-
 (defn middleware-wrap-csrf [handler]
   (wrap-anti-forgery
     handler
@@ -116,6 +116,17 @@
                 (response/ok)
                 (response/content-type "text/html")))}]])
 
+(defn middleware-wrap-internal-error [handler]
+  (fn [req]
+    (try
+      (handler req)
+      (catch Throwable t
+        (println t (.getMessage t))
+        (layout-error-page {:status 500
+                     :title "Something very bad has happened!"
+                     :message "We've dispatched a team of highly trained
+                               gnomes to take care of the problem."})))))
+
 (def handler-app-routes
   (ring/ring-handler
     (ring/router
@@ -138,17 +149,6 @@
          (constantly
            (layout-error-page
              {:status 406, :title "406 - Not acceptable"}))}))))
-
-(defn middleware-wrap-internal-error [handler]
-  (fn [req]
-    (try
-      (handler req)
-      (catch Throwable t
-        (println t (.getMessage t))
-        (layout-error-page {:status 500
-                     :title "Something very bad has happened!"
-                     :message "We've dispatched a team of highly trained
-                               gnomes to take care of the problem."})))))
 
 (defn middleware-wrap-base [handler]
   (-> handler
