@@ -17,8 +17,7 @@
          '[clojure.string :as string]
          ;; '[cljs.pprint :refer [pprint]]
          '[goog.dom :as gd]
-         '[goog.object :as go]
-         '[cljs.reader :as edn])
+         '[goog.object :as go])
 
 ;
 (defn get-messages [messages]
@@ -96,7 +95,6 @@
 (defn home []
   (let [messages (r/cursor state [:messages])]
     (get-messages messages)
-    (swap! state assoc :no-hot-reload true) ;;false= enable hot reload button
     (fn []
       [:div.content>div.columns.is-centered>div.column.is-two-thirds
        [:div.columns>div.column
