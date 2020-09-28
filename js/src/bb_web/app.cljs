@@ -29,7 +29,9 @@
                        (let [ev (try
                                   (sci/eval-string response bindings)
                                   (catch :default e
-                                    (fn [] [:div>code (.-message e)])))]
+                                    (fn [] [:div
+                                            [:div>code "Small Clojure Interpreter Error:"]
+                                            [:div>code (.-message e)]])))]
                          (rd/render [main-comp ev] (gd/getElement "app"))))
             :error-handler (fn [_]
                              (rd/render [:p "Babashka server not responding"]
