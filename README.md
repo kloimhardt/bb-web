@@ -74,7 +74,7 @@ One valid objection to bb-web is: one does not need client-side scripting for sm
 
 ### Expose arbitrary Clojurescript libraries to SCI for subsequent use in front end scripting.
 
-You need to install and use [Shadow-cljs](http://shadow-cljs.org) (and thus Clojure on the JVM) for this advanced step. If you can do this, you do not need `bb-web` anymore as you already mastered Clojurescript. But maybe you want to give an enhanced `bb-web` to others.
+You need to install and use [Shadow-cljs](http://shadow-cljs.org) (and thus Clojure on the JVM) for this advanced step. If you can do this, you do not need `bb-web` anymore as you already mastered Clojurescript (maybe along with Linux on MS-Windows using the WSL). But maybe you want to give an enhanced `bb-web` to others.
 
 Only one Clojurescript file is behind the scenes of bb-web: ``js/src/bb_web/app.cljs``. It is 50 lines and the Clojurescript compiler of Shadow-cljs compiles it to the 1MB Javascript file `js/bb_web/bb_web.js`. 
 
@@ -97,7 +97,7 @@ If you are compiling for the first time, instead of the (effectless) `echo` comm
     npm init -y
     npm install shadow-cljs
 
-If you want the full Shadow-cljs experience while editing, instead of `echo`, type `shadow-cljs watch cljs` and open `http://localhost:8081` in your browser. You will not see any buttons as the Babashka scripts are not loaded.
+If you want the full Shadow-cljs experience while editing, instead of `echo`, type `shadow-cljs watch cljs` and open `http://localhost:8081` in your browser. However, you will not see any buttons as the Babashka scripts are not loaded.
 
 ## Footnotes
 
