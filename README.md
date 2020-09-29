@@ -52,27 +52,30 @@ Start by double-clicking on `bb_web_guestbook_2.bat` or typing
 bb examples/guestbook_2.clj examples/guestbook_1.cljs
 ```
 
-## Related projects
+## Rationale of bb-web
+It offers a low entry bar to Web-development. There is no involved installation process. I especially have MS-Windows users without Admin rights in mind. While for developing Clojure in Windows it is best to use its Subsystem for Linux (WSL), installing WSL is unacceptable for anyone wanting to try out Clojurescript on a weekend, being it a beginner or seasoned F# developer. 
 
-[Lightmod](https://sekao.net/lightmod/) is a long existing full stack Clojure environment with an editor and REPL included. It also does not need Java installation.
+Installing JVM+Clojure on native MS-Windows is not endoresed here. Because of sparse documentation and community, it is for strong souls only. [Lightmod](https://sekao.net/lightmod/) might be an option to be mentioned here.
 
-
-## Advanced stuff
-
-### Rationale of bb-web
 Babashka (or rather SCI) displays nice error messages. They are more readable than, say, those of self hosted Clojurescript.
 
 It shows some of the good Clojure stuff: same language on the client and the server, Hiccup syntax, Reagent's clean client state management, even a glimpse of hot reloading (include ``(swap! state assoc :hot-reload true)`` in client.cljs to get a respective button).
 
-It offers a low entry bar to Web-development. There is no involved installation process. I especially have MS-Windows(TM) users without Admin rights in mind.
 
 Of course, some power tools are not available. Especially Cljs-REPL or integrant/mount. As powerful as those concepts are, they first need to be mastered. And some of the lack is made up by Babashka's brisk start up time.
 
 One valid objection to bb-web is: one does not need client-side scripting for small web-apps, server side rendering is sufficient. I can only respond that state management on client side is more intuitive to some of us. Moreover, a big advantage of Clojure over Python, Ruby, PHP, Erlang is in Clojurescript, and bb-web is a door leading there.
 
+## Related projects
+
+[Lightmod](https://sekao.net/lightmod/) is a Clojure development environment which does not need Java installation.
+
+
+## Advanced stuff (Clojure experience required)
+
 ### Expose arbitrary Clojurescript libraries to SCI for subsequent use in front end scripting.
 
-You need to install and use [Shadow-cljs](http://shadow-cljs.org) (and thus Clojure on the JVM) for this advanced step. If you can do this, you do not need `bb-web` anymore as you already mastered Clojurescript (maybe along with Linux on MS-Windows using the WSL). But maybe you want to give an enhanced `bb-web` to others.
+You need to install and use [Shadow-cljs](http://shadow-cljs.org) (and thus Clojure on the JVM) for this advanced step. If you can do this, you do not need `bb-web` anymore as you already mastered Clojurescript. But maybe you want to give an enhanced `bb-web` to others.
 
 Only one Clojurescript file is behind the scenes of bb-web: ``js/src/bb_web/app.cljs``. It is 50 lines and the Clojurescript compiler of Shadow-cljs compiles it to the 1MB Javascript file `js/bb_web/bb_web.js`. 
 
@@ -99,7 +102,7 @@ If you want the full Shadow-cljs experience while editing, instead of `echo`, ty
 
 ### Running examples with a local Babashka fork
 
-If you do not want to natively compile a local Babashka and have Clojure (maybe on MS-Windows WSL) installed, type:
+If you do not want to natively compile a local Babashka and have Clojure installed, type:
 ```
 clojure -A:luminus_bb_subset -cp examples -m yogthos-graal-web-app-example
 
