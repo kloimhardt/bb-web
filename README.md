@@ -35,14 +35,12 @@ Inspired by [this](https://github.com/yogthos/graal-web-app-example) repository,
 
 https://ci.appveyor.com/api/buildjobs/4swogfjqtuwm5r6j/artifacts/babashka-0.2.1-SNAPSHOT-windows-amd64.zip
 
-Binaries for Mac and Linux can be buildt from this [Babashka fork](https://github.com/kloimhardt/babashka)<sup>[3](#myfootnote3)</sup>. 
+Building binaries yourself (e.g. for Mac or Linux) is an advanced issue, it can be done from this [Babashka fork](https://github.com/kloimhardt/babashka)<sup>[3](#myfootnote3)</sup>. 
+
+
+Start by double-clicking on `yogthos_graal_web_app_example.bat` or typing
 ```
 bb -cp examples -m yogthos-graal-web-app-example
-```
-If you have Clojure installed, but do not want to compile, type:
-```
-clojure -A:luminus_bb_subset -cp examples -m yogthos-graal-web-app-example
-
 ```
 
 ### Guestbook 2
@@ -98,6 +96,16 @@ If you are compiling for the first time, instead of the (effectless) `echo` comm
     npm install shadow-cljs
 
 If you want the full Shadow-cljs experience while editing, instead of `echo`, type `shadow-cljs watch cljs` and open `http://localhost:8081` in your browser. However, you will not see any buttons as the Babashka scripts are not loaded.
+
+### Running examples with a local Babashka fork
+
+If you do not want to natively compile a local Babashka and have Clojure (maybe on MS-Windows WSL) installed, type:
+```
+clojure -A:luminus_bb_subset -cp examples -m yogthos-graal-web-app-example
+
+```
+
+You need to edit the `deps.edn` file to point to the right place of your local babashka fork.
 
 ## Footnotes
 
