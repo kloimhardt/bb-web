@@ -55,11 +55,12 @@ bb examples/guestbook_2.clj examples/guestbook_1.cljs
 ## Rationale of bb-web
 It offers a low entry bar to Web-development. There is no involved installation process. I especially have MS-Windows users without Admin rights in mind. While for developing Clojure in Windows it is best to use its Subsystem for Linux (WSL), installing WSL is unacceptable for anyone wanting to try out Clojurescript on a weekend, being it a beginner or seasoned F# developer. 
 
-Installing JVM+Clojure on native MS-Windows is not endoresed here. Because of sparse documentation and community, it is for strong souls only. [Lightmod](https://sekao.net/lightmod/) might be an option to be mentioned instead.
+Concerning the option of using JVM+Clojure on native MS-Windows: its comminity is relatively sparse compared to the WSL folks. I have no recent working experience there, but for sure the installation process and handling is not easier than anywhere else.
+
+``bb-web`` shows some of the good Clojure stuff: same language on the client and the server, Hiccup syntax, Reagent's clean client state management, even a glimpse of hot reloading (include ``(swap! state assoc :hot-reload true)`` in client.cljs to get a respective button).
+
 
 Babashka (or rather SCI) displays nice error messages. They are more readable than, say, those of self hosted Clojurescript.
-
-It shows some of the good Clojure stuff: same language on the client and the server, Hiccup syntax, Reagent's clean client state management, even a glimpse of hot reloading (include ``(swap! state assoc :hot-reload true)`` in client.cljs to get a respective button).
 
 
 Of course, some power tools are not available. Especially Cljs-REPL or integrant/mount. As powerful as those concepts are, they first need to be mastered. And some of the lack is made up by Babashka's brisk start up time.
@@ -109,6 +110,10 @@ clojure -A:luminus_bb_subset -cp examples -m yogthos-graal-web-app-example
 ```
 
 You need to edit the `deps.edn` file to point to the right place of your local babashka fork.
+
+### Building a Windows executable
+
+How can one build this when GraalVM is running on WSL? Answer: [AppVayor](https://www.appveyor.com). One just needs to connect his forked Github babashka repository to AppVayor and for every new Git commit a native MS-Windows build is made.
 
 ## Footnotes
 
