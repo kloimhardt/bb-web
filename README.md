@@ -55,7 +55,7 @@ bb examples/guestbook_2.clj examples/guestbook_1.cljs
 ## Rationale of bb-web
 It offers a low entry bar to Web-development. There is no involved installation process. I especially have MS-Windows users without Admin rights in mind. While for developing Clojure in Windows it is best to use its Subsystem for Linux (WSL), installing WSL is unacceptable for anyone wanting to try out Clojurescript on a weekend, being it a beginner or seasoned F# developer. 
 
-Installing JVM+Clojure on native MS-Windows is not endoresed here. Because of sparse documentation and community, it is for strong souls only. [Lightmod](https://sekao.net/lightmod/) might be an option to be mentioned here.
+Installing JVM+Clojure on native MS-Windows is not endoresed here. Because of sparse documentation and community, it is for strong souls only. [Lightmod](https://sekao.net/lightmod/) might be an option to be mentioned instead.
 
 Babashka (or rather SCI) displays nice error messages. They are more readable than, say, those of self hosted Clojurescript.
 
