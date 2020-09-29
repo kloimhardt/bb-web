@@ -72,13 +72,13 @@ Of course, some power tools are not available. Especially Cljs-REPL or integrant
 
 One valid objection to bb-web is: one does not need client-side scripting for small web-apps, server side rendering is sufficient. I can only respond that state management on client side is more intuitive to some of us. Moreover, a big advantage of Clojure over Python, Ruby, PHP, Erlang is in Clojurescript, and bb-web is a door leading there.
 
-### Add Javascript libraries for use with Babashka
+### Expose arbitrary Clojurescript libraries to SCI for subsequent use in front end scripting.
 
-You need to install [Clojure](https://www.clojure.org) and [Shadow-cljs](http://shadow-cljs.org) to do this advanced step.
+You need to install and use [Shadow-cljs](http://shadow-cljs.org) (and thus Clojure on the JVM) for this advanced step. If you can do this, you do not need `bb-web` anymore as you already mastered Clojurescript. But maybe you want to give an enhanced `bb-web` to others.
 
-Only one Clojurescript file is behind the scenes of bb-web: ``js/src/bb_web/app.cljs``. It is 50 lines and compiles to the 1MB Javascript file `js/bb_web/bb_web.js` (which is pre-compiled in the repository). 
+Only one Clojurescript file is behind the scenes of bb-web: ``js/src/bb_web/app.cljs``. It is 50 lines and the Clojurescript compiler of Shadow-cljs compiles it to the 1MB Javascript file `js/bb_web/bb_web.js`. 
 
-As you can see in the ``:require`` section of `app.cljs`, two libraries are made available for use with Babashka: Reagent and Ajax.
+As you can see in the ``:require`` section of `app.cljs`, two libraries are made available for use in `bb-web` front-end scripting: Reagent and Ajax.
 
 You can add additional libraries  to the `:require` section and add new functions to the ``:bindings`` map.
 
