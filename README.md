@@ -1,12 +1,14 @@
 # bb-web
 
-Scripting small web apps in Clojure without installing it. A set of examples is provided, showing increasingly advanced features.
+Scripting React-ive web apps in Clojure without installing it. 
+
+The in-browser UI is interpreted Clojurescript code that you can change and run without having the Cljs-compiler or Java installed.
+
+Examples show back-end features like anti forgery protection, MS-Windows being first class.
 
 ## Getting Started
 
-The following demo, a single page app, is written in Clojure. You can change and run its code without having Java or Clojurescript installed. The only prerequisite is Babashka, a single executable file.
-
-Download [Babashka with httpkit](https://github.com/borkdude/babashka/releases/tag/v0.2.1), a file with the two letter name `bb`.
+ Download the only prerequisite, [Babashka](https://github.com/borkdude/babashka/releases/tag/v0.2.1), a single executable file with the two letter name `bb`.
 
 Then, download this `bb-web` repository via Github's `Code` button above, thereby creating a directory called `bb-web` or similar. Copy the `bb` executable into that directory and double click `bb_web_demo.bat`. Non MS-Windows(TM) users open a command prompt<sup>[1](#myfootnote1)</sup> and type:
 
@@ -14,7 +16,7 @@ Then, download this `bb-web` repository via Github's `Code` button above, thereb
 
  If you see the `Could not find: org.httpkit.server` error, by accident you are using a Babashka version that does not support http-kit.
 
-If everything works as expected, your web-browser will open and show some buttons. Try them out.
+If everything works as expected, your web-browser will open and show some buttons. Try them out and see Babashka in action on the client side.
 
 To code your own ideas, edit the file `client.cljs`. Maybe change the text that is displayed on top of the web-page. Press the browser reload button.
 
@@ -31,11 +33,9 @@ Start by double-clicking on `bb_web_guestbook.bat` or typing
 
 ### yogthos/graal-web-app-example
 
-Inspired by [this](https://github.com/yogthos/graal-web-app-example) repository, the example needs a Babashka version with [Reitit](https://github.com/metosin/reitit) and [Ring](https://github.com/ring-clojure/ring) included. It would not be in existence without the invaluable help and support of its creator Michiel Borkent. A Windows binary is provided:
+Inspired by [this](https://github.com/yogthos/graal-web-app-example) repository, the example needs a Babashka version with [Reitit](https://github.com/metosin/reitit) and [Ring](https://github.com/ring-clojure/ring) included. It would not be in existence without the invaluable help and support of its creator Michiel Borkent. Building this binary is an advanced issue, some guidance is given below. A Windows binary is provided:
 
 https://ci.appveyor.com/api/buildjobs/4swogfjqtuwm5r6j/artifacts/babashka-0.2.1-SNAPSHOT-windows-amd64.zip
-
-Building binaries yourself (e.g. for Mac or Linux) is an advanced issue, it can be done from this [Babashka fork](https://github.com/kloimhardt/babashka)<sup>[3](#myfootnote3)</sup>. 
 
 
 Start by double-clicking on `yogthos_graal_web_app_example.bat` or typing
@@ -53,14 +53,13 @@ bb examples/guestbook_2.clj examples/guestbook_1.cljs
 ```
 
 ## Rationale of bb-web
-It offers a low entry bar to Web-development. There is no involved installation process. I especially have MS-Windows users without Admin rights in mind. While for developing Clojure in Windows it is best to use its Subsystem for Linux (WSL), installing WSL is unacceptable for anyone wanting to try out Clojurescript on a weekend, being it a beginner or seasoned F# developer. 
 
-Concerning the option of using JVM+Clojure on native MS-Windows: its comminity is relatively sparse compared to the WSL folks. I have no recent working experience there, but for sure the installation process and handling is not easier than anywhere else.
+It offers a low entry bar to Web-development. There is no involved installation process. I especially have MS-Windows users in mind<sup>[3](#myfootnote3)</sup>.
 
 ``bb-web`` shows some of the good Clojure stuff: same language on the client and the server, Hiccup syntax, Reagent's clean client state management, even a glimpse of hot reloading (include ``(swap! state assoc :hot-reload true)`` in client.cljs to get a respective button).
 
 
-Babashka (or rather SCI) displays nice error messages. They are more readable than, say, those of self hosted Clojurescript.
+Babashka's underlying Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) displays nice error messages. They are more readable than, say, those of self hosted Clojurescript.
 
 
 Of course, some power tools are not available. Especially Cljs-REPL or integrant/mount. As powerful as those concepts are, they first need to be mastered. And some of the lack is made up by Babashka's brisk start up time.
@@ -72,11 +71,13 @@ One valid objection to bb-web is: one does not need client-side scripting for sm
 [Lightmod](https://sekao.net/lightmod/) is a Clojure development environment which does not need Java installation.
 
 
-## Advanced stuff (Clojure experience required)
+## Advanced topics (Clojure experience required)
 
-### Expose arbitrary Clojurescript libraries to SCI for subsequent use in front end scripting.
+The following descriptions are less complete than the previous sections. If you understand them, you do not need `bb-web` yourself. They show you how to give enhanced `bb-web` features to potential new Clojure users.
 
-You need to install and use [Shadow-cljs](http://shadow-cljs.org) (and thus Clojure on the JVM) for this advanced step. If you can do this, you do not need `bb-web` anymore as you already mastered Clojurescript. But maybe you want to give an enhanced `bb-web` to others.
+### Expose arbitrary Clojurescript libraries to the SCI 
+
+You need to install and use [Shadow-cljs](http://shadow-cljs.org) (and thus Clojure on the JVM). 
 
 Only one Clojurescript file is behind the scenes of bb-web: ``js/src/bb_web/app.cljs``. It is 50 lines and the Clojurescript compiler of Shadow-cljs compiles it to the 1MB Javascript file `js/bb_web/bb_web.js`. 
 
@@ -113,7 +114,12 @@ You need to edit the `deps.edn` file to point to the right place of your local b
 
 ### Building a Windows executable
 
-How can one build this when GraalVM is running on WSL? Answer: [AppVayor](https://www.appveyor.com). One just needs to connect his forked Github babashka repository to AppVayor and for every new Git commit a native MS-Windows build is made.
+You need to have git installed. Checkout the `guestbook2` branch of this [Babashka fork](https://github.com/kloimhardt/babashka). Connect [AppVayor](https://www.appveyor.com) to this fork. For every new Git commit a build is made.
+
+### Building binaries for any platform
+
+Follow the [build instructions](https://github.com/borkdude/babashka/blob/master/doc/build.md). Make sure to have the shell environment variables `BABASHKA_FEATURE_RING`, `BABASHKA_FEATURE_REITIT`, `BABASHKA_FEATURE_SELMER` set to `true`.
+
 
 ## Footnotes
 
@@ -121,4 +127,4 @@ How can one build this when GraalVM is running on WSL? Answer: [AppVayor](https:
 
 <a name="myfootnote2">2</a>: I have no affiliations with Luminus. But I think the book-format AND -market is still the best way to advance new technology.
 
-<a name="myfootnote3">3</a>: You need to have git installed. Checkout the `guestbook2` branch. Follow the [build instructions](https://github.com/borkdude/babashka/blob/master/doc/build.md). Make sure to have the `BABASHKA_FEATURE_RING` and `BABASHKA_FEATURE_REITIT` feature flags set to `true`. Also set `BABASHKA_FEATURE_SELMER` to `true`, to be ready for following examples.
+<a name="myfootnote3">3</a>: Developing lager Clojure projects in Windows is best done using its Subsystem for Linux (WSL). The topic of using JVM+Clojure on native MS-Windows is not in scope here. In a way, `bb-web` is there to avoid this particular rabbit hole.
