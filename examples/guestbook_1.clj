@@ -10,7 +10,9 @@
 
 (def port 8080)
 
-(def html
+(def bb-web-js (slurp "js/bb_web/bb_web.js"))
+
+(defn html [cljs-code]
   (str "
   <!DOCTYPE html>
   <html>
@@ -18,13 +20,16 @@
   <meta charset=\"UTF-8\">
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
   <link rel=\"icon\" href=\"data:,\">
+  <link rel=\"apple-touch-icon\" href=\"data:,\">
   <title>bb-web</title>
   <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css\">
   </head>
   <body>
-  <div id=\"app\"></div>
+  <div id=\"cljs-app\">"
+       cljs-code
+       "</div>
   <script>"
-       (slurp "js/bb_web/bb_web.js")
+       bb-web-js
        "</script>
   </body>
   </html>"))
@@ -62,7 +67,7 @@
     (transit/write writer {:messages (vec (db-get-messages))})
     (.toString out)))
 
-(defn home-page [request] html)
+(defn home-page [request] (html (slurp (first *command-line-args*))))
 
 (defn home-routes [{:keys [:request-method :uri] :as req}]
   (case [request-method uri]
@@ -72,9 +77,7 @@
                         :body (home-message-list req)
                         :status 200}
     [:post "/message"] {:body (home-save-message! req)
-                        :status 200}
-    [:get "/code"] {:body (slurp (first *command-line-args*))
-                    :status 200}))
+                        :status 200}))
 
 (defn core-http-server []
   (srv/run-server home-routes {:port port}))

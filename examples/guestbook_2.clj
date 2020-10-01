@@ -51,6 +51,7 @@
         (assoc params
                :page template
                :csrf-token (get-anti-forgery-token)
+               :cljs-code (slurp (first *command-line-args*))
                :bb-web-js (slurp "js/bb_web/bb_web.js"))))
     "text/html; charset=utf-8"))
 
@@ -105,12 +106,7 @@
    ["/messages"
     {:get home-message-list}]
    ["/message"
-    {:post home-save-message!}]
-   ["/code"
-    {:get (fn [request]
-            (-> (slurp (first *command-line-args*))
-                (response/ok)
-                (response/content-type "text/html")))}]])
+    {:post home-save-message!}]])
 
 (defn middleware-wrap-internal-error [handler]
   (fn [req]

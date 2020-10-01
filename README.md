@@ -10,7 +10,7 @@ Examples show back-end features like anti forgery protection, MS-Windows being f
 
  Download the only prerequisite, [Babashka](https://github.com/borkdude/babashka/releases/tag/v0.2.1), a single executable file with the two letter name `bb`.
 
-Then, download this `bb-web` repository via Github's `Code` button above, thereby creating a directory called `bb-web` or similar. Copy the `bb` executable into that directory and double click `bb_web_demo.bat`. Non MS-Windows(TM) users open a command prompt<sup>[1](#myfootnote1)</sup> and type:
+Then, download this `bb-web` repository via Github's `Code` button above, thereby creating a directory called `bb-web` or similar. Copy the `bb` executable into that directory and double click `bb_web_demo.bat`. Or you open a command prompt<sup>[1](#myfootnote1)</sup> and type:
 
     bb server.clj
 
@@ -20,7 +20,13 @@ If everything works as expected, your web-browser will open and show some button
 
 To code your own ideas, edit the file `client.cljs`. Maybe change the text that is displayed on top of the web-page. Press the browser reload button.
 
-In a first step, it is not needed to understand the back-end part of a web-app to create a nice Web-GUI. But of course you can also edit the file `server.clj`. Maybe change the server greeting text. To see the effect, stop the server pressing `Ctrl+C` and then restart anew as explained above.
+You can even start with a different client, like so:
+```
+bb server.clj examples/client_hot_reload.cljs
+```
+Do not be surprised that the new hot-reload button does not work yet, this will be fixed in the examples below.
+
+In this first step, it is not needed to understand the server back-end part to create a nice Web-GUI. But of course you can also edit the file `server.clj`. Maybe change the server greeting text. To see the effect, stop the server pressing `Ctrl+C` and then restart anew as explained above.
 
 ## Further examples
 
@@ -52,11 +58,21 @@ Start by double-clicking on `bb_web_guestbook_2.bat` or typing
 bb examples/guestbook_2.clj examples/guestbook_1.cljs
 ```
 
+### Hot reload
+
+The geting started example is revisited. Type:
+
+```
+bb examples/server_hot_reload.clj examples/client_hot_reload.cljs 
+```
+
+Increase the counter. Then change some text in `examples/client_hot_reload.cljs` and save. Instead of pressing the browser reload button, press `hot reload` and notice that the counter preserves its value while the text changes as expected. You will find some kind of hot reloading in any Clojurescript development tool.
+
 ## Rationale of bb-web
 
 It offers a low entry bar to Web-development. There is no involved installation process. I especially have MS-Windows users in mind<sup>[3](#myfootnote3)</sup>.
 
-``bb-web`` shows some of the good Clojure stuff: same language on the client and the server, Hiccup syntax, Reagent's clean client state management, even a glimpse of hot reloading (include ``(swap! state assoc :hot-reload true)`` in client.cljs to get a respective button).
+``bb-web`` shows some of the good Clojure stuff: same language on the client and the server, Hiccup syntax, Reagent's clean client state management, even a glimpse of hot reloading.
 
 
 Babashka's underlying Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) displays nice error messages. They are more readable than, say, those of self hosted Clojurescript.

@@ -13,37 +13,43 @@
 
 (defn timestamp [] (.toLocaleString (js/Date.)))
 
-(declare main-comp)
+(declare get-code)
 
-(defn get-code []
+(defn interpret [code]
   (let [bindings
-        {:bindings {'state state 'println println 'timestamp timestamp}
+        {:bindings {'state state 'println println 'timestamp timestamp
+                    'get-code get-code}
          :namespaces {'ajax.core {'GET aj/GET 'POST aj/POST}
                       'reagent.core {'cursor rc/cursor}
                       'clojure.string {'join st/join}
                       'goog.object {'get go/get}
                       'goog.dom {'getElement gd/getElement}
                       'cljs.reader {'read-string edn/read-string}}}]
-    (aj/GET "/code"
-            :handler (fn [response]
-                       (let [ev (try
-                                  (sci/eval-string response bindings)
-                                  (catch :default e
-                                    (fn [] [:div
-                                            [:div>code "Small Clojure Interpreter Error:"]
-                                            [:div>code (.-message e)]])))]
-                         (rd/render [main-comp ev] (gd/getElement "app"))))
-            :error-handler (fn [_]
-                             (rd/render [:p "Babashka server not responding"]
-                                        (gd/getElement "app"))))))
+    (try (sci/eval-string code bindings)
+         (catch :default e
+           [:div
+            [:div>code "Small Clojure Interpreter Error:"]
+            [:div>code (.-message e)]]))))
 
-(defn main-comp [ev]
-  [:div
-   (when (:hot-reload @state)
-     [:button {:on-click get-code} "hot reload"])
-   [ev]
-   (when (:app-text @state)
-     [:p "This message is from behind the scenes of bb_web"])])
+(defn get-code
+  ([]
+   (let [s "error: function \"get-code\" wants a node id in any case"]
+     (.log js/console s)
+     (rd/render [:p s] (gd/getElement "cljs-app"))))
+  ([app-node-id]
+   (let [app-node (gd/getElement app-node-id)]
+     (-> (interpret (.-textContent app-node))
+         (rd/render app-node))))
+  ([app-node-id handler-id]
+   (let [app-node (gd/getElement app-node-id)]
+     (aj/GET handler-id
+             :handler
+             (fn [request] (rd/render (interpret request) app-node))
+             :error-handler
+             (fn [_] (-> [:p (str "Babashka server handler with id \""
+                                  handler-id
+                                  "\" not responding")]
+                         (rd/render app-node)))))))
 
-(defn ^:dev/after-load main []
-  (get-code))
+(defn main []
+  (get-code "cljs-app"))
