@@ -1,0 +1,20 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.parinfer-error {
+  background: #FFBEBE;
+  color: black !important;
+}
+
+.parinfer-paren-trail {
+  opacity: 0.4;
+}
+
+.CodeMirror {
+  box-sizing: border-box;
+  border: 1px solid #aaa;
+  padding: 10px;
+  height: 100%;
+}

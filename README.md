@@ -14,9 +14,9 @@ In your file explorer, double click on `first.html`. A button called "Count up" 
 
 ## Further examples
 
-### Guestbook 1
+### Guestbook 0
 
-Double click on `guestbook_0.html`. It is a more advanced example with nice css stylin (make sure you have wifi conncection)
+Double click on `guestbook_0.html`. It is a more advanced example. To see the nice css styling, you need WiFi connection, a requirement that will be dropped in a later example.
 
 ### Using Babashka as back-end
 
@@ -34,29 +34,46 @@ You can even start with a different client, like so:
 ```
 bb server.clj examples/client_hot_reload.cljs
 ```
-Do not be surprised that the new hot-reload button does not work yet, it will in the examples below.
+Do not be surprised that the new hot-reload button does not work yet, it will in the example below.
 
 In this first step, it is not needed to understand the server back-end part to create a nice Web-GUI. But of course you can also edit the file `server.clj`. Maybe change the server greeting text. To see the effect, stop the server pressing `Ctrl+C` and then restart anew as explained above.
 
+### Hot reload
+
+Start by double-clicking on `hot_reload.bat` or type
+
+```
+bb examples/server_hot_reload.clj examples/client_hot_reload.cljs 
+```
+
+Increase the counter. Then edit some text in `examples/client_hot_reload.cljs` and save. Instead of pressing the browser reload button, press `hot reload` and notice that the counter preserves its value while the text changes as expected.
+
+If the handling of pranentheses while editing feels cumbersome, maybe the later introduced Parinfer is for you.
 
 ### Guestbook 1
+
 The Clojurescript code in ``guestbook_1.cljs`` is based on the guestbook-reagent example of the [Luminus book](https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/)<sup>[2](#myfootnote2)</sup>. Only small changes were needed to accommodate for Babashka and not the JVM operating as the server back-end. Itself being still very bare bones, will see improvements in the next examples.
 
-Start by double-clicking on `bb_web_guestbook.bat` or typing
+Start by double-clicking on `bb_web_guestbook_1.bat` or type
 
     bb examples/guestbook_1.clj examples/guestbook_1.cljs
 
-### yogthos/graal-web-app-example
+### Edit with parinfer-codemirror
 
-Inspired by [this](https://github.com/yogthos/graal-web-app-example) repository, the example needs a Babashka version with [Reitit](https://github.com/metosin/reitit) and [Ring](https://github.com/ring-clojure/ring) included. It would not be in existence without the invaluable help and support of its creator Michiel Borkent. Building this binary is an advanced issue, some guidance is given below. A Windows binary is provided:
+This example needs a Babashka version with [Reitit](https://github.com/metosin/reitit) and [Ring](https://github.com/ring-clojure/ring) included. It would not be in existence without the invaluable help and support of its creator Michiel Borkent. Building this binary is an advanced issue, some guidance is given below. A Windows binary is provided:
 
-https://ci.appveyor.com/api/buildjobs/4swogfjqtuwm5r6j/artifacts/babashka-0.2.1-SNAPSHOT-windows-amd64.zip
+https://ci.appveyor.com/api/buildjobs/hptptn42mdp1kjii/artifacts/babashka-0.2.1-SNAPSHOT-windows-amd64.zip
 
 
-Start by double-clicking on `yogthos_graal_web_app_example.bat` or typing
+Start by double-clicking on `parinfer-codemirror.bat` or typing
 ```
-bb -cp examples -m yogthos-graal-web-app-example
+bb -cp examples -m parinfer-codemirror
 ```
+It shows the file `examples/client_hot_reload.cljs` in the Codemirror editor. [Parinfer](http://shaunlebron.github.io/parinfer/demo) takes care of juggling the parentheses according to your indentation. I liked Parinfer when starting with Clojure, its ingenious (and exclusively useful) "smart" mode was available early on in the Atom editor. I moved to Spacemacs though because of Cider (no smart mode so learned Paredit). I think this example is a low entry way to try Paredit out if it is for you.
+
+It is meant that the above hot-relaod example is started along with this one.
+
+This example does not need WiFi connection for its CSS styling.
 
 ### Guestbook 2
 The back-end is more sophisticated compared to Guestbook 1. Following and copying Luminus, it includes html templating with [Selmer](https://github.com/yogthos/Selmer), Ring's anti forgery protection, data encoding using [Muuntaja](https://github.com/metosin/muuntaja) and decent http-request error handling using Reitit. Note that the front-end code is still the same `guestbook_1.cljs`.
@@ -66,16 +83,6 @@ Start by double-clicking on `bb_web_guestbook_2.bat` or typing
 ```
 bb examples/guestbook_2.clj examples/guestbook_1.cljs
 ```
-
-### Hot reload
-
-Type:
-
-```
-bb examples/server_hot_reload.clj examples/client_hot_reload.cljs 
-```
-
-Increase the counter. Then change some text in `examples/client_hot_reload.cljs` and save. Instead of pressing the browser reload button, press `hot reload` and notice that the counter preserves its value while the text changes as expected. You will find some kind of hot reloading in any Clojurescript development tool.
 
 ## Rationale of bb-web
 
@@ -135,7 +142,7 @@ clojure -A:luminus_bb_subset -cp examples -m yogthos-graal-web-app-example
 
 ```
 
-You need to edit the `deps.edn` file to point to the right place of your local babashka fork.
+You need to edit the `deps.edn` file to point to the right place of your local babashka fork. Doing ``rm -rf .cpcache/`` might help. And do not forget to `export BABASHKA_FEATURE_*  = true` environment variables.
 
 ### Building a Windows executable
 

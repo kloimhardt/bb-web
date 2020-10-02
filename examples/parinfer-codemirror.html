@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" href="parinfer-codemirror/codemirror.css">
+  <link rel="stylesheet" href="parinfer-codemirror/theme.css">
+  <link rel="stylesheet" href="parinfer-codemirror/demo.css">
+  <script src="parinfer-codemirror/codemirror.js"></script>
+  <script src="parinfer-codemirror/matchbrackets.js"></script>
+  <script src="parinfer-codemirror/clojure.js"></script>
+  <script src="parinfer-codemirror/parinfer.js"></script>
+  <script src="parinfer-codemirror/parinfer-codemirror.js"></script>
+</head>
+<body>
+    <script>
+     function postCodeToServer() {
+         var xmlhttp = new XMLHttpRequest();
+         xmlhttp.open("POST", "codepost");
+         xmlhttp.onreadystatechange = function() {
+             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                 var xmlDoc = xmlhttp.responseText;
+                 console.log(xmlDoc);
+             }
+         };
+         xmlhttp.setRequestHeader('Content-Type', 'text/html');
+         xmlhttp.send(cm.getValue());
+     }
+
+     function getCodeFromServer() {
+         var xmlhttp = new XMLHttpRequest();
+         xmlhttp.open("GET", "codeget");
+         xmlhttp.onreadystatechange = function() {
+             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                 var xmlDoc = xmlhttp.responseText;
+                 cm.setValue(xmlDoc);
+             }
+         };
+         xmlhttp.setRequestHeader('Content-Type', 'text/html');
+         xmlhttp.send("please respond");
+     }
+
+    </script>
+    <button onClick="postCodeToServer()">Save</button>
+    <script>
+     var cm = null;
+     (function(){
+         cm = CodeMirror(document.body, {
+             matchBrackets: true,
+             lineNumbers: true,
+        });
+
+       cm.setValue(`
+       (defn foo
+         "hello, this is a docstring"
+         [a b]
+         (let [sum (+ a b)
+               prod (* a b)]
+           {:sum sum
+            :prod prod}))
+       `);
+
+         parinferCodeMirror.init(cm, 'smart');
+         getCodeFromServer();
+     })();
+  </script>
+
+  <button onClick="postCodeToServer()">Save</button>
+</body>
+</html>
