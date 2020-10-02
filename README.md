@@ -40,7 +40,7 @@ In this first step, it is not needed to understand the server back-end part to c
 
 ### Hot reload
 
-Start by double-clicking on `hot_reload.bat` or type
+Start by double-clicking on `bb_web_hot_reload.bat` or type
 
 ```
 bb examples/server_hot_reload.clj examples/client_hot_reload.cljs 
@@ -65,7 +65,7 @@ This example needs a Babashka version with [Reitit](https://github.com/metosin/r
 https://ci.appveyor.com/api/buildjobs/hptptn42mdp1kjii/artifacts/babashka-0.2.1-SNAPSHOT-windows-amd64.zip
 
 
-Start by double-clicking on `parinfer-codemirror.bat` or typing
+Start by double-clicking on `bb_web_parinfer_codemirror.bat` or typing
 ```
 bb -cp examples -m parinfer-codemirror
 ```
