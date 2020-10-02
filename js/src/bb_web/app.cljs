@@ -27,16 +27,18 @@
                       'cljs.reader {'read-string edn/read-string}}}]
     (try (sci/eval-string code bindings)
          (catch :default e
-           (fn []
-             [:div
-              [:div>code "Small Clojure Interpreter Error:"]
-              [:div>code (.-message e)]])))))
+           (let [msg (.-message e)]
+             (.log js/console msg)
+             (fn []
+               [:div
+                [:div>code "Small Clojure Interpreter Error:"]
+                [:div>code msg]]))))))
 
 (defn get-code
   ([]
-   (let [s "error: function \"get-code\" wants a node id in any case"]
-     (.log js/console s)
-     (rd/render [:p s] (gd/getElement "cljs-app"))))
+   (let [msg "error: function \"get-code\" wants a node id in any case"]
+     (.log js/console msg)
+     (rd/render [:div msg] (gd/getElement "cljs-app"))))
   ([app-node-id]
    (let [app-node (gd/getElement app-node-id)
          render-fn (interpret (.-textContent app-node))]
