@@ -3,14 +3,13 @@
 (declare second-component)
 
 (defn main-comp []
-  (fn []
-    [:div
-     [:button {:on-click (fn [_] (get-code "cljs-app" "code"))} "hot-reload"]
-     [:p "Counter preserves value after hot-reload"]
-     [:div
-      [:button {:on-click (fn [_] (swap! state update :counter inc))} "Count up"]
-      (str " " (or (:counter @state) 0))]
-     [second-component]]))
+  [:div
+   [:button {:on-click (fn [_] (get-code "cljs-app" "code"))} "hot-reload"]
+   [:p "Counter preserves value after hot-reload"]
+   [:div
+    [:button {:on-click (fn [_] (swap! state update :counter inc))} "Count up"]
+    (str " " (or (:counter @state) 0))]
+   [second-component]])
 
 (defn server-get [kw]
   (GET (str "/" (name kw))
@@ -24,4 +23,4 @@
     [:button {:on-click (fn [_] (server-get :data))} "Get data"]
     (str " " (:data @state))]])
 
-[main-comp]
+main-comp

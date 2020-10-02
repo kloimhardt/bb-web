@@ -37,14 +37,16 @@
      (.log js/console s)
      (rd/render [:p s] (gd/getElement "cljs-app"))))
   ([app-node-id]
-   (let [app-node (gd/getElement app-node-id)]
-     (-> (interpret (.-textContent app-node))
-         (rd/render app-node))))
+   (let [app-node (gd/getElement app-node-id)
+         render-fn (interpret (.-textContent app-node))]
+     (rd/render [render-fn] app-node)))
   ([app-node-id handler-id]
    (let [app-node (gd/getElement app-node-id)]
      (aj/GET handler-id
              :handler
-             (fn [request] (rd/render (interpret request) app-node))
+             (fn [request]
+               (let [render-fn (interpret request)]
+                 (rd/render [render-fn] app-node)))
              :error-handler
              (fn [_] (-> [:p (str "Babashka server handler with id \""
                                   handler-id

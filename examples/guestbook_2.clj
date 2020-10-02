@@ -80,7 +80,7 @@
 (defn home-page [request]
   (layout-render
     request
-    "examples/html/home.html"))
+    "examples/guestbook_2.html"))
 
 (defn middleware-wrap-formats [handler]
   (let [wrapped (-> handler wrap-params (wrap-format formats-instance))]
