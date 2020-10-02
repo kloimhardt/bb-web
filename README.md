@@ -8,34 +8,15 @@ Examples show back-end features like anti forgery protection, MS-Windows being f
 
 ## Getting Started
 
-Download the zip file of this `bb-web` repository via Github's `Code` button above. Unzip it, thereby creating some directory called `bb-web-master`. If you work on MS-Windows, it is best to create the directory `C:\temp\bb-web-master`. But in the following this it is not assumed.
+Download the zip file of this `bb-web` repository via Github's `Code` button above. Unzip it, thereby creating some directory called `bb-web-master`. 
 
-In your file explorer, double click on `first.html`. You will see some `(fn [] [:div [:p "Press..` gibberish in the thus opened web-browser.  You can proceed to further examples below or, which is rewarding, fix the directory.
-
-### changing directory
-
-Open the file `first.html` in some text editor. It has the following 10 line content:
-
-```
-<div id="cljs-app">
- (fn []
-   [:div
-    [:button
-     {:on-click (fn [_] (swap! state update :counter inc))}
-     "Count up"]
-     (str " " (or (:counter (deref state)) 0))])
-</div>
-
-<script src="file:///C:/temp/bb-web-master/js/bb_web/bb_web.js"></script>
-```
-
-In the last line, change the text `C:/temp/bb-web-master/` into something like `C:/Users/Your_Name/bb-web-master/`, depending on the chosen place and name of your created directory. On Mac OSX, for sure the `C:/` has to be removed in any case.
-
-After saving the changed `first.html`, press reload in your browser and a button called "Count up" should appear. If all this did not work, proceed to the further examples. 
-
-If things worked, you now see the Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) in action in the browser. Change the button text to "Count up by one" or make other changes in the (yes!) Clojure code. Also take a look at `guestbook_0.html`.
+In your file explorer, double click on `first.html`. A button called "Count up" should appear. Press it and see the Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) in action in the browser. Open the file `first.html` in some text editor and change the button text to "Count up by one" or make other changes in the (yes!) Clojure code.
 
 ## Further examples
+
+### Guestbook 1
+
+Double click on `guestbook_0.html`. It is a more advanced example with nice css stylin (make sure you have wifi conncection)
 
 ### Using Babashka as back-end
 
