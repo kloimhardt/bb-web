@@ -1,24 +1,10 @@
-<!DOCTYPE html>
-<html>
+<div id="cljs-app">
+    (fn []
+     [:div
+      [:p "Press the following button to increase the counter"]
+      [:div
+       [:button {:on-click (fn [_] (swap! state update :counter inc))} "Count up"]
+       (str " " (or (:counter (deref state)) 0))]])
+</div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="data:,">
-    <title>bb_web</title>
-</head>
-
-<body>
-    <div id="cljs-app">
-        (defn comp []
-        [:div
-        [:p "Press the following button to increase the counter"]
-        [:div
-        [:button {:on-click (fn [_] (swap! state update :counter inc))} "Count up"]
-        (str " " (or (:counter (deref state)) 0))]])
-    </div>
-
-    <script src="file:///Users/kloimhardt/klmplay/bb-web/js/bb_web/bb_web.js"></script>
-</body>
-
-</html>
+<script src="file:///Users/kloimhardt/klmplay/bb-web/js/bb_web/bb_web.js"></script>

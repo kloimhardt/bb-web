@@ -27,9 +27,10 @@
                       'cljs.reader {'read-string edn/read-string}}}]
     (try (sci/eval-string code bindings)
          (catch :default e
-           [:div
-            [:div>code "Small Clojure Interpreter Error:"]
-            [:div>code (.-message e)]]))))
+           (fn []
+             [:div
+              [:div>code "Small Clojure Interpreter Error:"]
+              [:div>code (.-message e)]])))))
 
 (defn get-code
   ([]
