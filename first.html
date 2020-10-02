@@ -1,10 +1,10 @@
 <div id="cljs-app">
-    (fn []
-     [:div
-      [:p "Press the following button to increase the counter"]
-      [:div
-       [:button {:on-click (fn [_] (swap! state update :counter inc))} "Count up"]
-       (str " " (or (:counter (deref state)) 0))]])
+ (fn []
+   [:div
+    [:button
+     {:on-click (fn [_] (swap! state update :counter inc))}
+     "Count up"]
+     (str " " (or (:counter (deref state)) 0))])
 </div>
 
 <script src="file:///C:/temp/bb-web-master/js/bb_web/bb_web.js"></script>

@@ -8,27 +8,55 @@ Examples show back-end features like anti forgery protection, MS-Windows being f
 
 ## Getting Started
 
- Download the only prerequisite, [Babashka](https://github.com/borkdude/babashka/releases/tag/v0.2.1), a single executable file with the two letter name `bb`.
+Download the zip file of this `bb-web` repository via Github's `Code` button above. Unzip it, thereby creating some directory called `bb-web-master`. If you work on MS-Windows, it is best to create the directory `C:\temp\bb-web-master`. But in the following this it is not assumed.
 
-Then, download this `bb-web` repository via Github's `Code` button above, thereby creating a directory called `bb-web` or similar. Copy the `bb` executable into that directory and double click `bb_web_demo.bat`. Or you open a command prompt<sup>[1](#myfootnote1)</sup> and type:
+In your file explorer, double click on `first.html`. You will see some `(fn [] [:div [:p "Press..` gibberish in the thus opened web-browser.  You can proceed to further examples below or, which is rewarding, fix the directory.
+
+### changing directory
+
+Open the file `first.html` in some text editor. It has the following 10 line content:
+
+```
+<div id="cljs-app">
+ (fn []
+   [:div
+    [:button
+     {:on-click (fn [_] (swap! state update :counter inc))}
+     "Count up"]
+     (str " " (or (:counter (deref state)) 0))])
+</div>
+
+<script src="file:///C:/temp/bb-web-master/js/bb_web/bb_web.js"></script>
+```
+
+In the last line, change the text `C:/temp/bb-web-master/` into something like `C:/Users/Your_Name/bb-web-master/`, depending on the chosen place and name of your created directory. On Mac OSX, for sure the `C:/` has to be removed in any case.
+
+After saving the changed `first.html`, press reload in your browser and a button called "Count up" should appear. If all this did not work, proceed to the further examples. 
+
+If things worked, you now see the Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) in action in the browser. Change the button text to "Count up by one" or make other changes in the (yes!) Clojure code. Also take a look at `guestbook_0.html`.
+
+## Further examples
+
+### Using Babashka as back-end
+
+ Download [Babashka](https://github.com/borkdude/babashka/releases/tag/v0.2.1), a single executable file with the two letter name `bb`. Copy it into the `bb-web-master` directory created before. Double click `bb_web_demo.bat`, or open a command prompt<sup>[1](#myfootnote1)</sup> and type:
 
     bb server.clj
 
  If you see the `Could not find: org.httpkit.server` error, by accident you are using a Babashka version that does not support http-kit.
 
-If everything works as expected, your web-browser will open and show some buttons. Try them out and see Babashka in action on the client side.
+If everything works as expected, your web-browser will open and show some buttons. Try them out.
 
-To code your own ideas, edit the file `client.cljs`. Maybe change the text that is displayed on top of the web-page. Press the browser reload button.
+To code your own ideas, edit the file `client.cljs`. Maybe change the text that is displayed on top of the web-page. Press reload in your browser.
 
 You can even start with a different client, like so:
 ```
 bb server.clj examples/client_hot_reload.cljs
 ```
-Do not be surprised that the new hot-reload button does not work yet, this will be fixed in the examples below.
+Do not be surprised that the new hot-reload button does not work yet, it will in the examples below.
 
 In this first step, it is not needed to understand the server back-end part to create a nice Web-GUI. But of course you can also edit the file `server.clj`. Maybe change the server greeting text. To see the effect, stop the server pressing `Ctrl+C` and then restart anew as explained above.
 
-## Further examples
 
 ### Guestbook 1
 The Clojurescript code in ``guestbook_1.cljs`` is based on the guestbook-reagent example of the [Luminus book](https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/)<sup>[2](#myfootnote2)</sup>. Only small changes were needed to accommodate for Babashka and not the JVM operating as the server back-end. Itself being still very bare bones, will see improvements in the next examples.
@@ -60,7 +88,7 @@ bb examples/guestbook_2.clj examples/guestbook_1.cljs
 
 ### Hot reload
 
-The geting started example is revisited. Type:
+Type:
 
 ```
 bb examples/server_hot_reload.clj examples/client_hot_reload.cljs 
