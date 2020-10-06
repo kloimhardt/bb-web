@@ -10,7 +10,31 @@ Examples show back-end features like anti forgery protection, MS-Windows being f
 
 Download the zip file of this `bb-web` repository via Github's `Code` button above. Unzip it, thereby creating some directory called `bb-web-master`. 
 
-In your file explorer, double click on `first.html`. A button called "Count up" should appear. Press it and see the Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) in action in the browser. Open the file `first.html` in some text editor and change the button text to "Count up by one" or make other changes in the (yes!) Clojure code.
+In your file explorer, double click on `first.html`. A button called "Count up" should appear. Press it and see the Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) in action in the browser.
+
+The file `first.html` only has 10 lines of code:
+
+```
+<div id="cljs-app">
+ (fn []
+   [:div
+    [:button
+     {:on-click (fn [_] (swap! state update :counter inc))}
+     "Count up"]
+     (str " " (or (:counter (deref state)) 0))])
+</div>
+
+<script src="js/bb_web/bb_web.js"></script>
+
+```
+
+Open it in some text editor and change the button text to "Count up by one". Save and press the browser reload button. 
+
+Note that the variable `state` is initialized for you by bb-web, it is a Clojure Atom. Maybe you change the `(str ...)` expression in line 7 into `(deref state)` to inspect its full content. You will see that bb-web initializes `state` with the value `{}`, which is an empty Clojure map.
+
+If this is all new to you, maybe you want to run the examples in [CLJ-BLOCKS](https://kloimhardt.github.io/clj_blocks.html) or try the [Koans](http://clojurescriptkoans.com). 
+
+It is fair to say that understanding the 6 lines of Cloure code in the above example means understanding Clojure. But in any case, also run the next example.
 
 ## Further examples
 
@@ -69,7 +93,7 @@ Start by double-clicking on `bb_web_parinfer_codemirror.bat` or typing
 ```
 bb -cp examples -m parinfer-codemirror
 ```
-It shows the file `examples/client_hot_reload.cljs` in the Codemirror editor. [Parinfer](http://shaunlebron.github.io/parinfer/demo) takes care of juggling the parentheses according to your indentation. I liked Parinfer when starting with Clojure, its ingenious (and exclusively useful) "smart" mode was available early on in the Atom editor. I moved to Spacemacs though because of Cider (no smart mode so learned Paredit). I think this example is a low entry way to try Paredit out if it is for you.
+It shows the file `examples/client_hot_reload.cljs` in the Codemirror editor. As opposed to the usual editing experience, [Parinfer](http://shaunlebron.github.io/parinfer/demo) takes care of balancing parentheses according to your indentation. Indeed this example is a way to try out Paredit and decide whether it is for you<sup>[3](#myfootnote3)</sup>.
 
 It is meant that the above hot-relaod example is started along with this one.
 
@@ -86,7 +110,7 @@ bb examples/guestbook_2.clj examples/guestbook_1.cljs
 
 ## Rationale of bb-web
 
-It offers a low entry bar to Web-development. There is no involved installation process. I especially have MS-Windows users in mind<sup>[3](#myfootnote3)</sup>.
+It offers a low entry bar to Web-development. There is no involved installation process. I especially have MS-Windows users in mind<sup>[4](#myfootnote4)</sup>.
 
 ``bb-web`` shows some of the good Clojure stuff: same language on the client and the server, Hiccup syntax, Reagent's clean client state management, even a glimpse of hot reloading.
 
@@ -142,7 +166,7 @@ clojure -A:luminus_bb_subset -cp examples -m yogthos-graal-web-app-example
 
 ```
 
-You need to edit the `deps.edn` file to point to the right place of your local babashka fork. Doing ``rm -rf .cpcache/`` might help. And do not forget to `export BABASHKA_FEATURE_*  = true` environment variables.
+You need to edit the `deps.edn` file to point to the right place of your local babashka fork. Doing ``rm -rf .cpcache/`` might help. And do not forget to `export BABASHKA_FEATURE_*  = true` environment variables (see below for the actual names).
 
 ### Building a Windows executable
 
@@ -159,4 +183,6 @@ Follow the [build instructions](https://github.com/borkdude/babashka/blob/master
 
 <a name="myfootnote2">2</a>: I have no affiliations with Luminus. But I think the book-format AND -market is still the best way to advance new technology.
 
-<a name="myfootnote3">3</a>: Developing lager Clojure projects in Windows is best done using its Subsystem for Linux (WSL). The topic of using JVM+Clojure on native MS-Windows is not in scope here. In a way, `bb-web` is there to avoid this particular rabbit hole.
+<a name="myfootnote3">3</a>: I started Clojure using Parinfer. Its ingenious (and only useful) "smart" mode was available early on in the Atom editor. I moved to Spacemacs though because of Cider (no smart mode there so learned Paredit). 
+
+<a name="myfootnote4">4</a>: Developing lager Clojure projects in Windows is best done using its Subsystem for Linux (WSL). The topic of using JVM+Clojure on native MS-Windows is not in scope here. In a way, `bb-web` is there to avoid this particular rabbit hole.
