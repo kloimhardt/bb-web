@@ -4,7 +4,7 @@ Scripting React-ive web apps in Clojure without installing it.
 
 The in-browser UI is interpreted Clojurescript code that you can change and run without having the Cljs-compiler or Java installed.
 
-Examples show back-end features like anti forgery protection, MS-Windows being first class.
+Examples go from "Hello World!" to back-end features like anti forgery protection, MS-Windows being first class.
 
 ## Getting Started
 
