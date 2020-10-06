@@ -10,9 +10,10 @@
 
 <body>
     <div id="cljs-app">
-    [:div
-     [:p (+ 3 4)]
-     [:p (- 5 6)]]
+     (fn []
+      [:div
+       [:p (+ 3 4)]
+       [:p (- 5 6)]])
     </div>
    <script src="assets/app/js/main.js"></script>
 </body>
