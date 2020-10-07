@@ -3,7 +3,7 @@
 
 (def host "http://localhost")
 
-(def port 8080)
+(def port 8082)
 
 (def bb-web-js (slurp "js/bb_web/bb_web.js"))
 

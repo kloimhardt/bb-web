@@ -3,7 +3,7 @@
                 [borkdude/sci "0.1.1-alpha.7"]
                 [cljs-ajax "0.7.5"]]
  :source-paths ["src"]
- :dev-http {8081 ["public" "node_modules"]}
+ :dev-http {8080 ["public" "node_modules"]}
  :builds
  {:cljs {:target :browser
         :output-dir "public/assets/app/js"

@@ -8,7 +8,7 @@
         'java.time.LocalDateTime
         'java.io.ByteArrayOutputStream)
 
-(def port 8080)
+(def port 8083)
 
 (def bb-web-js (slurp "js/bb_web/bb_web.js"))
 

@@ -18,7 +18,7 @@
 
 (def host "http://localhost")
 
-(def port 8082)
+(def port 8084)
 
 (def handler
   (ring/ring-handler

@@ -16,7 +16,7 @@
 (import 'java.time.format.DateTimeFormatter
         'java.time.LocalDateTime)
 
-(def port 8080)
+(def port 8085)
 
 (defn date [] (LocalDateTime/now))
 
