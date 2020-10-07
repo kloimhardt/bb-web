@@ -17,7 +17,8 @@
          '[clojure.string :as string]
          ;; '[cljs.pprint :refer [pprint]]
          '[goog.dom :as gd]
-         '[goog.object :as go])
+         '[goog.object :as go]
+         '[bb-web :as bb-web :refer [state]])
 
 ;
 (defn get-messages [messages]
@@ -48,7 +49,7 @@
          :params @fields
          :handler (fn [_]
                     (do
-                      (swap! messages conj (assoc @fields :timestamp (timestamp)))
+                      (swap! messages conj (assoc @fields :timestamp (bb-web/timestamp)))
                       (reset! fields nil)
                       (reset! errors nil)))
          :error-handler (fn [e]

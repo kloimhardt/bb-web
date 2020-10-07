@@ -2,9 +2,9 @@
  (fn []
    [:div
     [:button
-     {:on-click (fn [_] (swap! state update :counter inc))}
+     {:on-click (fn [_] (swap! bb-web/state update :counter inc))}
      "Count up"]
-     (str " " (or (:counter (deref state)) 0))])
+     (str " " (or (:counter (deref bb-web/state)) 0))])
 </div>
 
 <script src="js/bb_web/bb_web.js"></script>

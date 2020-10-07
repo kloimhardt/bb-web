@@ -12,27 +12,26 @@ Download the zip file of this `bb-web` repository via Github's `Code` button abo
 
 In your file explorer, double click on `first.html`. A button called "Count up" should appear. Press it and see the Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) in action in the browser.
 
-The file `first.html` only has 10 lines of code:
+The file `first.html` has only 10 lines of code:
 
 ```
 <div id="cljs-app">
  (fn []
    [:div
     [:button
-     {:on-click (fn [_] (swap! state update :counter inc))}
+     {:on-click (fn [_] (swap! bb-web/state update :counter inc))}
      "Count up"]
-     (str " " (or (:counter (deref state)) 0))])
+     (str " " (or (:counter (deref bb-web/state)) 0))])
 </div>
 
 <script src="js/bb_web/bb_web.js"></script>
-
 ```
 
 Open it in some text editor and change the button text to "Count up by one". Save and press the browser reload button. 
 
-Note that the variable `state` is initialized for you by bb-web, it is a Clojure Atom. Maybe you change the `(str ...)` expression in line 7 into `(deref state)` to inspect its full content. You will see that bb-web initializes `state` with the value `{}`, which is an empty Clojure map.
+If Clojure is new to you, run the examples in [CLJ-BLOCKS](https://kloimhardt.github.io/clj_blocks.html) and try the [Koans](http://clojurescriptkoans.com). After that you will know how to use `deref` (amongst other things).
 
-If this is all new to you, maybe you want to run the examples in [CLJ-BLOCKS](https://kloimhardt.github.io/clj_blocks.html) or try the [Koans](http://clojurescriptkoans.com). 
+Note that the variable `bb-web/state` is special. It is automatically updated on the screen when its content is accessed by `deref`. Within bb-web, you cannot create such useful beasts on your own, but arguably having only one of those is exactly right for even the most sophisticated purposes.
 
 It is fair to say that understanding the 6 lines of Cloure code in the above example means understanding Clojure. But in any case, also run the next example.
 
@@ -40,7 +39,7 @@ It is fair to say that understanding the 6 lines of Cloure code in the above exa
 
 ### Guestbook 0
 
-Double click on `guestbook_0.html`. It is a more advanced example. To see the nice css styling, you need WiFi connection, a requirement that will be dropped in a later example.
+Double click on `guestbook_0.html`. To see the nice css styling, you need WiFi connection, a requirement that will be dropped in a later example.
 
 ### Using Babashka as back-end
 
@@ -162,7 +161,7 @@ If you want the full Shadow-cljs experience while editing, instead of `echo`, ty
 
 If you do not want to natively compile a local Babashka and have Clojure installed, type:
 ```
-clojure -A:luminus_bb_subset -cp examples -m yogthos-graal-web-app-example
+clojure -A:luminus_bb_subset -cp examples -m parinfer-codemirror
 
 ```
 
@@ -174,7 +173,7 @@ You need to have git installed. Checkout the `guestbook2` branch of this [Babash
 
 ### Building binaries for any platform
 
-Follow the [build instructions](https://github.com/borkdude/babashka/blob/master/doc/build.md). Make sure to have the shell environment variables `BABASHKA_FEATURE_RING`, `BABASHKA_FEATURE_REITIT`, `BABASHKA_FEATURE_SELMER` set to `true`.
+Follow the [build instructions](https://github.com/borkdude/babashka/blob/master/doc/build.md). Make sure to have the shell environment variables `BABASHKA_FEATURE_RING`, `BABASHKA_FEATURE_REITIT`, `BABASHKA_FEATURE_SELMER` set to `true` (in bash via the `export` command).
 
 
 ## Footnotes

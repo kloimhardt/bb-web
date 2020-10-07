@@ -43,13 +43,13 @@
 ;
 (defn send-message! [fields messages]
   (do
-    (swap! messages conj (assoc @fields :timestamp (timestamp)))
+    (swap! messages conj (assoc @fields :timestamp (bb-web/timestamp)))
     (reset! fields nil)))
 ;
 
 ;
 (defn message-form [messages]
-  (let [fields (r/cursor state [:fields])]
+  (let [fields (r/cursor bb-web/state [:fields])]
     (fn [messages]
       [:div
        [:div.field
@@ -73,7 +73,7 @@
          :value "comment"}]])))
 
 (defn home []
-  (let [messages (r/cursor state [:messages])]
+  (let [messages (r/cursor bb-web/state [:messages])]
     (fn []
       [:div.content>div.columns.is-centered>div.column.is-two-thirds
        [:div.columns>div.column

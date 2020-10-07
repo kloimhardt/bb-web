@@ -1,4 +1,5 @@
-(require '[ajax.core :refer [GET]])
+(require '[ajax.core :refer [GET]]
+         '[bb-web :refer [get-code state]])
 
 (declare second-component)
 

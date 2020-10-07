@@ -17,9 +17,10 @@
 
 (defn interpret [code]
   (let [bindings
-        {:bindings {'state state 'println println 'timestamp timestamp
-                    'get-code get-code}
-         :namespaces {'ajax.core {'GET aj/GET 'POST aj/POST}
+        {:bindings {'println println}
+         :namespaces {'bb-web {'state state 'timestamp timestamp
+                               'get-code get-code}
+                      'ajax.core {'GET aj/GET 'POST aj/POST}
                       'reagent.core {'cursor rc/cursor}
                       'clojure.string {'join st/join}
                       'goog.object {'get go/get}
