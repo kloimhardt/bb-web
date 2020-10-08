@@ -85,7 +85,7 @@ Start by double-clicking on `bb_web_guestbook_1.bat` or type
 
 This example needs a Babashka version with [Reitit](https://github.com/metosin/reitit) and [Ring](https://github.com/ring-clojure/ring) included. It would not be in existence without the invaluable help and support of its creator Michiel Borkent. Building this binary is an advanced issue, some guidance is given below. A Windows binary is provided:
 
-https://github.com/kloimhardt/babashka/releases/tag/v0.2.2
+https://github.com/kloimhardt/babashka-web/releases/tag/v0.2.2
 
 Start by double-clicking on `bb_web_parinfer_codemirror.bat` or type (note the new name of the executable: `bb-web`)
 ```
