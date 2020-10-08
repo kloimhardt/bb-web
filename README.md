@@ -81,13 +81,26 @@ Start by double-clicking on `bb_web_guestbook_1.bat` or type
 
     bb examples/guestbook_1.clj examples/guestbook_1.cljs
 
-### Edit with parinfer-codemirror
+### Lumius Guestbook rich back-end
+The back-end is more sophisticated compared to `guestbook_1.clj`.
 
 This example needs a Babashka version with [Reitit](https://github.com/metosin/reitit) and [Ring](https://github.com/ring-clojure/ring) included. It would not be in existence without the invaluable help and support of its creator Michiel Borkent. Building this binary is an advanced issue, some guidance is given below. A Windows binary is provided:
 
 https://github.com/kloimhardt/babashka-web/releases/tag/v0.2.2
 
-Start by double-clicking on `bb_web_parinfer_codemirror.bat` or type (note the new name of the executable: `bb-web`)
+Note the new name of the executable: `bb-web`.
+
+Following and copying Luminus, the example includes html templating with [Selmer](https://github.com/yogthos/Selmer), Ring's anti forgery protection, data encoding using [Muuntaja](https://github.com/metosin/muuntaja) and decent http-request error handling using Reitit. Note that the front-end code is still the same `guestbook_1.cljs`.
+
+Start by double-clicking on `bb_web_guestbook_2.bat` or typing
+
+```
+bb-web examples/guestbook_2.clj examples/guestbook_1.cljs
+```
+
+### Edit with parinfer-codemirror
+
+Start by double-clicking on `bb_web_parinfer_codemirror.bat` or type
 ```
 bb-web -cp examples -m parinfer-codemirror
 ```
@@ -96,15 +109,6 @@ It shows the file `examples/client_hot_reload.cljs` in the Codemirror editor. As
 It is meant that the above hot-relaod example is started along with this one.
 
 This example does not need WiFi connection for its CSS styling.
-
-### Lumius Guestbook rich back-end
-The back-end is more sophisticated compared to `guestbook_1.clj`. Following and copying Luminus, it includes html templating with [Selmer](https://github.com/yogthos/Selmer), Ring's anti forgery protection, data encoding using [Muuntaja](https://github.com/metosin/muuntaja) and decent http-request error handling using Reitit. Note that the front-end code is still the same `guestbook_1.cljs`.
-
-Start by double-clicking on `bb_web_guestbook_2.bat` or typing
-
-```
-bb-web examples/guestbook_2.clj examples/guestbook_1.cljs
-```
 
 ## Rationale of bb-web
 
