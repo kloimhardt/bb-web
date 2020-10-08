@@ -1,2 +1,2 @@
-bb -cp examples -m parinfer-codemirror
+bb-web -cp examples -m parinfer-codemirror
 pause

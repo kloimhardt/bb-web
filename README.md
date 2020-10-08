@@ -85,11 +85,11 @@ Start by double-clicking on `bb_web_guestbook_1.bat` or type
 
 This example needs a Babashka version with [Reitit](https://github.com/metosin/reitit) and [Ring](https://github.com/ring-clojure/ring) included. It would not be in existence without the invaluable help and support of its creator Michiel Borkent. Building this binary is an advanced issue, some guidance is given below. A Windows binary is provided:
 
-https://github.com/kloimhardt/babashka/releases/tag/v0.2.2
+https://github.com/kloimhardt/babashka/releases/tag/v0.2.3
 
-Start by double-clicking on `bb_web_parinfer_codemirror.bat` or typing
+Start by double-clicking on `bb_web_parinfer_codemirror.bat` or type (note the new name of the executable: `bb-web`)
 ```
-bb -cp examples -m parinfer-codemirror
+bb-web -cp examples -m parinfer-codemirror
 ```
 It shows the file `examples/client_hot_reload.cljs` in the Codemirror editor. As opposed to the usual editing experience, [Parinfer](http://shaunlebron.github.io/parinfer/demo) takes care of balancing parentheses according to your indentation. Indeed this example is a way to try out Paredit and decide whether it is for you<sup>[3](#myfootnote3)</sup>.
 
@@ -103,7 +103,7 @@ The back-end is more sophisticated compared to Guestbook 1. Following and copyin
 Start by double-clicking on `bb_web_guestbook_2.bat` or typing
 
 ```
-bb examples/guestbook_2.clj examples/guestbook_1.cljs
+bb-web examples/guestbook_2.clj examples/guestbook_1.cljs
 ```
 
 ## Rationale of bb-web
@@ -115,8 +115,11 @@ It offers a low entry bar to Web-development. There is no involved installation 
 
 Babashka's underlying Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) displays nice error messages. They are more readable than, say, those of self hosted Clojurescript.
 
-
 Of course, some power tools are not available. Especially Cljs-REPL or integrant/mount. As powerful as those concepts are, they first need to be mastered. And some of the lack is made up by Babashka's brisk start up time.
+
+Additional notes on why one should in a first step avoid the REPL: 
+1) Without a properly configured development environment (i.e. editor), the REPL is a pain to use. As said in this influential [Video](https://www.youtube.com/watch?v=Qx0-pViyIDU&feature=youtu.be&t=740) on the topic: "you work in your favourite tool", i.e. Cider, IntelliJ, Calva, Clorine. And yet, many Clojure books begin with starting a REPL in the terminal window (for the understandable reason that endorsing a particular IDE is not in the intention of the writer).
+2) A beginner needs to understand first and foremost, that Clojure is all about immutable data structures and using the `swap!` function only in special cases. The REPL, on the other hand, is all about mutation, namely about mutating code in a running program. I think that leads to confusion.
 
 One valid objection to bb-web is: one does not need client-side scripting for small web-apps, server side rendering is sufficient. I can only respond that state management on client side is more intuitive to some of us. Moreover, a big advantage of Clojure over Python, Ruby, PHP, Erlang is in Clojurescript, and bb-web is a door leading there.
 
