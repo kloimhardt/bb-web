@@ -37,7 +37,7 @@ It is fair to say that understanding the 6 lines of Cloure code in the above exa
 
 ## Further examples
 
-### Guestbook 0
+### Luminus Guestbook front-end
 
 Double click on `guestbook_0.html`. It is based on the guestbook-reagent example of the [Luminus book](https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/). To see the nice css styling, you need WiFi connection, a requirement that will be dropped in a later example.
 
@@ -73,7 +73,7 @@ Increase the counter. Then edit some text in `examples/client_hot_reload.cljs` a
 
 If the handling of pranentheses while editing feels cumbersome, maybe the later introduced Parinfer is for you.
 
-### Guestbook 1
+### Luminus Guestbook minimal back-end
 
 The Clojurescript code in ``guestbook_1.cljs`` is based on the guestbook-reagent example of the [Luminus book](https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/)<sup>[2](#myfootnote2)</sup>. Only small changes were needed to accommodate for Babashka and not the JVM operating as the server back-end. Itself being still very bare bones, will see improvements in the next examples.
 
@@ -97,8 +97,8 @@ It is meant that the above hot-relaod example is started along with this one.
 
 This example does not need WiFi connection for its CSS styling.
 
-### Guestbook 2
-The back-end is more sophisticated compared to Guestbook 1. Following and copying Luminus, it includes html templating with [Selmer](https://github.com/yogthos/Selmer), Ring's anti forgery protection, data encoding using [Muuntaja](https://github.com/metosin/muuntaja) and decent http-request error handling using Reitit. Note that the front-end code is still the same `guestbook_1.cljs`.
+### Lumius Guestbook rich back-end
+The back-end is more sophisticated compared to `guestbook_1.clj`. Following and copying Luminus, it includes html templating with [Selmer](https://github.com/yogthos/Selmer), Ring's anti forgery protection, data encoding using [Muuntaja](https://github.com/metosin/muuntaja) and decent http-request error handling using Reitit. Note that the front-end code is still the same `guestbook_1.cljs`.
 
 Start by double-clicking on `bb_web_guestbook_2.bat` or typing
 
