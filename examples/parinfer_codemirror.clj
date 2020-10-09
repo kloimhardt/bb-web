@@ -14,7 +14,7 @@
   '[clojure.java.io :as io]
   '[clojure.java.browse :as browse])
 
-(def file-to-edit "examples/client_hot_reload.cljs")
+(def file-to-edit "examples/hot_reload.cljs")
 
 (def host "http://localhost")
 
@@ -25,7 +25,7 @@
    (ring/router
      [["/"
        {:get (fn [request]
-               (-> (slurp "examples/parinfer-codemirror.html")
+               (-> (slurp "examples/parinfer_codemirror.html")
                    (response/response)
                    (response/header "content-type" "text/html")))}]
       ["/codeget"

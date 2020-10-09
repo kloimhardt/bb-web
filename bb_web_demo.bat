@@ -1,2 +1,0 @@
-bb server.clj
-pause

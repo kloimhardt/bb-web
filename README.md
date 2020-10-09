@@ -8,7 +8,7 @@ Examples go from "Hello World!" to back-end features like anti forgery protectio
 
 ## Getting Started
 
-Download the zip file of this `bb-web` repository via Github's `Code` button above or via this [link](https://github.com/kloimhardt/bb-web/archive/v0.0.1.zip). Unzip it, thereby creating some directory called `bb-web-master`. 
+Download the zip file of this `bb-web` repository via Github's `Code` button above or via this [link](https://github.com/kloimhardt/bb-web/archive/v0.0.1.zip). Unzip it, thereby creating some directory called `bb-web-master` or similar. 
 
 In your file explorer, double click on `first.html`. A button called "Count up" should appear. Press it and see the Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) in action in the browser.
 
@@ -29,7 +29,7 @@ The file `first.html` has only 10 lines of code:
 
 Open it in some text editor and change the button text to "Count up by one". Save and press the browser reload button. 
 
-If Clojure is new to you, run the examples in [CLJ-BLOCKS](https://kloimhardt.github.io/clj_blocks.html) and try the [Koans](http://clojurescriptkoans.com). After that you will know how to use `deref` (amongst other things).
+If Clojure is new to you, run the examples in [clj-tiles](https://kloimhardt.github.io/clj_blocks.html) and try the [Koans](http://clojurescriptkoans.com). After that you will know how to use `deref` (amongst other things).
 
 Note that the variable `bb-web/state` is special. It is automatically updated on the screen when its content is accessed by `deref`. Within bb-web, you cannot create such useful beasts on your own, but arguably having only one of those is exactly right for even the most sophisticated purposes.
 
@@ -43,19 +43,19 @@ Double click on `guestbook_0.html`. It is based on the guestbook-reagent example
 
 ### Using Babashka as back-end
 
- Download [Babashka](https://github.com/borkdude/babashka/releases/tag/v0.2.1), a single executable file with the two letter name `bb`. Copy it into the `bb-web-master` directory created before. Double click `bb_web_demo.bat`, or open a command prompt<sup>[1](#myfootnote1)</sup> and type:
+ Download [Babashka](https://github.com/borkdude/babashka/releases/tag/v0.2.1), a single executable file with the two letter name `bb`. Copy it into the `bb-web-master` directory created before. Double click `bb_web_start.bat`, or open a command prompt<sup>[1](#myfootnote1)</sup> and type:
 
-    bb server.clj
+    bb examples/start.clj
 
  If you see the `Could not find: org.httpkit.server` error, by accident you are using a Babashka version that does not support http-kit.
 
 If everything works as expected, your web-browser will open and show some buttons. Try them out.
 
-To code your own ideas, edit the file `client.cljs`. Maybe change the text that is displayed on top of the web-page. Press reload in your browser.
+To code your own ideas, edit the Clojurescript file `start.cljs`. Maybe change the text that is displayed on top of the web-page. Press reload in your browser.
 
 You can even start with a different client, like so:
 ```
-bb server.clj examples/client_hot_reload.cljs
+bb examples/start.clj examples/hot_reload.cljs
 ```
 Do not be surprised that the new hot-reload button does not work yet, it will in the example below.
 
@@ -66,10 +66,10 @@ In this first step, it is not needed to understand the server back-end part to c
 Start by double-clicking on `bb_web_hot_reload.bat` or type
 
 ```
-bb examples/server_hot_reload.clj examples/client_hot_reload.cljs 
+bb examples/hot_reload.clj examples/hot_reload.cljs 
 ```
 
-Increase the counter. Then edit some text in `examples/client_hot_reload.cljs` and save. Instead of pressing the browser reload button, press `hot reload` and notice that the counter preserves its value while the text changes as expected.
+Increase the counter. Then edit some text in `examples/hot_reload.cljs` and save. Instead of pressing the browser reload button, press `hot reload` and notice that the counter preserves its value while the text changes as expected.
 
 If the handling of pranentheses while editing feels cumbersome, maybe the later introduced Parinfer is for you.
 
@@ -90,7 +90,7 @@ https://github.com/kloimhardt/babashka-web/releases/tag/v0.2.2
 
 Note the new name of the executable: `bb-web`.
 
-Following and copying Luminus, the example includes html templating with [Selmer](https://github.com/yogthos/Selmer), Ring's anti forgery protection, data encoding using [Muuntaja](https://github.com/metosin/muuntaja) and decent http-request error handling using Reitit. Note that the front-end code is still the same `guestbook_1.cljs`.
+Following and copying Luminus, the example includes html templating with [Selmer](https://github.com/yogthos/Selmer), Ring's anti forgery protection, data encoding using [Muuntaja](https://github.com/metosin/muuntaja) and decent http-request error handling using Reitit. Note that the front-end code is still the above `guestbook_1.cljs`.
 
 Start by double-clicking on `bb_web_guestbook_2.bat` or typing
 
@@ -104,7 +104,7 @@ Start by double-clicking on `bb_web_parinfer_codemirror.bat` or type
 ```
 bb-web -cp examples -m parinfer-codemirror
 ```
-It shows the file `examples/client_hot_reload.cljs` in the Codemirror editor. As opposed to the usual editing experience, [Parinfer](http://shaunlebron.github.io/parinfer/demo) takes care of balancing parentheses according to your indentation. Indeed this example is a way to try out Paredit and decide whether it is for you<sup>[3](#myfootnote3)</sup>.
+It shows the file `examples/hot_reload.cljs` in the Codemirror editor. As opposed to the usual editing experience, [Parinfer](http://shaunlebron.github.io/parinfer/demo) takes care of balancing parentheses according to your indentation. Indeed this example is a way to try out Paredit and decide whether it is for you<sup>[3](#myfootnote3)</sup>.
 
 It is meant that the above hot-relaod example is started along with this one.
 
