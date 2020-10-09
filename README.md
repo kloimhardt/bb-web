@@ -29,7 +29,7 @@ The file `first.html` has only 10 lines of code:
 
 Open it in some text editor and change the button text to "Count up by one". Save and press the browser reload button. 
 
-If Clojure is new to you, run the examples in [clj-tiles](https://kloimhardt.github.io/clj_blocks.html) and try the [Koans](http://clojurescriptkoans.com). After that you will know how to use `deref` (amongst other things).
+If Clojure is new to you, run the examples in [clj-tiles](https://kloimhardt.github.io/clj_blocks.html) and try the [Koans](http://clojurescriptkoans.com) (be patient with the white screen for some seconds). After that you will know how to use `deref` (amongst other things).
 
 Note that the variable `bb-web/state` is special. It is automatically updated on the screen when its content is accessed by `deref`. Within bb-web, you cannot create such useful beasts on your own, but arguably having only one of those is exactly right for even the most sophisticated purposes.
 
@@ -39,11 +39,11 @@ It is fair to say that understanding the 6 lines of Cloure code in the above exa
 
 ### Luminus Guestbook front-end
 
-Double click on `guestbook_0.html`. It is based on the guestbook-reagent example of the [Luminus book](https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/). To see the nice css styling, you need WiFi connection, a requirement that will be dropped in a later example.
+Double click on `guestbook_0.html`. It is based on the guestbook-reagent example of the [Luminus book](https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/)<sup>[2](#myfootnote2)</sup>. To see the nice css styling, you need WiFi connection, a requirement that will be dropped in a later example.
 
 ### Using Babashka as back-end
 
- Download [Babashka](https://github.com/borkdude/babashka/releases/tag/v0.2.1), a single executable file with the two letter name `bb`. Copy it into the `bb-web-master` directory created before. Double click `bb_web_start.bat`, or open a command prompt<sup>[1](#myfootnote1)</sup> and type:
+ Download [Babashka](https://github.com/borkdude/babashka/releases/tag/v0.2.1), a single executable file with the two letter name `bb`. Copy it into the `bb-web-master` directory created before. Double click `bb_web_start.bat`, or open the console window on your own<sup>[1](#myfootnote1)</sup> and type:
 
     bb examples/start.clj
 
@@ -51,15 +51,9 @@ Double click on `guestbook_0.html`. It is based on the guestbook-reagent example
 
 If everything works as expected, your web-browser will open and show some buttons. Try them out.
 
-To code your own ideas, edit the Clojurescript file `start.cljs`. Maybe change the text that is displayed on top of the web-page. Press reload in your browser.
+To code your own ideas, edit the Clojurescript file `examples/start.cljs` (not the Clojure file `start.clj`, notice the last "s" for "script"). Maybe change the text that is displayed on top of the web-page. Press reload in your browser.
 
-You can even start with a different client, like so:
-```
-bb examples/start.clj examples/hot_reload.cljs
-```
-Do not be surprised that the new hot-reload button does not work yet, it will in the example below.
-
-In this first step, it is not needed to understand the server back-end part to create a nice Web-GUI. But of course you can also edit the file `server.clj`. Maybe change the server greeting text. To see the effect, stop the server pressing `Ctrl+C` and then restart anew as explained above.
+In this first step, it is not needed to understand the server back-end part to create a nice Web-GUI. But of course you can also edit the Clojure file `start.clj`. Maybe change the server greeting text. To see the effect, stop the server by pressing `Ctrl+C` in the command prompt window and then restart anew as explained above.
 
 ### Hot reload
 
@@ -90,13 +84,13 @@ https://github.com/kloimhardt/babashka-web/releases/tag/v0.2.2
 
 Note the new name of the executable: `bb-web`.
 
-Following and copying Luminus, the example includes html templating with [Selmer](https://github.com/yogthos/Selmer), Ring's anti forgery protection, data encoding using [Muuntaja](https://github.com/metosin/muuntaja) and decent http-request error handling using Reitit. Note that the front-end code is still the above `guestbook_1.cljs`.
-
-Start by double-clicking on `bb_web_guestbook_2.bat` or typing
+Following and copying Luminus, the example includes html templating with [Selmer](https://github.com/yogthos/Selmer), Ring's anti forgery protection, data encoding using [Muuntaja](https://github.com/metosin/muuntaja) and decent http-request error handling using Reitit. Start by double-clicking on `bb_web_guestbook_2.bat` or typing
 
 ```
 bb-web examples/guestbook_2.clj examples/guestbook_1.cljs
 ```
+
+Note that the front-end code did not change, it is still the above `guestbook_1.cljs`.
 
 ### Edit with parinfer-codemirror
 
@@ -135,6 +129,8 @@ One valid objection to bb-web is: one does not need client-side scripting for sm
 ## Advanced topics (Clojure experience required)
 
 The following descriptions are less complete than the previous sections. If you understand them, you do not need `bb-web` yourself. They show you how to give enhanced `bb-web` features to potential new Clojure users.
+
+For the following, switch to the `development` branch in `git`.
 
 ### Expose arbitrary Clojurescript libraries to the SCI 
 
@@ -184,7 +180,7 @@ Follow the [build instructions](https://github.com/borkdude/babashka/blob/master
 
 ## Footnotes
 
-<a name="myfootnote1">1</a>: Opening a command prompt on Mac is via Applications->Utilities->Terminal, on Windows via Start->Run->cmd. Make `bb-web` the current directory using the `cd` command before typing the `bb server.clj` command.
+<a name="myfootnote1">1</a>: Opening a command prompt on Mac is via Applications->Utilities->Terminal, on Windows via Start->Run->cmd. Make `bb-web` the current directory using the `cd` command before typing the `bb server.clj` command. The console window showing the command prompt is most probably white text on dark background.
 
 <a name="myfootnote2">2</a>: I have no affiliations with Luminus. But I think the book-format AND -market is still the best way to advance new technology.
 
