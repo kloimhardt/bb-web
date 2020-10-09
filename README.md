@@ -8,7 +8,7 @@ Examples go from "Hello World!" to back-end features like anti forgery protectio
 
 ## Getting Started
 
-Download the zip file of this `bb-web` repository via Github's `Code` button above or via this [link](https://github.com/kloimhardt/bb-web/archive/v0.0.1.zip). Unzip it, thereby creating some directory called `bb-web-master` or similar. 
+Download the zip file of this `bb-web` repository via Github's `Code` button above. Unzip it, thereby creating some directory called `bb-web-master` or similar. 
 
 In your file explorer, double click on `first.html`. A button called "Count up" should appear. Press it and see the Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) in action in the browser.
 
