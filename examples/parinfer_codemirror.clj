@@ -40,12 +40,6 @@
                     (response/response)
                     (response/header "content-type" "text/html")))}]])))
 
-(defmethod response/resource-data :resource
-  [^java.net.URL url]
-  (let [conn (.openConnection url)]
-    {:content        (.getInputStream conn)
-     :content-length (let [len (.getContentLength conn)] (if-not (pos? len) len))}))
-
 (defn -main [& _args]
   (println "🔥 starting on port:" port "🔥")
   (http/run-server
