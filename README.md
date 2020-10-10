@@ -142,22 +142,14 @@ As you can see in the ``:require`` section of `app.cljs`, two libraries are made
 
 You can add additional libraries  to the `:require` section and add new functions to the ``:bindings`` map.
 
-To compile, make `bb_web` the current directory and type:
+To compile, type:
     
     cd js
-    echo
-    shadow-cljs release bbjs
-    cd ..
-    bb server.clj
-
-Of course, additional libraries will increase the initial 1MB size. 
-
-If you are compiling for the first time, instead of the (effectless) `echo` command above, type the following two lines:
-
     npm init -y
     npm install shadow-cljs
+    shadow-cljs release bbjs
 
-If you want the full Shadow-cljs experience while editing, instead of `echo`, type `shadow-cljs watch cljs` and open `http://localhost:8081` in your browser. However, you will not see any buttons as the Babashka scripts are not loaded.
+If you want the full Shadow-cljs experience while editing, type `shadow-cljs watch cljs` and open `http://localhost:8080` in your browser.
 
 ### Running examples with a local Babashka fork
 
@@ -171,7 +163,7 @@ You need to edit the `deps.edn` file to point to the right place of your local b
 
 ### Building a Windows executable
 
-You need to have git installed. Checkout the `guestbook2` branch of this [Babashka fork](https://github.com/kloimhardt/babashka). Connect [AppVayor](https://www.appveyor.com) to this fork. For every new Git commit a build is made.
+Connect [AppVayor](https://www.appveyor.com) to this [Babashka fork](https://github.com/kloimhardt/babashka). For every new Git commit a build is made.
 
 ### Building binaries for any platform
 
@@ -180,10 +172,10 @@ Follow the [build instructions](https://github.com/borkdude/babashka/blob/master
 
 ## Footnotes
 
-<a name="myfootnote1">1</a>: Opening a command prompt on Mac is via Applications->Utilities->Terminal, on Windows via Start->Run->cmd. Make `bb-web` the current directory using the `cd` command before typing the `bb server.clj` command. The console window showing the command prompt is most probably white text on dark background.
+<a name="myfootnote1">1</a>: Opening a command prompt on Mac is via Applications->Utilities->Terminal, on Windows via Start->Run->cmd. Make `bb-web-master` the current directory using the `cd` command before typing the `bb ...` commands. The console window showing the command prompt is most probably white text on dark background.
 
 <a name="myfootnote2">2</a>: I have no affiliations with Luminus. But I think the book-format AND -market is still the best way to advance new technology.
 
 <a name="myfootnote3">3</a>: I started Clojure using Parinfer. Its ingenious (and only useful) "smart" mode was available early on in the Atom editor. I moved to Spacemacs though because of Cider (no smart mode there so learned Paredit). 
 
-<a name="myfootnote4">4</a>: Developing lager Clojure projects in Windows is best done using its Subsystem for Linux (WSL). The topic of using JVM+Clojure on native MS-Windows is not in scope here. In a way, `bb-web` is there to avoid this particular rabbit hole.
+<a name="myfootnote4">4</a>: The topic of using JVM+Clojure on native MS-Windows is not in scope here. [scoop-clojure](https://github.com/littleli/scoop-clojure) might be a good starting option. I develop larger projects in Windows using its Subsystem for Linux (WSL).
