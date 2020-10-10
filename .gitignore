@@ -1,8 +1,5 @@
 .DS_Store
-deps.edn
 README.md.temp
-
-/src/.DS_Store
 
 js/
 !js/bb_web/bb_web.js
