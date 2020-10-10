@@ -1,13 +1,9 @@
-/src/.DS_Store
 .DS_Store
 README.md.temp
 
-js/.shadow-cljs/
-js/bb_web/cljs-runtime/
-js/bb_web/manifest.edn
-js/public/assets/
-js/node_modules/
-js/package-lock.json
-js/package.json
+js/
+!js/bb_web/bb_web.js
+!js/public/index.html
+!js/src/bb_web/app.cljs
 
 examples/m.txt
