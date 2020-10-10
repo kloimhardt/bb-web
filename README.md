@@ -142,12 +142,7 @@ As you can see in the ``:require`` section of `app.cljs`, two libraries are made
 
 You can add additional libraries  to the `:require` section and add new functions to the ``:bindings`` map.
 
-To compile, type:
-    
-    cd js
-    npm init -y
-    npm install shadow-cljs
-    shadow-cljs release bbjs
+To compile, in the `js` directory type `shadow-cljs release bbjs`.
 
 If you want the full Shadow-cljs experience while editing, type `shadow-cljs watch cljs` and open `http://localhost:8080` in your browser.
 
