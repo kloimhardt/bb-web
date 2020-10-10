@@ -4,6 +4,7 @@ README.md.temp
 js/
 !js/bb_web/bb_web.js
 !js/public/index.html
+!js/shadow-cljs.edn
 !js/src/bb_web/app.cljs
 
 examples/m.txt
