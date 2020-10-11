@@ -43,7 +43,7 @@ Double click on `guestbook_0.html`. It is based on the guestbook-reagent example
 
 ### Using Babashka as back-end
 
- Download [Babashka](https://github.com/borkdude/babashka/releases/tag/v0.2.1), a single executable file with the two letter name `bb`. Copy it into the `bb-web-master` directory created before. Double click `bb_web_start.bat`, or open the console window on your own<sup>[1](#myfootnote1)</sup> and type:
+ Download [Babashka](https://github.com/borkdude/babashka/releases/tag/v0.2.1), a single executable file with the two letter name `bb`. Copy it into the `bb-web-master` directory created before. Double click `start.bat` and select option 1, or open the console window on your own<sup>[1](#myfootnote1)</sup> and type:
 
     bb examples/start.clj
 
@@ -57,7 +57,7 @@ In this first step, it is not needed to understand the server back-end part to c
 
 ### Hot reload
 
-Start by double-clicking on `bb_web_hot_reload.bat` or type
+Start by double-clicking on `start.bat` (select option 2) or type
 
 ```
 bb examples/hot_reload.clj examples/hot_reload.cljs 
@@ -71,7 +71,7 @@ If the handling of pranentheses while editing feels cumbersome, maybe the later 
 
 The Clojurescript code in ``guestbook_1.cljs`` is based on the guestbook-reagent example of the [Luminus book](https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/)<sup>[2](#myfootnote2)</sup>. Only small changes were needed to accommodate for Babashka and not the JVM operating as the server back-end. Itself being still very bare bones, will see improvements in the next examples.
 
-Start by double-clicking on `bb_web_guestbook_1.bat` or type
+Start by double-clicking on `start.bat` or type
 
     bb examples/guestbook_1.clj examples/guestbook_1.cljs
 
@@ -84,7 +84,7 @@ https://github.com/kloimhardt/babashka-web/releases/tag/v0.2.2
 
 Note the new name of the executable: `bb-web`.
 
-Following and copying Luminus, the example includes html templating with [Selmer](https://github.com/yogthos/Selmer), Ring's anti forgery protection, data encoding using [Muuntaja](https://github.com/metosin/muuntaja) and decent http-request error handling using Reitit. Start by double-clicking on `bb_web_guestbook_2.bat` or typing
+Following and copying Luminus, the example includes html templating with [Selmer](https://github.com/yogthos/Selmer), Ring's anti forgery protection, data encoding using [Muuntaja](https://github.com/metosin/muuntaja) and decent http-request error handling using Reitit. Start by double-clicking on `start.bat` (select option 4) or type
 
 ```
 bb-web examples/guestbook_2.clj examples/guestbook_1.cljs
@@ -94,7 +94,7 @@ Note that the front-end code did not change, it is still the above `guestbook_1.
 
 ### Edit with parinfer-codemirror
 
-Start by double-clicking on `bb_web_parinfer_codemirror.bat` or type
+Start by double-clicking on `start.bat` or type
 ```
 bb-web -cp examples -m parinfer-codemirror
 ```
@@ -113,11 +113,13 @@ It offers a low entry bar to Web-development. There is no involved installation 
 
 Babashka's underlying Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) displays nice error messages. They are more readable than, say, those of self hosted Clojurescript.
 
-Of course, some power tools are not available. Especially Cljs-REPL or integrant/mount. As powerful as those concepts are, they first need to be mastered. And some of the lack is made up by Babashka's brisk start up time.
+The REPL is not needed because of Babashka's brisk start up time. Here are three reasons why it can make sense to avoid the REPL in a first step: 
 
-Additional notes on why one should in a first step avoid the REPL: 
-1) Without a properly configured development environment (i.e. editor), the REPL is a pain to use. As said in this influential [Video](https://www.youtube.com/watch?v=Qx0-pViyIDU&feature=youtu.be&t=740) on the topic: "you work in your favourite tool", i.e. Cider, IntelliJ, Calva, Clorine. And yet, many Clojure books begin with starting a REPL in the terminal window (for the understandable reason that endorsing a particular IDE is not in the intention of the writer).
-2) A beginner needs to understand first and foremost, that Clojure is all about immutable data structures and using the `swap!` function only in special cases. The REPL, on the other hand, is all about mutation, namely about mutating code in a running program. I think that leads to confusion.
+1) The REPL is in practice not used without a properly configured development environment (i.e. editor). As said in this influential [Video](https://www.youtube.com/watch?v=Qx0-pViyIDU&feature=youtu.be&t=740) on the topic: "you work in your favourite tool", i.e. Cider, IntelliJ, Calva, Clorine. And yet, many Clojure books begin with starting a REPL in the terminal window (for the understandable reason that endorsing a particular IDE is not in the intention of the writer).
+
+2) The REPL distracts from the main hallmark of Clojure: immutable data structures with `swap!` being the exception. Although fixing a bug in a running instance of a program is an important feature of LISP languages, this REPL power is based on mutation of code and data. Thus the REPL enforces a mental distinction between data and data structures, which complicates the understanding of immutability, a concept new to most anyway.
+
+3) The REPL has its own learning curve. The replacing or adding of code in a running program, because of being mutation, needs advanced knowledge and care (using #' or integrant/mount is only the peak of the iceberg). It is indeed frustrating when a perfactly well functioning program refuses to work after restart, which can happen easily to a REPL aspirant.
 
 One valid objection to bb-web is: one does not need client-side scripting for small web-apps, server side rendering is sufficient. I can only respond that state management on client side is more intuitive to some of us. Moreover, a big advantage of Clojure over Python, Ruby, PHP, Erlang is in Clojurescript, and bb-web is a door leading there.
 
