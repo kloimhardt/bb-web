@@ -43,7 +43,7 @@ Double click on `guestbook_0.html`. It is based on the guestbook-reagent example
 
 ### Using Babashka as back-end
 
- Download [Babashka](https://github.com/borkdude/babashka/releases/tag/v0.2.1), a single executable file with the two letter name `bb`. Copy it into the `bb-web-master` directory created before. Double click `bb_web_start.bat`, or open the console window on your own<sup>[1](#myfootnote1)</sup> and type:
+ Download [Babashka](https://github.com/borkdude/babashka/releases/tag/v0.2.1), a single executable file with the two letter name `bb`. Copy it into the `bb-web-master` directory created before. Double click `start.bat` and select option 1, or open the console window on your own<sup>[1](#myfootnote1)</sup> and type:
 
     bb examples/start.clj
 
@@ -57,7 +57,7 @@ In this first step, it is not needed to understand the server back-end part to c
 
 ### Hot reload
 
-Start by double-clicking on `bb_web_hot_reload.bat` or type
+Start by double-clicking on `start.bat` (select option 2) or type
 
 ```
 bb examples/hot_reload.clj examples/hot_reload.cljs 
@@ -71,7 +71,7 @@ If the handling of pranentheses while editing feels cumbersome, maybe the later 
 
 The Clojurescript code in ``guestbook_1.cljs`` is based on the guestbook-reagent example of the [Luminus book](https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/)<sup>[2](#myfootnote2)</sup>. Only small changes were needed to accommodate for Babashka and not the JVM operating as the server back-end. Itself being still very bare bones, will see improvements in the next examples.
 
-Start by double-clicking on `bb_web_guestbook_1.bat` or type
+Start by double-clicking on `start.bat` or type
 
     bb examples/guestbook_1.clj examples/guestbook_1.cljs
 
@@ -84,7 +84,7 @@ https://github.com/kloimhardt/babashka-web/releases/tag/v0.2.2
 
 Note the new name of the executable: `bb-web`.
 
-Following and copying Luminus, the example includes html templating with [Selmer](https://github.com/yogthos/Selmer), Ring's anti forgery protection, data encoding using [Muuntaja](https://github.com/metosin/muuntaja) and decent http-request error handling using Reitit. Start by double-clicking on `bb_web_guestbook_2.bat` or typing
+Following and copying Luminus, the example includes html templating with [Selmer](https://github.com/yogthos/Selmer), Ring's anti forgery protection, data encoding using [Muuntaja](https://github.com/metosin/muuntaja) and decent http-request error handling using Reitit. Start by double-clicking on `start.bat` (select option 4) or type
 
 ```
 bb-web examples/guestbook_2.clj examples/guestbook_1.cljs
@@ -94,7 +94,7 @@ Note that the front-end code did not change, it is still the above `guestbook_1.
 
 ### Edit with parinfer-codemirror
 
-Start by double-clicking on `bb_web_parinfer_codemirror.bat` or type
+Start by double-clicking on `start.bat` or type
 ```
 bb-web -cp examples -m parinfer-codemirror
 ```

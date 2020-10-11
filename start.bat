@@ -1,5 +1,4 @@
 @echo off
-
 echo 1 Start
 echo 2 Hot reload
 echo 3 Luminus Guestbook minimal backend
