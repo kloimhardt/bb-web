@@ -58,7 +58,7 @@
                                   "\" not responding")]
                          (rd/render app-node)))))))
 
-(defn ^:public run [code-node-id render-node-id]
+(defn ^:export run [code-node-id render-node-id]
   (if render-node-id
     (get-code code-node-id render-node-id)
     (get-code code-node-id)))
