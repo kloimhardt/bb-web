@@ -40,12 +40,13 @@
    (let [msg "error: function \"get-code\" wants a node id in any case"]
      (.log js/console msg)
      (rd/render [:div msg] (gd/getElement "cljs-app"))))
-  ([app-node-id]
-   (let [app-node (gd/getElement app-node-id)
-         render-fn (interpret (.-textContent app-node))]
-     (rd/render [render-fn] app-node)))
-  ([app-node-id handler-id]
-   (let [app-node (gd/getElement app-node-id)]
+  ([code-node-id]
+   (get-code code-node-id code-node-id))
+  ([code-node-id render-node-id]
+   (let [render-fn (interpret (.-textContent (gd/getElement code-node-id)))]
+     (rd/render [render-fn] (gd/getElement render-node-id))))
+  ([_ render-node-id handler-id]
+   (let [app-node (gd/getElement render-node-id)]
      (aj/GET handler-id
              :handler
              (fn [request]
@@ -57,5 +58,7 @@
                                   "\" not responding")]
                          (rd/render app-node)))))))
 
-(defn main []
-  (get-code "cljs-app"))
+(defn ^:public run [code-node-id render-node-id]
+  (if render-node-id
+    (get-code code-node-id render-node-id)
+    (get-code code-node-id)))
