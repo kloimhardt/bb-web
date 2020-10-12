@@ -19,18 +19,20 @@
   <head>
   <meta charset=\"UTF-8\">
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+  <link rel=\"shortcut icon\" href=\"data:,\">
   <link rel=\"icon\" href=\"data:,\">
   <link rel=\"apple-touch-icon\" href=\"data:,\">
-  <title>bb-web</title>
   <link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css\">
+  <script>"
+       bb-web-js
+       "</script>
+  <title>Guestbook 1</title>
   </head>
   <body>
   <div id=\"cljs-app\">"
        cljs-code
        "</div>
-  <script>"
-       bb-web-js
-       "</script>
+  <script>bb_web.app.run(\"cljs-app\")</script>
   </body>
   </html>"))
 

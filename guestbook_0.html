@@ -18,12 +18,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>bb_web</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <script src="js/bb_web/bb_web.js"></script>
+    <title>Guestbook 0</title>
 </head>
 
 <body>
+
+
 <div id="cljs-app">
+
+    <a class="button is-secondary" href="https://github.com/kloimhardt/bb-web#bb-web">GitHub repository with further examples</a>
+
+    <button class="button is-primary" onclick='bb_web.app.run("cljs-code", "cljs-app")'>Run ClojureScript</button>
+
+<pre id="cljs-code">
 
 (require '[reagent.core :as r]
          '[goog.object :as go])
@@ -82,9 +91,9 @@
        [:div.columns>div.column
         [message-form messages]]])))
 ;
+</pre>
 </div>
 
-<script src="js/bb_web/bb_web.js"></script>
 </body>
 
 </html>

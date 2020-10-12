@@ -6,7 +6,7 @@
 (defn main-comp []
   [:div
    [:button
-    {:on-click (fn [_] (get-code "cljs-app" "code"))}
+    {:on-click (fn [_] (get-code nil "cljs-app" "code"))}
     "hot-reload"]
    [:p "Counter preserves value after hot-reload"]
    [:div

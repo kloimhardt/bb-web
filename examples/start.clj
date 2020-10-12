@@ -17,15 +17,16 @@
   <link rel=\"shortcut icon\" href=\"data:,\">
   <link rel=\"icon\" href=\"data:,\">
   <link rel=\"apple-touch-icon\" href=\"data:,\">
-  <title>bb-web</title>
+  <script>"
+       bb-web-js
+       "</script>
+  <title>start</title>
   </head>
   <body>
   <div id=\"cljs-app\">"
        cljs-code
        "</div>
-  <script>"
-       bb-web-js
-       "</script>
+  <script>bb_web.app.run(\"cljs-app\")</script>
   </body>
   </html>"))
 
