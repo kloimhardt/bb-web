@@ -13,13 +13,26 @@
 
 (defn timestamp [] (.toLocaleString (js/Date.)))
 
-(declare get-code)
+(declare interpret)
+
+(defn reload-code [handler-id render-node-id]
+  (let [app-node (gd/getElement render-node-id)]
+    (aj/GET handler-id
+            :handler
+            (fn [request]
+              (let [render-fn (interpret request)]
+                (rd/render [render-fn] app-node)))
+            :error-handler
+            (fn [_] (-> [:p (str "Babashka server handler with id \""
+                                 handler-id
+                                 "\" not responding")]
+                        (rd/render app-node))))))
 
 (defn interpret [code]
   (let [bindings
         {:bindings {'println println}
          :namespaces {'bb-web {'state state 'timestamp timestamp
-                               'get-code get-code}
+                               'get-code reload-code}
                       'ajax.core {'GET aj/GET 'POST aj/POST}
                       'reagent.core {'cursor rc/cursor}
                       'clojure.string {'join st/join}
@@ -35,30 +48,6 @@
                 [:div>code "Small Clojure Interpreter Error:"]
                 [:div>code msg]]))))))
 
-(defn get-code
-  ([]
-   (let [msg "error: function \"get-code\" wants a node id in any case"]
-     (.log js/console msg)
-     (rd/render [:div msg] (gd/getElement "cljs-app"))))
-  ([code-node-id]
-   (get-code code-node-id code-node-id))
-  ([code-node-id render-node-id]
-   (let [render-fn (interpret (.-textContent (gd/getElement code-node-id)))]
-     (rd/render [render-fn] (gd/getElement render-node-id))))
-  ([_ render-node-id handler-id]
-   (let [app-node (gd/getElement render-node-id)]
-     (aj/GET handler-id
-             :handler
-             (fn [request]
-               (let [render-fn (interpret request)]
-                 (rd/render [render-fn] app-node)))
-             :error-handler
-             (fn [_] (-> [:p (str "Babashka server handler with id \""
-                                  handler-id
-                                  "\" not responding")]
-                         (rd/render app-node)))))))
-
 (defn ^:export run [code-node-id render-node-id]
-  (if render-node-id
-    (get-code code-node-id render-node-id)
-    (get-code code-node-id)))
+  (let [render-fn (interpret (.-textContent (gd/getElement code-node-id)))]
+    (rd/render [render-fn] (gd/getElement (or render-node-id code-node-id)))))
