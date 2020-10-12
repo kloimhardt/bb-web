@@ -32,7 +32,7 @@
   (let [bindings
         {:bindings {'println println}
          :namespaces {'bb-web {'state state 'timestamp timestamp
-                               'get-code reload-code}
+                               'reload-code reload-code}
                       'ajax.core {'GET aj/GET 'POST aj/POST}
                       'reagent.core {'cursor rc/cursor}
                       'clojure.string {'join st/join}
