@@ -1,12 +1,12 @@
 (require '[ajax.core :refer [GET]]
-         '[bb-web :refer [get-code state]])
+         '[bb-web :refer [reload-code state]])
 
 (declare second-component)
 
 (defn main-comp []
   [:div
    [:button
-    {:on-click (fn [_] (get-code nil "cljs-app" "code"))}
+    {:on-click (fn [_] (reload-code "code-handler" "cljs-app"))}
     "hot-reload"]
    [:p "Counter preserves value after hot-reload"]
    [:div

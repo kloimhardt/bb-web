@@ -39,7 +39,7 @@
                 :status 200}
     [:get "/data"] {:body "Hello from the server-side"
                     :status 200}
-    [:get "/code"] {:body (get-code)
+    [:get "/code-handler"] {:body (get-code)
                     :status 200}))
 
 (srv/run-server app {:port port})
