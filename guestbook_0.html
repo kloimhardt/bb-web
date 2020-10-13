@@ -36,7 +36,7 @@
 (defn message-list [messages]
   (println messages)
   [:ul.messages
-    (for<div id="wrong">-wrong</div> [{:keys [timestamp message name]} @messages]
+    (for [{:keys [timestamp message name]} @messages]
      ^{:key timestamp}
      [:li
       [:time timestamp]
@@ -93,8 +93,8 @@
 <div id="cljs-app"></div>
 <hr>
 <a class="button is-link is-light"
-   href="https://github.com/kloimhardt/bb-web/blob/master/guestbook_0.html">
-    Show page source on GitHub
+   href="https://github.com/kloimhardt/bb-web#bb-web">
+    Go to GitHub repository
 </a>
 <button class="button is-danger"
         onclick='bb_web.app.run("cljs-app", cm.getValue())'>
@@ -102,17 +102,12 @@
 </button>
 
 <button class="button is-danger is-light"
-        onclick='correct_run()'>
-    Load original correct code
+        onclick='bb_web.app.run("cljs-app-fullscreen", document.getElementById("cljs-code").textContent)'>
+    Run original code full screen
 </button>
 
 <div id="editor"></div>
 <script>
- var correct_run = function() {
-     w=document.getElementById("wrong");
-     if (w!=null) {w.remove()};
-     bb_web.app.run("cljs-app-fullscreen", document.getElementById("cljs-code").textContent);
- }
  var cm = null;
  (function(){
      cm = CodeMirror(document.getElementById("editor"), {
