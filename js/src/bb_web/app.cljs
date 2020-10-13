@@ -48,6 +48,8 @@
                 [:div>code "Small Clojure Interpreter Error:"]
                 [:div>code msg]]))))))
 
-(defn ^:export run [code-node-id render-node-id]
-  (let [render-fn (interpret (.-textContent (gd/getElement code-node-id)))]
-    (rd/render [render-fn] (gd/getElement (or render-node-id code-node-id)))))
+(defn ^:export run [render-node-id code-text]
+  (let [render-node (gd/getElement render-node-id)
+        code (or code-text (.textContent render-node))
+        render-fn (interpret code)]
+    (rd/render [render-fn] render-node)))
