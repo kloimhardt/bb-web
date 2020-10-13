@@ -2,20 +2,20 @@
 if exist bb.exe (
 set bb=
 ) else (
-set bb=ERROR: please download bb.exe for:
+set bb=Warning: please download bb.exe
 )
 
 if exist bb-web.exe (
 set bbweb=
 ) else (
-set bbweb=ERROR: please download bb-web.exe for:
+set bbweb=Warning: please download bb-web.exe
 )
 
-echo 1 %bb% Start 
-echo 2 %bb% Hot reload
-echo 3 %bb% Luminus Guestbook minimal backend
-echo 4 %bbweb% Luminus Guestbook rich backend
-echo 5 %bbweb% Edit with parinfer-codemirror
+echo 1 Start %bb%
+echo 2 Hot reload
+echo 3 Luminus Guestbook minimal backend
+echo 4 Luminus Guestbook rich backend %bbweb%
+echo 5 Edit with parinfer-codemirror
 echo.
 
 set /p reply=press 1 to 5, any key to Exit: 

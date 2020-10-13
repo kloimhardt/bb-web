@@ -17,16 +17,19 @@
   <head>
   <meta charset=\"UTF-8\">
   <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+  <link rel=\"shortcut icon\" href=\"data:,\">
   <link rel=\"icon\" href=\"data:,\">
-  <title>bb-web</title>
+  <link rel=\"apple-touch-icon\" href=\"data:,\">
+  <script>"
+       bb-web-js
+       "</script>
+  <title>hot-reload</title>
   </head>
   <body>
   <div id=\"cljs-app\">"
        cljs-code
        "</div>
-  <script>"
-       bb-web-js
-       "</script>
+  <script>bb_web.app.run(\"cljs-app\")</script>
   </body>
   </html>"))
 
@@ -36,7 +39,7 @@
                 :status 200}
     [:get "/data"] {:body "Hello from the server-side"
                     :status 200}
-    [:get "/code"] {:body (get-code)
+    [:get "/code-handler"] {:body (get-code)
                     :status 200}))
 
 (srv/run-server app {:port port})

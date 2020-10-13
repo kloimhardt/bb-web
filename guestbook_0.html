@@ -5,28 +5,39 @@
      courses, books, articles, and the like. Contact us if you are in doubt.
      We make no guarantees that this code is fit for any purpose.
      Visit http://www.pragmaticprogrammer.com/titles/dswdcloj3 for more book information.
-     ---
-     small changes made for use with https://github.com/kloimhardt/bb-web
-     zip archive retrieved from the "Resources" section of
-     https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/
-     file: guestbook-reagent/src/cljs/guestbook/core.cljs
 -->
 
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>bb_web</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <link rel="stylesheet" href="examples/public/parinfer-codemirror/codemirror.css">
+    <link rel="stylesheet" href="examples/public/parinfer-codemirror/theme.css">
+    <link rel="stylesheet" href="examples/public/parinfer-codemirror/demo.css">
+    <script src="examples/public/parinfer-codemirror/codemirror.js"></script>
+    <script src="examples/public/parinfer-codemirror/matchbrackets.js"></script>
+    <script src="examples/public/parinfer-codemirror/clojure.js"></script>
+    <script src="examples/public/parinfer-codemirror/parinfer.js"></script>
+    <script src="examples/public/parinfer-codemirror/parinfer-codemirror.js"></script>
+    <script src="js/bb_web/bb_web.js"></script>
+    <title>Guestbook 0</title>
 </head>
-
 <body>
-<div id="cljs-app">
 
-(require '[reagent.core :as r]
-         '[goog.object :as go])
+<div id="cljs-app"></div>
+
+<hr>
+    <a class="button is-secondary" href="https://github.com/kloimhardt/bb-web/blob/master/guestbook_0.html">Show page source</a>
+    <button class="button is-primary" onclick='bb_web.app.run("cljs-code", "cljs-app")'>Run ClojureScript</button>
+
+    <div id="codemirror"></div>
+
+<pre id="cljs-code">
+(require '[bb-web :refer [state]]
+         '[goog.object :as go]
+         '[reagent.core :as r])
 
 ;
 (defn message-list [messages]
@@ -49,7 +60,7 @@
 
 ;
 (defn message-form [messages]
-  (let [fields (r/cursor bb-web/state [:fields])]
+  (let [fields (r/cursor state [:fields])]
     (fn [messages]
       [:div
        [:div.field
@@ -73,7 +84,7 @@
          :value "comment"}]])))
 
 (defn home []
-  (let [messages (r/cursor bb-web/state [:messages])]
+  (let [messages (r/cursor state [:messages])]
     (fn []
       [:div.content>div.columns.is-centered>div.column.is-two-thirds
        [:div.columns>div.column
@@ -82,9 +93,21 @@
        [:div.columns>div.column
         [message-form messages]]])))
 ;
-</div>
+</pre>
 
-<script src="js/bb_web/bb_web.js"></script>
+<script>
+ var cm = null;
+ (function(){
+     cm = CodeMirror(document.getElementById("codemirror"), {
+         matchBrackets: true,
+         lineNumbers: true,
+     });
+
+     cm.setValue(document.getElementById("cljs-code").textContent);
+
+     parinferCodeMirror.init(cm, 'smart');
+ })();
+</script>
+
 </body>
-
 </html>
