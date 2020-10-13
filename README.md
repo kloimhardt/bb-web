@@ -35,13 +35,7 @@ If Clojure is new to you, run the examples in [clj-tiles](https://kloimhardt.git
 
 Note that the variable `bb-web/state` is special. It is automatically updated on the screen when its content is accessed by `deref`. Within bb-web, you cannot create such useful beasts on your own, but arguably having only one of those is exactly right for even the most sophisticated purposes.
 
-It is fair to say that understanding the 6 lines of Cloure code in the above example means understanding Clojure. In any case, also run the next example, as it is taken from a book and therefore has lots of explanations.
-
 ## Further examples
-
-### Luminus Guestbook front-end
-
-Double click on `guestbook_0.html`. It is based on the guestbook-reagent example of the [Luminus book](https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/)<sup>[2](#myfootnote2)</sup>. To see the nice css styling, you need WiFi connection, a requirement that will be dropped in a later example.
 
 ### Using Babashka as back-end
 
@@ -76,6 +70,8 @@ The Clojurescript code in ``guestbook_1.cljs`` is based on the guestbook-reagent
 Start by double-clicking on `start.bat` or type
 
     bb examples/guestbook_1.clj examples/guestbook_1.cljs
+
+To see the nice css styling, you need WiFi connection, a requirement that will be dropped in a later example.
 
 ### Lumius Guestbook rich back-end
 The back-end is more sophisticated compared to `guestbook_1.clj`.
