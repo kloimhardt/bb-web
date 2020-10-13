@@ -50,6 +50,6 @@
 
 (defn ^:export run [render-node-id code-text]
   (let [render-node (gd/getElement render-node-id)
-        code (or code-text (.textContent render-node))
+        code (or code-text (.-textContent render-node))
         render-fn (interpret code)]
     (rd/render [render-fn] render-node)))
