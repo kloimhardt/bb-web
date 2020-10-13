@@ -2,13 +2,13 @@
 if exist bb.exe (
 set bb=
 ) else (
-set bb=(Warning: please download bb.exe)
+set bb=Warning: please download bb.exe
 )
 
 if exist bb-web.exe (
 set bbweb=
 ) else (
-set bbweb=(Warning: please download bb-web.exe)
+set bbweb=Warning: please download bb-web.exe
 )
 
 echo 1 Start %bb%
