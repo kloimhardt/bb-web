@@ -13,13 +13,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <link rel="stylesheet" href="examples/public/parinfer-codemirror/codemirror.css">
+    <link rel="stylesheet" href="examples/public/parinfer-codemirror/theme.css">
+    <link rel="stylesheet" href="examples/public/parinfer-codemirror/demo.css">
+    <script src="examples/public/parinfer-codemirror/codemirror.js"></script>
+    <script src="examples/public/parinfer-codemirror/matchbrackets.js"></script>
+    <script src="examples/public/parinfer-codemirror/clojure.js"></script>
+    <script src="examples/public/parinfer-codemirror/parinfer.js"></script>
+    <script src="examples/public/parinfer-codemirror/parinfer-codemirror.js"></script>
     <script src="js/bb_web/bb_web.js"></script>
     <title>Guestbook 0</title>
 </head>
 <body>
-<div id="cljs-app">
+
+<div id="cljs-app"></div>
+
+<hr>
     <a class="button is-secondary" href="https://github.com/kloimhardt/bb-web/blob/master/guestbook_0.html">Show page source</a>
     <button class="button is-primary" onclick='bb_web.app.run("cljs-code", "cljs-app")'>Run ClojureScript</button>
+
+    <div id="codemirror"></div>
 
 <pre id="cljs-code">
 (require '[bb-web :refer [state]]
@@ -81,6 +94,20 @@
         [message-form messages]]])))
 ;
 </pre>
-</div>
+
+<script>
+ var cm = null;
+ (function(){
+     cm = CodeMirror(document.getElementById("codemirror"), {
+         matchBrackets: true,
+         lineNumbers: true,
+     });
+
+     cm.setValue(document.getElementById("cljs-code").textContent);
+
+     parinferCodeMirror.init(cm, 'smart');
+ })();
+</script>
+
 </body>
 </html>
