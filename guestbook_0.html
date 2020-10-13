@@ -24,17 +24,12 @@
     <script src="js/bb_web/bb_web.js"></script>
     <title>Guestbook 0</title>
 </head>
+
 <body>
 
 <div id="cljs-app"></div>
 
-<hr>
-    <a class="button is-secondary" href="https://github.com/kloimhardt/bb-web/blob/master/guestbook_0.html">Show page source</a>
-    <button class="button is-primary" onclick='bb_web.app.run("cljs-code", "cljs-app")'>Run ClojureScript</button>
-
-    <div id="codemirror"></div>
-
-<pre id="cljs-code">
+<div id="cljs-code" style="display: none;">
 (require '[bb-web :refer [state]]
          '[goog.object :as go]
          '[reagent.core :as r])
@@ -43,7 +38,7 @@
 (defn message-list [messages]
   (println messages)
   [:ul.messages
-   (for [{:keys [timestamp message name]} @messages]
+    (for<div id="wrong">-wrong</div> [{:keys [timestamp message name]} @messages]
      ^{:key timestamp}
      [:li
       [:time timestamp]
@@ -93,18 +88,39 @@
        [:div.columns>div.column
         [message-form messages]]])))
 ;
-</pre>
+</div>
 
+
+<hr>
+<a class="button is-link is-light"
+   href="https://github.com/kloimhardt/bb-web/blob/master/guestbook_0.html">
+    Show page source on GitHub
+</a>
+<button class="button is-danger"
+        onclick='bb_web.app.run("cljs-app", cm.getValue())'>
+    Run ClojureScript code
+</button>
+
+<button class="button is-danger is-light"
+        onclick='correct_run()'>
+    Load original correct code
+</button>
+
+<div id="editor"></div>
 <script>
+ var correct_run = function() {
+     w=document.getElementById("wrong");
+     if (w!=null) {w.remove()};
+     cm.setValue(document.getElementById("cljs-code").textContent);
+     bb_web.app.run("cljs-app", cm.getValue());
+ }
  var cm = null;
  (function(){
-     cm = CodeMirror(document.getElementById("codemirror"), {
+     cm = CodeMirror(document.getElementById("editor"), {
          matchBrackets: true,
          lineNumbers: true,
      });
-
      cm.setValue(document.getElementById("cljs-code").textContent);
-
      parinferCodeMirror.init(cm, 'smart');
  })();
 </script>
