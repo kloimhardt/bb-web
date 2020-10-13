@@ -27,8 +27,6 @@
 
 <body>
 
-<div id="cljs-app"></div>
-
 <div id="cljs-code" style="display: none;">
 (require '[bb-web :refer [state]]
          '[goog.object :as go]
@@ -91,6 +89,8 @@
 </div>
 
 
+<div id="cljs-app-fullscreen">
+<div id="cljs-app"></div>
 <hr>
 <a class="button is-link is-light"
    href="https://github.com/kloimhardt/bb-web/blob/master/guestbook_0.html">
@@ -111,8 +111,7 @@
  var correct_run = function() {
      w=document.getElementById("wrong");
      if (w!=null) {w.remove()};
-     cm.setValue(document.getElementById("cljs-code").textContent);
-     bb_web.app.run("cljs-app", cm.getValue());
+     bb_web.app.run("cljs-app-fullscreen", document.getElementById("cljs-code").textContent);
  }
  var cm = null;
  (function(){
@@ -124,6 +123,6 @@
      parinferCodeMirror.init(cm, 'smart');
  })();
 </script>
-
+</div>
 </body>
 </html>
