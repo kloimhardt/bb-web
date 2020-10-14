@@ -23,4 +23,4 @@
     [:button {:on-click (fn [_] (server-get :data))} "Get data"]
     (str " " (:data @state))]])
 
-main-comp
+[main-comp]

@@ -86,6 +86,7 @@
        [:div.columns>div.column
         [message-form messages]]])))
 ;
+[home]
 </div>
 
 
@@ -115,7 +116,7 @@
          lineNumbers: true,
      });
      cm.setValue(document.getElementById("cljs-code").textContent);
-     parinferCodeMirror.init(cm, 'smart');
+     parinferCodeMirror.init(cm, 'paren');
  })();
 </script>
 </div>

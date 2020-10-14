@@ -1,10 +1,12 @@
 <script src="js/bb_web/bb_web.js"></script>
 <div id="cljs-app">
- (fn []
+ (defn component []
    [:div
     [:button
      {:on-click (fn [_] (swap! bb-web/state update :counter inc))}
      "Count up"]
      (str " " (or (:counter (deref bb-web/state)) 0))])
+
+  [component]
 </div>
 <script>bb_web.app.run("cljs-app")</script>
