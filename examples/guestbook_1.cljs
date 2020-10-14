@@ -104,3 +104,4 @@
        [:div.columns>div.column
         [message-form messages]]])))
 ;
+[home]

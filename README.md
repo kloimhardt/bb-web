@@ -2,13 +2,13 @@
 
 Scripting React-ive web apps in Clojure without installing it. 
 
-The in-browser UI is interpreted Clojurescript code that you can change and run without having the Cljs-compiler installed. The server back-end is a single executable file, Java is not necessary.
+The server back-end is a single executable file, Java is not necessary. The in-browser UI is interpreted Clojurescript code that you can change and run without having the Cljs-compiler installed.
 
 Examples go from "Hello World!" to back-end features like anti forgery protection, MS-Windows being first class.
 
 ## Getting Started
 
-Click on https://kloimhardt.github.io/guestbook_0.html to get an idea where this is heading.
+Click on https://kloimhardt.github.io/guestbook_0.html for a first idea (use Chrome browser for best performance).
 
 Then download the zip file of this `bb-web` repository via Github's `Code` button above. Unzip it, thereby creating some directory called `bb-web-master` or similar. 
 
@@ -19,12 +19,14 @@ The file `first.html` has only 10 lines of code:
 ```
 <script src="js/bb_web/bb_web.js"></script>
 <div id="cljs-app">
- (fn []
+ (defn component []
    [:div
     [:button
      {:on-click (fn [_] (swap! bb-web/state update :counter inc))}
      "Count up"]
      (str " " (or (:counter (deref bb-web/state)) 0))])
+
+  [component]
 </div>
 <script>bb_web.app.run("cljs-app")</script>
 ```
@@ -108,8 +110,7 @@ It offers a low entry bar to Web-development. There is no involved installation 
 
 ``bb-web`` shows some of the good Clojure stuff: same language on the client and the server, Hiccup syntax, Reagent's clean client state management, even a glimpse of hot reloading.
 
-
-Babashka's underlying Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) displays nice error messages. They are more readable than, say, those of self hosted Clojurescript.
+Babashka's underlying Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) displays nice error messages.
 
 The REPL is not needed because of Babashka's brisk start up time. Here are three reasons why it can make sense to avoid the REPL in a first step: 
 
