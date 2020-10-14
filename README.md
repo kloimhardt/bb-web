@@ -8,7 +8,7 @@ Examples go from "Hello World!" to back-end features like anti forgery protectio
 
 ## Getting Started
 
-Click on https://kloimhardt.github.io/guestbook_0.html for a first idea (use Chrome browser for best performance).
+Click on [Guestbook online](https://kloimhardt.github.io/guestbook_0.html) for a first idea (use Chrome browser for best performance).
 
 Then download the zip file of this `bb-web` repository via Github's `Code` button above. Unzip it, thereby creating some directory called `bb-web-master` or similar. 
 
@@ -31,7 +31,7 @@ The file `first.html` has only 10 lines of code:
 <script>bb_web.app.run("cljs-app")</script>
 ```
 
-Open it in some text editor and change the button text to "Count up by one". Save and press the browser reload button. 
+Open it in some text editor and change the button text to "Count up by one". Save and press the browser reload button. One other option is to copy-paste all code from the above online Guestbook and run it locally (although no nice styling - yet!).
 
 If Clojure is new to you, run the examples in [clj-tiles](https://kloimhardt.github.io/clj_blocks.html) and try the [Koans](http://clojurescriptkoans.com) (be patient with the white screen for some seconds). After that you will know how to use `deref` (amongst other things).
 
