@@ -13,43 +13,41 @@
 
 (defn timestamp [] (.toLocaleString (js/Date.)))
 
-(declare interpret)
+(declare reload-code)
 
-(defn reload-code [handler-id render-node-id]
+(def bindings
+  {:bindings {'println println}
+   :namespaces {'bb-web {'state state 'timestamp timestamp
+                         'reload-code reload-code}
+                'ajax.core {'GET aj/GET 'POST aj/POST}
+                'reagent.core {'cursor rc/cursor}
+                'clojure.string {'join st/join}
+                'goog.object {'get go/get}
+                'goog.dom {'getElement gd/getElement}
+                'cljs.reader {'read-string edn/read-string}}})
+
+(defn interpret [code]
+  (try (sci/eval-string code bindings)
+       (catch :default e
+         (let [msg (.-message e)]
+           (.log js/console msg)
+           [:div
+            [:div>code "Small Clojure Interpreter Error:"]
+            [:div>code msg]]))))
+
+(defn reload-code [render-node-id handler-id]
   (let [app-node (gd/getElement render-node-id)]
     (aj/GET handler-id
             :handler
             (fn [request]
-              (let [render-fn (interpret request)]
-                (rd/render [render-fn] app-node)))
+              (rd/render (interpret request) app-node))
             :error-handler
             (fn [_] (-> [:p (str "Babashka server handler with id \""
                                  handler-id
                                  "\" not responding")]
                         (rd/render app-node))))))
 
-(defn interpret [code]
-  (let [bindings
-        {:bindings {'println println}
-         :namespaces {'bb-web {'state state 'timestamp timestamp
-                               'reload-code reload-code}
-                      'ajax.core {'GET aj/GET 'POST aj/POST}
-                      'reagent.core {'cursor rc/cursor}
-                      'clojure.string {'join st/join}
-                      'goog.object {'get go/get}
-                      'goog.dom {'getElement gd/getElement}
-                      'cljs.reader {'read-string edn/read-string}}}]
-    (try (sci/eval-string code bindings)
-         (catch :default e
-           (let [msg (.-message e)]
-             (.log js/console msg)
-             (fn []
-               [:div
-                [:div>code "Small Clojure Interpreter Error:"]
-                [:div>code msg]]))))))
-
 (defn ^:export run [render-node-id code-text]
   (let [render-node (gd/getElement render-node-id)
-        code (or code-text (.-textContent render-node))
-        render-fn (interpret code)]
-    (rd/render [render-fn] render-node)))
+        code (or code-text (.-textContent render-node))]
+    (rd/render (interpret code) render-node)))

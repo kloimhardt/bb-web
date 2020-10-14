@@ -11,12 +11,14 @@
 
 <body>
     <pre id="cljs-code">
-     (fn []
+     (defn component []
        [:div
         [:button
          {:on-click (fn [_] (swap! bb-web/state update :counter inc))}
          "Count up"]
         (str " " (or (:counter (deref bb-web/state)) 0))])
+
+      [component]
     </pre>
     <div id="cljs-app"> </div>
     <script>
