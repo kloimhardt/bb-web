@@ -59,7 +59,7 @@ Start by double-clicking on `start.bat` (select option 2) or type
 bb examples/hot_reload.clj examples/hot_reload.cljs 
 ```
 
-Increase the counter. Then edit some text in `examples/hot_reload.cljs` and save. Instead of pressing the browser reload button, press `hot reload` and notice that the counter preserves its value while the text changes as expected.
+Increase the counter. Then edit some text in `examples/hot_reload.cljs` and save. Instead of pressing the browser reload button, press `hot reload` and notice that the counter preserves its value while the text on screen reflects your changes.
 
 If the handling of pranentheses while editing feels cumbersome, maybe the later introduced Parinfer is for you.
 
@@ -112,11 +112,13 @@ Babashka's underlying Small Clojure Interpreter ([SCI](https://github.com/borkdu
 
 The REPL is not needed because of Babashka's brisk start up time. Here are three reasons why it can make sense to avoid the REPL in a first step: 
 
-1) The REPL is in practice not used without a properly configured development environment (i.e. editor). As said in this influential [Video](https://www.youtube.com/watch?v=Qx0-pViyIDU&feature=youtu.be&t=740) on the topic: "you work in your favourite tool", i.e. Cider, IntelliJ, Calva, Clorine. And yet, many Clojure books begin with starting a REPL in the terminal window (for the understandable reason that endorsing a particular IDE is not in the intention of the writer).
+1) The REPL distracts from the main hallmark of Clojure: immutable data structures with `swap!` being the exception. True, using the REPL, one can fix a bug in a running instance of a program, indeed an important feature of LISP languages. But this REPL power is based on mutation of code and data, which is exactly the opposite of demonstrating immutability. For this reason, the REPL is confusing for anyone trying to understand why Clojure people preach the power of immutability.
 
-2) The REPL distracts from the main hallmark of Clojure: immutable data structures with `swap!` being the exception. Although fixing a bug in a running instance of a program is an important feature of LISP languages, this REPL power is based on mutation of code and data. Thus the REPL enforces a mental distinction between data and data structures, which complicates the understanding of immutability, a concept new to most anyway.
+2) The REPL is in practice not used without a properly configured development environment (i.e. editor). As said in this influential [Video](https://www.youtube.com/watch?v=Qx0-pViyIDU&feature=youtu.be&t=740) on the topic: "you work in your favourite tool", i.e. Cider, IntelliJ, Calva, Clorine. Quite a lot of tutorials out there on different Clojure related topics assume that you have all tools up and running and know exactly how to use them. As a result, beginners spend 90% of learning time trying to find out about the tools and just 10% time actually on learning Clojure. The toolchain necessary for REPLing is more of a barrier to entry than the language itself.
 
 3) The REPL has its own learning curve. The replacing or adding of code in a running program, because of being mutation, needs advanced knowledge and care (using #' or integrant/mount is only the peak of the iceberg). It is indeed frustrating when a perfactly well functioning program refuses to work after restart, which can happen easily to a REPL aspirant.
+
+On top of these three rational arguments against starting off with the REPL, an ad-hominem one. The REPL did not become mainstram so far. I think the reason is that this powerful thing is hard to rationally teach but easy to talk about in a starry-eyed way: "look, dear apprentice, I feel so close to my code". Question: Isn't the current style of communication about this 60 year old concept a macho man posture? Much like some trainer in a gym showing off his muscles?
 
 One valid objection to bb-web is: one does not need client-side scripting for small web-apps, server side rendering is sufficient. I can only respond that state management on client side is more intuitive to some of us. Moreover, a big advantage of Clojure over Python, Ruby, PHP, Erlang is in Clojurescript, and bb-web is a door leading there.
 
