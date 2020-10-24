@@ -10,7 +10,7 @@ Examples go from "Hello World!" to back-end features like anti forgery protectio
 
 Click on [Guestbook online](https://kloimhardt.github.io/guestbook_0.html) for a first idea (use Chrome browser for best performance).
 
-Then download the zip file of this `bb-web` repository via Github's `Code` button above. Unzip it, thereby creating some directory called `bb-web-master` or similar. 
+Then, using the green `Code` button you see on top of this page, download the zip file of this `bb-web` repository. Unzip it, thereby creating some directory called `bb-web-master` or similar. 
 
 In your file explorer, double click on `first.html`. A button called "Count up" should appear. Press it and see the Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) in action in the browser.
 
@@ -41,13 +41,11 @@ Note that the variable `bb-web/state` is special. It is automatically updated on
 
 ### Using Babashka as back-end
 
- Download [Babashka](https://github.com/borkdude/babashka/releases/tag/v0.2.1), a single executable file with the two letter name `bb`. Copy it into the `bb-web-master` directory created before. Double click `start.bat` and select option 1, or open the console window on your own<sup>[1](#myfootnote1)</sup> and type:
+ Download [Babashka](https://github.com/borkdude/babashka/releases), a single executable file with the two letter name `bb`. Copy it into the `bb-web-master` directory created before. Double click `start.bat` and select option 1, or open the console window on your own<sup>[1](#myfootnote1)</sup> and type:
 
     bb examples/start.clj
 
- If you see the `Could not find: org.httpkit.server` error, by accident you are using a Babashka version that does not support http-kit.
-
-If everything works as expected, your web-browser will open and show some buttons. Try them out.
+Your web-browser will open and show some buttons. Try them out.
 
 To code your own ideas, edit the Clojurescript file `examples/start.cljs` (not the Clojure file `start.clj`, notice the last "s" for "script"). Maybe change the text that is displayed on top of the web-page. Press reload in your browser.
 
