@@ -2,7 +2,7 @@
 
 Scripting React-ive web apps in Clojure without installing it. 
 
-If you know the meaning of the sentence "I moved to Chlorine from Proto-Repl", stop reading. Otherwise, this might be exactly the right place to take a look at Clojure.
+If you know the meaning of the sentence "I moved to Chlorine from Proto-Repl", stop reading. Otherwise, go on taking a look at Clojure and decide whether it is for you.
 
 The server back-end is a single executable file, Java is not necessary. The in-browser UI is interpreted Clojurescript code that you can change and run without having the Cljs-compiler installed.
 
