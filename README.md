@@ -16,7 +16,7 @@ Then, using the green `Code` button you see on top of this page, download the zi
 
 In your file explorer, double click on `first.html`. A button called "Count up" should appear. Press it and see the Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) in action in the browser.
 
-The file `first.html` has only 10 lines of code:
+The file `first.html` has only 12 lines of code:
 
 ```
 <script src="js/bb_web/bb_web.js"></script>
@@ -67,7 +67,7 @@ If the handling of pranentheses while editing feels cumbersome, maybe the later 
 
 ### Luminus Guestbook minimal back-end
 
-The Clojurescript code in ``guestbook_1.cljs`` is based on the guestbook-reagent example of the [Luminus book](https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/)<sup>[2](#myfootnote2)</sup>. Only small changes were needed to accommodate for Babashka and not the JVM operating as the server back-end. Itself being still very bare bones, will see improvements in the next examples.
+The Clojurescript code in ``guestbook_1.cljs`` is based on the guestbook-reagent example of the [Luminus book](https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/)<sup>[2](#myfootnote2)</sup> (example code in [this zip file](http://media.pragprog.com/titles/dswdcloj3/code/dswdcloj3-code.zip)). Only small changes were needed to accommodate for Babashka and not the JVM operating as the server back-end. Itself being still very bare bones, will see improvements in the next examples.
 
 Start by double-clicking on `start.bat` or type
 
