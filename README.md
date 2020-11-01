@@ -2,19 +2,21 @@
 
 Scripting React-ive web apps in Clojure without installing it. 
 
+If you know the meaning of the sentence "I moved to Chlorine from Proto-Repl", stop reading. Otherwise, go on taking a look at Clojure and decide whether it is for you.
+
 The server back-end is a single executable file, Java is not necessary. The in-browser UI is interpreted Clojurescript code that you can change and run without having the Cljs-compiler installed.
 
 Examples go from "Hello World!" to back-end features like anti forgery protection, MS-Windows being first class.
 
 ## Getting Started
 
-Click on https://kloimhardt.github.io/guestbook_0.html for a first idea (use Chrome browser for best performance).
+Click on [Guestbook online](https://kloimhardt.github.io/guestbook_0.html) for a first idea (use Chrome browser for best performance).
 
-Then download the zip file of this `bb-web` repository via Github's `Code` button above. Unzip it, thereby creating some directory called `bb-web-master` or similar. 
+Then, using the green `Code` button you see on top of this page, download the zip file of this `bb-web` repository. Unzip it, thereby creating some directory called `bb-web-master` or similar. 
 
 In your file explorer, double click on `first.html`. A button called "Count up" should appear. Press it and see the Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) in action in the browser.
 
-The file `first.html` has only 10 lines of code:
+The file `first.html` has only 12 lines of code:
 
 ```
 <script src="js/bb_web/bb_web.js"></script>
@@ -31,7 +33,7 @@ The file `first.html` has only 10 lines of code:
 <script>bb_web.app.run("cljs-app")</script>
 ```
 
-Open it in some text editor and change the button text to "Count up by one". Save and press the browser reload button. 
+Open it in some text editor and change the button text to "Count up by one". Save and press the browser reload button. One other option is to copy-paste all code from the above online Guestbook and run it locally (although no nice styling - yet!).
 
 If Clojure is new to you, run the examples in [clj-tiles](https://kloimhardt.github.io/clj_blocks.html) and try the [Koans](http://clojurescriptkoans.com) (be patient with the white screen for some seconds). After that you will know how to use `deref` (amongst other things).
 
@@ -41,13 +43,11 @@ Note that the variable `bb-web/state` is special. It is automatically updated on
 
 ### Using Babashka as back-end
 
- Download [Babashka](https://github.com/borkdude/babashka/releases/tag/v0.2.1), a single executable file with the two letter name `bb`. Copy it into the `bb-web-master` directory created before. Double click `start.bat` and select option 1, or open the console window on your own<sup>[1](#myfootnote1)</sup> and type:
+ Download [Babashka](https://github.com/borkdude/babashka/releases), a single executable file with the two letter name `bb`. Copy it into the `bb-web-master` directory created before. Double click `start.bat` and select option 1, or open the console window on your own<sup>[1](#myfootnote1)</sup> and type:
 
     bb examples/start.clj
 
- If you see the `Could not find: org.httpkit.server` error, by accident you are using a Babashka version that does not support http-kit.
-
-If everything works as expected, your web-browser will open and show some buttons. Try them out.
+Your web-browser will open and show some buttons. Try them out.
 
 To code your own ideas, edit the Clojurescript file `examples/start.cljs` (not the Clojure file `start.clj`, notice the last "s" for "script"). Maybe change the text that is displayed on top of the web-page. Press reload in your browser.
 
@@ -61,13 +61,13 @@ Start by double-clicking on `start.bat` (select option 2) or type
 bb examples/hot_reload.clj examples/hot_reload.cljs 
 ```
 
-Increase the counter. Then edit some text in `examples/hot_reload.cljs` and save. Instead of pressing the browser reload button, press `hot reload` and notice that the counter preserves its value while the text changes as expected.
+Increase the counter. Then edit some text in `examples/hot_reload.cljs` and save. Instead of pressing the browser reload button, press `hot reload` and notice that the counter preserves its value while the text on screen reflects your changes.
 
 If the handling of pranentheses while editing feels cumbersome, maybe the later introduced Parinfer is for you.
 
 ### Luminus Guestbook minimal back-end
 
-The Clojurescript code in ``guestbook_1.cljs`` is based on the guestbook-reagent example of the [Luminus book](https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/)<sup>[2](#myfootnote2)</sup>. Only small changes were needed to accommodate for Babashka and not the JVM operating as the server back-end. Itself being still very bare bones, will see improvements in the next examples.
+The Clojurescript code in ``guestbook_1.cljs`` is based on the guestbook-reagent example of the [Luminus book](https://pragprog.com/titles/dswdcloj3/web-development-with-clojure-third-edition/)<sup>[2](#myfootnote2)</sup> (example code in [this zip file](http://media.pragprog.com/titles/dswdcloj3/code/dswdcloj3-code.zip)). Only small changes were needed to accommodate for Babashka and not the JVM operating as the server back-end. Itself being still very bare bones, will see improvements in the next examples.
 
 Start by double-clicking on `start.bat` or type
 
@@ -114,11 +114,13 @@ Babashka's underlying Small Clojure Interpreter ([SCI](https://github.com/borkdu
 
 The REPL is not needed because of Babashka's brisk start up time. Here are three reasons why it can make sense to avoid the REPL in a first step: 
 
-1) The REPL is in practice not used without a properly configured development environment (i.e. editor). As said in this influential [Video](https://www.youtube.com/watch?v=Qx0-pViyIDU&feature=youtu.be&t=740) on the topic: "you work in your favourite tool", i.e. Cider, IntelliJ, Calva, Clorine. And yet, many Clojure books begin with starting a REPL in the terminal window (for the understandable reason that endorsing a particular IDE is not in the intention of the writer).
+1) The REPL distracts from the main hallmark of Clojure: immutable data structures with `swap!` being the exception. True, using the REPL, one can fix a bug in a running instance of a program, indeed an important feature of LISP languages. But this REPL power is based on mutation of code and data, which is exactly the opposite of demonstrating immutability. For this reason, the REPL is confusing for anyone trying to understand why Clojure people preach the power of immutability.
 
-2) The REPL distracts from the main hallmark of Clojure: immutable data structures with `swap!` being the exception. Although fixing a bug in a running instance of a program is an important feature of LISP languages, this REPL power is based on mutation of code and data. Thus the REPL enforces a mental distinction between data and data structures, which complicates the understanding of immutability, a concept new to most anyway.
+2) The REPL is in practice not used without a properly configured development environment (i.e. editor). As said in this influential [Video](https://www.youtube.com/watch?v=Qx0-pViyIDU&feature=youtu.be&t=740) on the topic: "you work in your favourite tool", i.e. Cider, IntelliJ, Calva, Clorine. Quite a lot of tutorials out there on different Clojure related topics assume that you have all tools up and running and know exactly how to use them. As a result, beginners spend 90% of learning time trying to find out about the tools and just 10% time actually on learning Clojure. The toolchain necessary for REPLing is more of a barrier to entry than the language itself.
 
 3) The REPL has its own learning curve. The replacing or adding of code in a running program, because of being mutation, needs advanced knowledge and care (using #' or integrant/mount is only the peak of the iceberg). It is indeed frustrating when a perfactly well functioning program refuses to work after restart, which can happen easily to a REPL aspirant.
+
+On top of these three rational arguments against starting off with the REPL, an ad-hominem one. The REPL did not become mainstram so far. I think the reason is that this powerful thing is hard to rationally teach but easy to talk about in a starry-eyed way: "look, dear apprentice, I feel so close to my code". Question: Isn't the current style of communication about this 60 year old concept a macho man posture? Much like some trainer in a gym showing off his muscles?
 
 One valid objection to bb-web is: one does not need client-side scripting for small web-apps, server side rendering is sufficient. I can only respond that state management on client side is more intuitive to some of us. Moreover, a big advantage of Clojure over Python, Ruby, PHP, Erlang is in Clojurescript, and bb-web is a door leading there.
 
