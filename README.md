@@ -37,7 +37,7 @@ Open it in some text editor and change the button text to "Count up by one". Sav
 
 If Clojure is new to you, run the examples in [clj-tiles](https://kloimhardt.github.io/clj_blocks.html) and try the [Koans](http://clojurescriptkoans.com) (be patient with the white screen for some seconds). After that you will know how to use `deref` (amongst other things).
 
-Note that the variable `bb-web/state` is special. It is automatically updated on the screen when its content is accessed by `deref`. Within bb-web, you cannot create such useful beasts on your own, but arguably having only one of those is exactly right for even the most sophisticated purposes.
+Note that the variable `bb-web/state` you see in the code is special. It is automatically updated on the screen wherever its content is displayed (by means of  `deref`). Within bb-web, you cannot create such useful beasts on your own, but arguably having only one of those is exactly right for even the most sophisticated purposes.
 
 ## Further examples
 
