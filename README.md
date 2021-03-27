@@ -104,6 +104,12 @@ It is meant that the above hot-relaod example is started along with this one.
 
 This example does not need WiFi connection for its CSS styling.
 
+## Hylang backend
+
+```
+python3 -m http.server --cgi
+```
+
 ## Rationale of bb-web
 
 It offers a low entry bar to Web-development. There is no involved installation process. I especially have MS-Windows users in mind<sup>[4](#myfootnote4)</sup>.
