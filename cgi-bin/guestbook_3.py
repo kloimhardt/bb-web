@@ -1,32 +1,12 @@
 #!/usr/bin/env python3
-import hy
-#from hy_module import guestbook_3
-import cgi
 import sys
 import os
-
 from transit.writer import Writer
 from transit.reader import Reader
 from transit.transit_types import Keyword
-from io import StringIO, BytesIO
-
-def uu():
-    form = cgi.FieldStorage()
-    if "say" not in form or "to" not in form:
-        print("<H1>Error</H1>")
-        print("Please fill in the name and addr fields.")
-        print(form)
-        return
-    print("<p>name:", form["say"].value)
-    print("<p>addr:", form["to"].value)
-
-def read_transit1():
-    print("Content-Type: application/transit+json")
-    print()
-    daten= sys.stdin.buffer.read(int(os.environ["CONTENT_LENGTH"]))
-    vals2 = reader.read(BytesIO(daten))
-    writer = Writer(sys.stdout, "json")
-    writer.write(vals2)
+from io import BytesIO
+import hy
+from hy_module import guestbook_3
 
 def read_transit():
     daten= sys.stdin.buffer.read(int(os.environ["CONTENT_LENGTH"]))
@@ -44,9 +24,9 @@ def write_transit():
 
 if __name__ == "__main__":
     qs=os.environ["QUERY_STRING"]
-    if qs=="route=messages":
+    if qs=="route_py=messages":
         write_transit()
-    elif qs=="route=message":
+    elif qs=="route_py=message":
         read_transit()
-    #else:
-    #    guestbook_3.main()
+    else:
+        guestbook_3.main()
