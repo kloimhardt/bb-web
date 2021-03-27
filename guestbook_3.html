@@ -41,7 +41,7 @@
 (defn get-messages [messages]
     (GET "/cgi-bin/guestbook_3.py?route=messages"
        {:headers {"Accept" "application/transit+json"}
-        :handler (fn [r] (println r " first " (get r 1)) #_(reset! messages (:messages r)))}))
+        :handler (fn [r] (println r " first " (get r 1)) (reset! messages (:messages r)))}))
 ;
 
 ;
