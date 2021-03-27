@@ -1,6 +1,7 @@
 (import
  sys
  os
+ datetime
  [transit.writer [Writer]]
  [transit.reader [Reader]]
  [transit.transit_types [Keyword :as TransitKeyword]]
@@ -9,8 +10,6 @@
 (defn eprint [x]
  (print x :file sys.stderr)
  x)
-
-(defn make-dict [a b] {a b})
 
 (defn assoc-level1 [d k v]
  (setv cp (dict (.items d)))
@@ -22,43 +21,35 @@
 (comment
  ;; for the repl
  (setv filename "../../examples/n.txt")
- (setv d1 {:b {:a 3}})
- (setv b (.copy a))
- (setv b (assoc b :c 5))
- (print a b d2)
+ )
 
- (setv u {:b {:a 3}})
- (dict (.items u))
- (print u (assoc-level1 u (TransitKeyword "e") 8))
-)
+(defn bytes-to-pydata [transit-bytes]
+ (-> (Reader "json") (.read (BytesIO transit-bytes))))
 
 (defn read_transit []
- (setv data
+ (setv stdin-bytes
   (sys.stdin.buffer.read (int (. os environ ["CONTENT_LENGTH"]))))
- (setv vals
-  (-> (Reader "json")
-      (.read (BytesIO data))
-      (assoc-level1 (TransitKeyword "timestamp") "time")))
-
- (eprint vals)
- (with [f  (open filename "a")]
-   (.write f (.decode data "UTF-8"))
-   ;;to read data: (-> (Reader "json") (.read (ByteIO edn-str)))
+ (setv time (-> datetime.datetime .now (.strftime "%Y-%m-%d %H:%M:%S")))
+ (setv data
+  (-> (bytes-to-pydata stdin-bytes)
+      (assoc-level1 (TransitKeyword "timestamp") time)))
+ (with [f (open filename "a")]
+   (.write (Writer f "json") data)
    (.write f "\n"))
  (print "Content-Type: text/html")
  (print)
- (print (get vals (TransitKeyword "message")))) ;;this print has no effect in cljs
+ (print "success"))
 
-(defn to-pdn [edn-str]
- (-> (Reader "json") (.read (StringIO edn-str))))
+(defn str-to-pydata [transit-str]
+ (-> (Reader "json") (.read (StringIO transit-str))))
 
 (defn write-transit []
  (print "Content-Type: application/transit+json")
  (print)
  (->> (with [f (open filename "r")] (.readlines f))
-      (map (fn[t-str] (to-pdn (.rstrip t-str "\n"))))
+      (map (fn[t-str] (str-to-pydata (.rstrip t-str "\n"))))
       list
-      (make-dict (TransitKeyword "messages"))
+      (assoc-level1 {} (TransitKeyword "messages"))
       (.write (Writer sys.stdout "json"))))
 
 (defn main []
