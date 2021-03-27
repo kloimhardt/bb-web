@@ -9,12 +9,12 @@ import hy
 from hy_module import guestbook_3
 
 def read_transit():
-    daten= sys.stdin.buffer.read(int(os.environ["CONTENT_LENGTH"]))
+    daten = sys.stdin.buffer.read(int(os.environ["CONTENT_LENGTH"]))
     reader = Reader("json")
-    vals2 = reader.read(BytesIO(daten))
+    vals = reader.read(BytesIO(daten))
     print("Content-Type: text/html")
     print()
-    print(vals2[Keyword("message")])
+    print(vals[Keyword("message")])
 
 def write_transit():
     print("Content-Type: application/transit+json")

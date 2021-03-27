@@ -12,14 +12,11 @@
 
 (defn read_transit []
  (setv daten
-  (-> (. sys stdin buffer)
-   (.read (int (. os environ ["CONTENT_LENGTH"])))))
- (setv vals2
-  (-> (Reader "json")
-   (.read (BytesIO daten))))
+  (-> sys.stdin.buffer (.read (int (. os environ ["CONTENT_LENGTH"])))))
+ (setv vals (-> (Reader "json") (.read (BytesIO daten))))
  (print "Content-Type: text/html")
  (print)
- (print (get vals2 (Keyword "message"))))
+ (print (get vals (Keyword "message"))))
 
 (defn write-transit []
  (print "Content-Type: application/transit+json")

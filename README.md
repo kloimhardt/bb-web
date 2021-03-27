@@ -109,6 +109,8 @@ This example does not need WiFi connection for its CSS styling.
 ```
 python3 -m http.server --cgi
 ```
+more spaces in lisp, not more parens
+needed to hack in hy-shell.el
 
 ## Rationale of bb-web
 
