@@ -7,6 +7,10 @@
  [transit.transit_types [Keyword :as TransitKeyword]]
  [io [BytesIO StringIO]])
 
+(comment
+(setv a (BytesIO b"hu"))
+(a.buffer.read 1)
+)
 (defn bytes-to-pydata [transit-bytes]
  (-> (Reader "json") (.read (BytesIO transit-bytes))))
 

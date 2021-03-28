@@ -1,5 +1,8 @@
-(import sys
-        [guestbook.core :as core]
+(import sys)
+(sys.path.append "cgi-bin/transit_python-0.8.284-py3.6.egg")
+(sys.path.append ".")
+
+(import [guestbook.core :as core]
         [guestbook.frame :as frame])
 
 (defn main []
