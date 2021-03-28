@@ -2,33 +2,13 @@
 import sys
 sys.path.append("cgi-bin/hy-0.20.0+129.g9733a3dd-py3.6.egg")
 sys.path.append("cgi-bin/transit_python-0.8.284-py3.6.egg")
-import os
-from transit.writer import Writer
-from transit.reader import Reader
-from transit.transit_types import Keyword
-from io import BytesIO
 import hy
-from hy_module import guestbook_3
-
-def read_transit():
-    daten = sys.stdin.buffer.read(int(os.environ["CONTENT_LENGTH"]))
-    reader = Reader("json")
-    vals = reader.read(BytesIO(daten))
-    print("Content-Type: text/html")
-    print()
-    print(vals[Keyword("message")])
-
-def write_transit():
-    print("Content-Type: application/transit+json")
-    print()
-    writer = Writer(sys.stdout, "json")
-    writer.write([os.environ["QUERY_STRING"], "abc", 1234567890])
+from guestbook.frame import update_app_state
+import guestbook_hy
+import io
 
 if __name__ == "__main__":
-    qs=os.environ["QUERY_STRING"]
-    if qs=="route_py=messages":
-        write_transit()
-    elif qs=="route_py=message":
-        read_transit()
-    else:
-        guestbook_3.main()
+    #update_app_state({"environ": {"QUERY_STRING" : "route=messages",
+    #                              "CONTENT_LENGTH" : "35",
+    #                              "stdin" : io.BytesIO(b'["^ ","~:name","q","~:message","r"]')}})
+    guestbook_hy.main()
