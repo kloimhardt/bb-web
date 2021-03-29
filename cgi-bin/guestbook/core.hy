@@ -12,7 +12,7 @@
  (-> (Reader "json") (.read (BytesIO transit-bytes))))
 
 (defn read_transit []
- (setv clen (. f/app-state [:environ] ["CONTENT_LENGTH"]))
+ (setv clen (get f/app-state :environ "CONTENT_LENGTH"))
  (setv stdin-bytes
   (-> (get f/app-state :stdin) (. buffer) (.read (int clen))))
  (setv time (-> d/datetime .now (.strftime "%Y-%m-%d %H:%M:%S")))
@@ -41,7 +41,7 @@
 
 (defn core/main []
  (f/eprint "in Hy main")
- (setv qs (. f/app-state [:environ] ["QUERY_STRING"]))
+ (setv qs (get f/app-state :environ "QUERY_STRING"))
  (cond
   [(= qs "route=messages") (write-transit)]
   [(= qs "route=message") (read-transit)]))

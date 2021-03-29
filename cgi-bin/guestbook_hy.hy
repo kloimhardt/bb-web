@@ -18,8 +18,8 @@
     (.write wrapper msg)
     (.seek wrapper 0 0)
     (f/update_app_state {:environ {"QUERY_STRING" "route=message"
-                                "CONTENT_LENGTH" (str (len msg))}
-                       :stdin  wrapper})
+                                   "CONTENT_LENGTH" (str (len msg))}
+                         :stdin wrapper})
     (core/main)))
  (core/main)))
 
