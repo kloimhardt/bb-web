@@ -3,47 +3,32 @@
 (setv message-filename "examples/n.txt")
 (setv log-filename "examples/log.txt")
 
-(setv app-state {"stdin" sys.stdin
-                 "stdout" sys.stdout
-                 "stderr" sys.stderr
-                 "f-open-read" (fn[] (open message-filename "r"))
-                 "f-open-append" (fn[] (open message-filename "a"))
-                 "f-open-log" (fn[] (open log-filename "a"))
-                 "environ" os.environ})
+(setv app-state {:stdin sys.stdin
+                 :stdout sys.stdout
+                 :stderr sys.stderr
+                 :f-open-read (fn[] (open message-filename "r"))
+                 :f-open-append (fn[] (open message-filename "a"))
+                 :f-open-log (fn[] (open log-filename "a"))
+                 :environ os.environ})
 
 (defn sprint [x]
- (print x :file (. app-state ["stdout"])))
+ (print x :file (. app-state [:stdout])))
 
 (defn eprint [x]
- (print x :file (. app-state ["stderr"])))
+ (print x :file (. app-state [:stderr])))
 
 (defn f-open-read []
- ((. app-state ["f-open-read"])))
+ ((. app-state [:f-open-read])))
 
 (defn f-open-append []
- ((. app-state ["f-open-append"])))
-
-#_(defn init-attrs []
- (global f-open-read)
- (global f-open-append)
- (global stdin)
- (global stdout)
- (global f-open-log)
- (setv f-open-read (. app-state ["f-open-read"]))
- (setv f-open-append (. app-state ["f-open-append"]))
- (setv stdin (. app-state ["stdin"]))
- (setv stdout (. app-state ["stdout"]))
- (setv f-open-log (. app-state ["f-open-log"])))
-
-#_(init-attrs)
+ ((. app-state [:f-open-append])))
 
 (defn update-app-state [m]
  (global app-state)
- (.update app-state m)
- #_(init-attrs))
+ (.update app-state m))
 
 (defn write-log [x]
- (with [f ((. app-state ["f-open-log"]))]
+ (with [f ((. app-state [:f-open-log]))]
    (.write f x)
    (.write f "\n")))
 

@@ -16,9 +16,9 @@
  (-> (Reader "json") (.read (BytesIO transit-bytes))))
 
 (defn read_transit []
- (setv clen (. app-state ["environ"] ["CONTENT_LENGTH"]))
+ (setv clen (. app-state [:environ] ["CONTENT_LENGTH"]))
  (setv stdin-bytes
-  (-> (get app-state "stdin") (. buffer) (.read (int clen))))
+  (-> (get app-state :stdin) (. buffer) (.read (int clen))))
  (setv time (-> datetime.datetime .now (.strftime "%Y-%m-%d %H:%M:%S")))
  (setv data
   (-> (bytes-to-pydata stdin-bytes)
@@ -41,12 +41,11 @@
  (->> (with [f (f-open-read)] (.readlines f))
       (clj.mapv (fn[t-str] (str-to-pydata (.rstrip t-str "\n"))))
       (clj.assoc {} (TransitKeyword "messages"))
-      (.write (Writer (get app-state "stdout") "json"))))
+      (.write (Writer (get app-state :stdout) "json"))))
 
 (defn main []
  (eprint "in Hy main")
- (setv qs (. app-state ["environ"] ["QUERY_STRING"]))
- (write-log qs)
+ (setv qs (. app-state [:environ] ["QUERY_STRING"]))
  (cond
   [(= qs "route=messages") (write-transit)]
   [(= qs "route=message") (read-transit)]))

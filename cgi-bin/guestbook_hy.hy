@@ -11,16 +11,16 @@
  (if (first (rest argv))
   (do
    (do
-    (update_app_state {"environ"  {"QUERY_STRING"  "route=messages"}})
+    (update_app_state {:environ {"QUERY_STRING"  "route=messages"}})
     (core-main))
    (do
     (setv wrapper (TextIOWrapper (BytesIO) :encoding "utf-8"))
     (setv msg  "[\"^ \",\"~:name\",\"q\",\"~:message\",\"ruhig\"]")
     (.write wrapper msg)
     (.seek wrapper 0 0)
-    (update_app_state {"environ" {"QUERY_STRING" "route=message"
+    (update_app_state {:environ {"QUERY_STRING" "route=message"
                                 "CONTENT_LENGTH" (str (len msg))}
-                       "stdin"  wrapper})
+                       :stdin  wrapper})
     (core-main)))
  (core-main)))
 
