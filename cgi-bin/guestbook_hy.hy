@@ -7,19 +7,20 @@
         [guestbook.frame [update-app-state]])
 
 (defn main [argv]
- (if (first argv)
+ (if (first (rest argv))
   (do
-  (update_app_state {"environ"  {"QUERY_STRING"  "route=messages"}})
-  (core-main)
-
-  (setv wrapper (TextIOWrapper (BytesIO) :encoding "utf-8"))
-  (setv msg  "[\"^ \",\"~:name\",\"q\",\"~:message\",\"ruhig\"]")
-  (.write wrapper msg)
-  (.seek wrapper 0 0)
-  (update_app_state {"environ" {"QUERY_STRING" "route=message"
+   (do
+    (update_app_state {"environ"  {"QUERY_STRING"  "route=messages"}})
+    (core-main))
+   (do
+    (setv wrapper (TextIOWrapper (BytesIO) :encoding "utf-8"))
+    (setv msg  "[\"^ \",\"~:name\",\"q\",\"~:message\",\"ruhig\"]")
+    (.write wrapper msg)
+    (.seek wrapper 0 0)
+    (update_app_state {"environ" {"QUERY_STRING" "route=message"
                                 "CONTENT_LENGTH" (str (len msg))}
-                     "stdin"  wrapper})
-  (core-main))
+                       "stdin"  wrapper})
+    (core-main)))
  (core-main)))
 
 (comment

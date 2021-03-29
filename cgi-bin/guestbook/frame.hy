@@ -17,6 +17,12 @@
 (defn eprint [x]
  (print x :file (. app-state ["stderr"])))
 
+#_(defn f-open-read []
+ ((. app-state ["f-open-read"])))
+
+#_(defn f-open-append []
+ ((. app-state ["f-open-append"])))
+
 (defn init-attrs []
  (global f-open-read)
  (global f-open-append)
