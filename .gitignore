@@ -6,9 +6,12 @@ js/
 
 examples/m.txt
 examples/n.txt
-
+examples/log.txt
 
 cgi-bin/hy/__pycache__
 cgi-bin/hy/core/__pycache__
 cgi-bin/hy/lex/__pycache__
-cgi-bin/hy_module/__pycache__
+cgi-bin/hy/extra/__pycache__
+cgi-bin/guestbook/__pycache__
+
+cgi-bin/__pycache__
