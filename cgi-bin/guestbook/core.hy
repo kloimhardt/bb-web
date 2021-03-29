@@ -1,51 +1,47 @@
 (import
- datetime
- [guestbook.clj :as clj]
+ [datetime [datetime :as d/datetime]]
+ [guestbook.clj [clj/assoc clj/mapv]]
  [guestbook.frame
-  [app-state write-log f-open-append f-open-read sprint eprint]]
+  [f/app-state f/write-log f/open-append f/open-read f/print f/eprint]]
  [transit.writer [Writer]]
  [transit.reader [Reader]]
  [transit.transit_types [Keyword :as TransitKeyword]]
  [io [BytesIO StringIO]])
 
-(comment
-(setv a (BytesIO b"hu"))
-(a.buffer.read 1)
-)
 (defn bytes-to-pydata [transit-bytes]
  (-> (Reader "json") (.read (BytesIO transit-bytes))))
 
 (defn read_transit []
- (setv clen (. app-state [:environ] ["CONTENT_LENGTH"]))
+ (setv clen (. f/app-state [:environ] ["CONTENT_LENGTH"]))
  (setv stdin-bytes
-  (-> (get app-state :stdin) (. buffer) (.read (int clen))))
- (setv time (-> datetime.datetime .now (.strftime "%Y-%m-%d %H:%M:%S")))
+  (-> (get f/app-state :stdin) (. buffer) (.read (int clen))))
+ (setv time (-> d/datetime .now (.strftime "%Y-%m-%d %H:%M:%S")))
  (setv data
   (-> (bytes-to-pydata stdin-bytes)
-      (clj.assoc (TransitKeyword "timestamp") time)))
- (write-log clen)
- (write-log (str stdin-bytes))
- (with [f (f-open-append)]
+      (clj/assoc (TransitKeyword "timestamp") time)))
+ (f/write-log clen)
+ (f/write-log (str stdin-bytes))
+ (with [f (f/open-append)]
    (.write (Writer f "json") data)
    (.write f "\n"))
- (sprint "Content-Type: text/html")
- (sprint "")
- (sprint "success"))
+ (f/print "Content-Type: text/html")
+ (f/print "")
+ (f/print "success"))
 
 (defn str-to-pydata [transit-str]
  (-> (Reader "json") (.read (StringIO transit-str))))
 
 (defn write-transit []
- (sprint "Content-Type: application/transit+json")
- (sprint "")
- (->> (with [f (f-open-read)] (.readlines f))
-      (clj.mapv (fn[t-str] (str-to-pydata (.rstrip t-str "\n"))))
-      (clj.assoc {} (TransitKeyword "messages"))
-      (.write (Writer (get app-state :stdout) "json"))))
+ (f/print "Content-Type: application/transit+json")
+ (f/print "")
+ (->> (with [f (f/open-read)] (.readlines f))
+      (clj/mapv (fn[t-str] (str-to-pydata (.rstrip t-str "\n"))))
+      (clj/assoc {} (TransitKeyword "messages"))
+      (.write (Writer (get f/app-state :stdout) "json"))))
 
-(defn main []
- (eprint "in Hy main")
- (setv qs (. app-state [:environ] ["QUERY_STRING"]))
+(defn core/main []
+ (f/eprint "in Hy main")
+ (setv qs (. f/app-state [:environ] ["QUERY_STRING"]))
  (cond
   [(= qs "route=messages") (write-transit)]
   [(= qs "route=message") (read-transit)]))
