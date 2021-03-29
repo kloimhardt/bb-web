@@ -10,9 +10,6 @@
                  "f-open-append" (fn[] (open message-filename "a"))
                  "f-open-log" (fn[] (open log-filename "a"))
                  "environ" os.environ})
-(defn update-app-state [m]
- (global app-state)
- (.update app-state m))
 
 (defn sprint [x]
  (print x :file (. app-state ["stdout"])))
@@ -20,11 +17,24 @@
 (defn eprint [x]
  (print x :file (. app-state ["stderr"])))
 
-(setv f-open-read (. app-state ["f-open-read"]))
-(setv f-open-append (. app-state ["f-open-append"]))
-(setv stdin (. app-state ["stdin"]))
-(setv stdout (. app-state ["stdout"]))
-(setv f-open-log (. app-state ["f-open-log"]))
+(defn init-attrs []
+ (global f-open-read)
+ (global f-open-append)
+ (global stdin)
+ (global stdout)
+ (global f-open-log)
+ (setv f-open-read (. app-state ["f-open-read"]))
+ (setv f-open-append (. app-state ["f-open-append"]))
+ (setv stdin (. app-state ["stdin"]))
+ (setv stdout (. app-state ["stdout"]))
+ (setv f-open-log (. app-state ["f-open-log"])))
+
+(init-attrs)
+
+(defn update-app-state [m]
+ (global app-state)
+ (.update app-state m)
+ (init-attrs))
 
 (defn write-log [x]
  (with [f (f-open-log)]

@@ -6,8 +6,14 @@ from guestbook.frame import update_app_state
 import guestbook_hy
 import io
 
+if len(sys.argv) > 1:
+    wrapper=io.TextIOWrapper(io.BytesIO(), encoding='utf-8')
+    msg='["^ ","~:name","q","~:message","ruhig"]'
+    wrapper.write(msg)
+    wrapper.seek(0, 0)
+    update_app_state({"environ": {"QUERY_STRING" : "route=message",
+                                  "CONTENT_LENGTH" : str(len(msg))},
+                      "stdin" : wrapper})
+
 if __name__ == "__main__":
-    #update_app_state({"environ": {"QUERY_STRING" : "route=messages",
-    #                              "CONTENT_LENGTH" : "35",
-    #                              "stdin" : io.BytesIO(b'["^ ","~:name","q","~:message","r"]')}})
     guestbook_hy.main()
