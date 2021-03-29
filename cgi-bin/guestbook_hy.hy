@@ -1,10 +1,11 @@
-(import [sys [path]]
-        [io [TextIOWrapper BytesIO]])
+(import [sys [path]])
+
 (.append path "cgi-bin/transit_python-0.8.284-py3.6.egg")
 (.append path ".")
 
 (import [guestbook.core [main :as core-main]]
-        [guestbook.frame [update-app-state]])
+        [guestbook.frame [update-app-state]]
+        [io [TextIOWrapper BytesIO]])
 
 (defn main [argv]
  (if (first (rest argv))

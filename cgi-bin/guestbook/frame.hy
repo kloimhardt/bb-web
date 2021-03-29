@@ -17,13 +17,13 @@
 (defn eprint [x]
  (print x :file (. app-state ["stderr"])))
 
-#_(defn f-open-read []
+(defn f-open-read []
  ((. app-state ["f-open-read"])))
 
-#_(defn f-open-append []
+(defn f-open-append []
  ((. app-state ["f-open-append"])))
 
-(defn init-attrs []
+#_(defn init-attrs []
  (global f-open-read)
  (global f-open-append)
  (global stdin)
@@ -35,15 +35,15 @@
  (setv stdout (. app-state ["stdout"]))
  (setv f-open-log (. app-state ["f-open-log"])))
 
-(init-attrs)
+#_(init-attrs)
 
 (defn update-app-state [m]
  (global app-state)
  (.update app-state m)
- (init-attrs))
+ #_(init-attrs))
 
 (defn write-log [x]
- (with [f (f-open-log)]
+ (with [f ((. app-state ["f-open-log"]))]
    (.write f x)
    (.write f "\n")))
 
