@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <script src="js/bb_web/bb_web.js"></script>
+    <title>Guestbook 3</title>
+</head>
+
+<body>
+
+<div id="cljs-code" style="display: none;">
+(require '[reagent.core :as r]
+         '[ajax.core :refer [GET POST]]
+         '[clojure.string :as string]
+         '[goog.dom :as gd]
+         '[goog.object :as go]
+         '[bb-web :as bb-web :refer [state]])
+
+;
+(defn get-messages [messages]
+    (GET "/cgi-bin/guestbook_3.py?route=messages"
+       {:headers {"Accept" "application/transit+json"}
+        :handler (fn [r] (reset! messages (:messages r)))}))
+;
+
+;
+(defn message-list [messages]
+  [:ul.messages
+   (for [{:keys [timestamp message name]} @messages]
+     ^{:key timestamp}
+     [:li
+      [:time timestamp]
+      [:p message]
+      [:p " - " name]])])
+;
+
+;
+(defn send-message! [fields errors messages]
+    (POST "/cgi-bin/guestbook_3.py?route=message"
+        {;; :format :json
+         :headers
+         {"Accept" "application/transit+json"
+          "x-csrf-token" (go/get (gd/getElement "token") "value")}
+         :params @fields
+         :handler (fn [_]
+                    (do
+                      (swap! messages conj (assoc @fields :timestamp (bb-web/timestamp)))
+                      (reset! fields nil)
+                      (reset! errors nil)))
+         :error-handler (fn [e]
+                          (do
+                            (println (str e))
+                            (reset! errors (get-in e [:response :errors]))))}))
+;
+
+;
+(defn errors-component [errors id]
+  (when-let [error (id @errors)]
+    [:div.notification.is-danger (string/join error)]))
+;
+
+;
+(defn message-form [messages]
+  (let [fields (r/cursor state [:fields])
+        errors (r/cursor state [:errors])]
+    (fn [messages]
+      [:div
+       [errors-component errors :server-error]
+       [:div.field
+        [:label.label {:for :name} "Name"]
+        [errors-component errors :name]
+        [:input.input
+         {:type :text
+          :name :name
+          :on-change (fn [e] (swap! fields assoc :name
+                                    (-> e (go/get "target") (go/get "value"))))
+          :value (:name @fields)}]]
+       [:div.field
+        [:label.label {:for :message} "Message"]
+        [errors-component errors :message]
+        [:textarea.textarea
+         {:name :message
+          :value (:message @fields)
+          :on-change (fn [e] (swap! fields assoc :message
+                                    (-> e (go/get "target") (go/get "value"))))}]]
+       [:input.button.is-primary
+        {:type :submit
+         :on-click (fn [_] (send-message! fields errors messages))
+         :value "comment"}]])))
+
+(defn home []
+  (let [messages (r/cursor state [:messages])]
+    (get-messages messages)
+    (fn []
+      [:div.content>div.columns.is-centered>div.column.is-two-thirds
+       [:div.columns>div.column
+        [:h3 "Messages"]
+        [message-list messages]]
+       [:div.columns>div.column
+        [message-form messages]]])))
+;
+[home]
+
+</div>
+
+<div id="cljs-app"></div>
+<script>
+ bb_web.app.run("cljs-app", document.getElementById("cljs-code").textContent)
+</script>
+
+</body>
+</html>
