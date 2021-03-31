@@ -1,7 +1,8 @@
 (import
  [guestbook.clj [clj-assoc clj-mapv]]
  [guestbook.frame
-  [app-state write-log open-append open-read sprint eprint timestamp]]
+  [app-state write-log open-append open-read sprint
+   eprint timestamp]]
  [guestbook.pytools [hyeval postwalk subs]]
  [transit.writer [Writer]]
  [transit.reader [Reader]]
