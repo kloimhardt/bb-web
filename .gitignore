@@ -18,3 +18,12 @@ cgi-bin/hy/extra/__pycache__
 cgi-bin/guestbook/__pycache__
 
 cgi-bin/__pycache__
+
+cgi-bin/hy/__init__.pyc
+cgi-bin/hy/contrib/__pycache__/
+cgi-bin/hy/errors.pyc
+cgi-bin/hy/importer.pyc
+cgi-bin/hy/lex/__init__.pyc
+cgi-bin/hy/lex/exceptions.pyc
+cgi-bin/hy/models.pyc
+cgi-bin/test/guestbook/__pycache__/
