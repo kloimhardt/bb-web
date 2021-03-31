@@ -1,0 +1,5 @@
+python3 cgi-bin/guestbook_3.py repl-or-anything
+python3 -m http.server --cgi
+http://localhost:8000/guestbook_3.html
+
+python3 cgi-bin/runtest.py
