@@ -1,8 +1,7 @@
 (import
- [datetime [datetime]]
  [guestbook.clj [clj-assoc clj-mapv]]
  [guestbook.frame
-  [app-state write-log open-append open-read sprint eprint]]
+  [app-state write-log open-append open-read sprint eprint timestamp]]
  [transit.writer [Writer]]
  [transit.reader [Reader]]
  [transit.transit_types [Keyword :as TransitKeyword]]
@@ -15,10 +14,9 @@
  (setv clen (get app-state :environ "CONTENT_LENGTH"))
  (setv stdin-bytes
   (-> (get app-state :stdin) (. buffer) (.read (int clen))))
- (setv time (-> datetime .now (.strftime "%Y-%m-%d %H:%M:%S")))
  (setv data
   (-> (bytes-to-pydata stdin-bytes)
-      (clj-assoc (TransitKeyword "timestamp") time)))
+      (clj-assoc (TransitKeyword "timestamp") (timestamp))))
  (write-log clen)
  (write-log (str stdin-bytes))
  (with [f (open-append)]

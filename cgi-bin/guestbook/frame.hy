@@ -1,7 +1,9 @@
 (import
  [sys [stdin stdout stderr]]
  [os [environ]]
- [io [TextIOWrapper BytesIO]])
+ [io [TextIOWrapper BytesIO]]
+ [guestbook.pytools [MyTextIOWrapper]]
+ [datetime [datetime]])
 
 (setv message-filename "examples/n.txt")
 (setv log-filename "examples/log.txt")
@@ -12,6 +14,7 @@
                    :f-open-read (fn[] (open message-filename "r"))
                    :f-open-append (fn[] (open message-filename "a"))
                    :f-open-log (fn[] (open log-filename "a"))
+                   :f-timestamp (fn[] (-> datetime .now (.strftime "%Y-%m-%d %H:%M:%S")))
                    :environ environ})
 
 (defn sprint [x]
@@ -40,5 +43,13 @@
   (.write text)
   (.seek 0 0)))
 
+(defn my-text-io-bytes-wrapper [text]
+ (doto (MyTextIOWrapper (BytesIO) :encoding "utf-8")
+  (.write text)
+  (.seek 0 0)))
+
 (defn decode-bytes [btext]
  (.decode btext "utf-8"))
+
+(defn timestamp []
+ ((. app-state [:f-timestamp])))
