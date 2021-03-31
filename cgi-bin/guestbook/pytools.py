@@ -8,6 +8,7 @@ class MyTextIOWrapper(io.TextIOWrapper):
 
 def hyeval (s):
     try:
+        return None
         return hy.eval(hy.read_str(s))
     except:
         return "Something went wrong"

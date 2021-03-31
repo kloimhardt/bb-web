@@ -2,9 +2,10 @@
 
 Scripting React-ive web apps in Clojure without installing it. 
 
-If you know the meaning of the sentence "I moved to Chlorine from Proto-Repl", stop reading. Otherwise, go on taking a look at Clojure and decide whether it is for you.
+If you know the meaning of the sentence "I moved to Chlorine from Proto-Repl", stop reading. Otherwise, go on and take a look at Clojure and decide whether it is for you.
 
-The server back-end is a single executable file, Java is not necessary. The in-browser UI is interpreted Clojurescript code that you can change and run without having the Cljs-compiler installed.
+ The in-browser UI is interpreted Clojurescript code that you can change and run without having the Cljs-compiler installed.
+The Clojure server back-end is a single executable file. Alternatively, there is a Hy/Python backend. In any case, Java is not necessary.
 
 Examples go from "Hello World!" to back-end features like anti forgery protection, MS-Windows being first class.
 
@@ -104,13 +105,19 @@ It is meant that the above hot-relaod example is started along with this one.
 
 This example does not need WiFi connection for its CSS styling.
 
-## Hylang backend
+## Hy/Python backend
+You need to install [Python](https://www.python.org) and start a server with:
 
 ```
 python3 -m http.server --cgi
 ```
-more spaces in lisp, not more parens
-needed to hack in hy-shell.el
+Then, in the adress bar of your browser, type:
+```
+http://localhost:8000/guestbook_3.html
+```
+Notice that the front end Clojurescript code of `guestbook_3` is virtually unchanged compared to `guestbook_1`. The according backend code is in the file `cgi-bin/guestbook/core.hy`. It is written in [Hy](https://docs.hylang.org/en/stable/), a language inspired by Clojure.
+
+The main reason for providing a Hy backend is that most cheap web-hosting services do not support running executables, but some of them support Python.
 
 ## Rationale of bb-web
 
