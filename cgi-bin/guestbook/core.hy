@@ -2,6 +2,7 @@
  [guestbook.clj [clj-assoc clj-mapv]]
  [guestbook.frame
   [app-state write-log open-append open-read sprint eprint timestamp]]
+ [guestbook.pytools [hyeval]]
  [transit.writer [Writer]]
  [transit.reader [Reader]]
  [transit.transit_types [Keyword :as TransitKeyword]]
@@ -17,14 +18,15 @@
  (setv data
   (-> (bytes-to-pydata stdin-bytes)
       (clj-assoc (TransitKeyword "timestamp") (timestamp))))
- (write-log clen)
- (write-log (str stdin-bytes))
+ (setv msge (get data (TransitKeyword "message")))
  (with [f (open-append)]
    (.write (Writer f "json") data)
    (.write f "\n"))
- (sprint "Content-Type: text/html")
+ (sprint "Content-Type: application/transit+json")
  (sprint "")
- (sprint "success"))
+ (->> (if (= (first msge) "(") (hyeval msge) None)
+      (clj-assoc {} (TransitKeyword "result"))
+      (.write (Writer (get app-state :stdout) "json"))))
 
 (defn str-to-pydata [transit-str]
  (-> (Reader "json") (.read (StringIO transit-str))))

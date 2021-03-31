@@ -44,15 +44,16 @@
          {"Accept" "application/transit+json"
           "x-csrf-token" (go/get (gd/getElement "token") "value")}
          :params @fields
-         :handler (fn [_]
-                    (do
-                      (swap! messages conj (assoc @fields :timestamp (bb-web/timestamp)))
-                      (reset! fields nil)
-                      (reset! errors nil)))
+         :handler (fn [res]
+                     (swap! messages conj
+                      (-> @fields
+                          (assoc :timestamp (bb-web/timestamp))
+                          (update :message #(str % " " (:result res)))))
+                     (reset! fields nil)
+                     (reset! errors nil))
          :error-handler (fn [e]
-                          (do
                             (println (str e))
-                            (reset! errors (get-in e [:response :errors]))))}))
+                            (reset! errors (get-in e [:response :errors])))}))
 ;
 
 ;
