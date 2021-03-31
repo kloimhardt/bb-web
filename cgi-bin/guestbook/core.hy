@@ -9,9 +9,9 @@
  [io [BytesIO StringIO]])
 
 (defn hykw->trkw [it]
- (when (instance? HyKeyword it)
-   (setv it (TransitKeyword (subs (str it) 1))))
- it)
+ (if (instance? HyKeyword it)
+    (TransitKeyword (subs (str it) 1))
+    it))
 
 (defn bytes-to-pydata [transit-bytes]
  (-> (Reader "json") (.read (BytesIO transit-bytes))))
