@@ -14,6 +14,9 @@
     (TransitKeyword (subs (str it) 1))
     it))
 
+(defn replace-hy-keywords [data]
+ (postwalk hykw->trkw data))
+
 (defn bytes-to-pydata [transit-bytes]
  (-> (Reader "json") (.read (BytesIO transit-bytes))))
 
@@ -32,7 +35,7 @@
  (sprint "")
  (->> (if (= (first msge) "(") (hyeval msge) None)
       (clj-assoc {} (TransitKeyword "result"))
-      (postwalk hykw->trkw)
+      replace-hy-keywords
       (.write (Writer (get app-state :stdout) "json"))))
 
 (defn str-to-pydata [transit-str]

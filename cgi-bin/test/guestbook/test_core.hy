@@ -1,5 +1,6 @@
 (import [guestbook.core :as core]
-        [guestbook.frame :as f])
+        [guestbook.frame :as f]
+        [transit.transit_types [Keyword :as TransitKeyword]])
 
 (defn assert-equal [x y]
   (assert (= x y)))
@@ -8,7 +9,7 @@
  (.seek w 0 0)
  (f.decode-bytes (-> w (. buffer) (.read length))))
 
-(defn sub_main_get [content sout]
+(defn sub-main-get [content sout]
  (setv read-wrapper (f.text-io-bytes-wrapper content))
  (setv sout-wrapper (f.text-io-bytes-wrapper ""))
  (f.update_app_state {:f-open-read (fn [] read-wrapper)
@@ -18,12 +19,12 @@
  (core.main)
  (assert-equal sout (wrapper-read sout-wrapper (len sout))))
 
-(defn test_main_1 []
+(defn test-main-1 []
  (sub_main_get
   "[\"^ \",\"~:name\",\"o\",\"~:message\",\"m\"]"
   "Content-Type: application/transit+json\n\n[\"^ \",\"~:messages\",[[\"^ \",\"~:name\",\"o\",\"~:message\",\"m\"]]]"))
 
-(defn sub_main_post [content fileout sout]
+(defn sub-main-post [content fileout sout]
  (setv read-wrapper (f.text-io-bytes-wrapper content))
  (setv write-wrapper (f.my-text-io-bytes-wrapper ""))
  (setv sout-wrapper (f.text-io-bytes-wrapper ""))
@@ -38,14 +39,20 @@
  (assert-equal fileout (wrapper-read write-wrapper 999))
  (assert-equal sout (wrapper-read sout-wrapper 999)))
 
-(defn test_main_2 []
+(defn test-main-2 []
  (sub_main_post
    "[\"^ \",\"~:name\",\"o\",\"~:message\",\"m\"]"
    "[\"^ \",\"~:name\",\"o\",\"~:message\",\"m\",\"~:timestamp\",\"2021-03-30 13:00:00\"]\n"
    "Content-Type: application/transit+json\n\n[\"^ \",\"~:result\",null]"))
 
-(defn test_main_3 []
+(defn test-main-3 []
  (sub_main_post
    "[\"^ \",\"~:name\",\"o\",\"~:message\",\"(+ 3 4)\"]"
    "[\"^ \",\"~:name\",\"o\",\"~:message\",\"(+ 3 4)\",\"~:timestamp\",\"2021-03-30 13:00:00\"]\n"
    "Content-Type: application/transit+json\n\n[\"^ \",\"~:result\",7]"))
+
+(defn test-replace-hy-keywords []
+ (assert-equal (core.replace-hy-keywords {:a {:b {:c 1}}})
+               {(TransitKeyword "a")
+                {(TransitKeyword "b")
+                 {(TransitKeyword "c") 1}}}))
