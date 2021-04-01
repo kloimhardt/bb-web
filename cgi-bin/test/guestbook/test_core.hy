@@ -26,16 +26,30 @@
  (.seek out-wrapper 0 0)
  (assert-equal out (wrapper-read out-wrapper (len out))))
 
-(defn test_main_2 []
- (setv content "[\"^ \",\"~:name\",\"o\",\"~:message\",\"m\"]")
+(defn sub_main [content fileout sout]
  (setv read-wrapper (f.text-io-bytes-wrapper content))
  (setv write-wrapper (f.my-text-io-bytes-wrapper ""))
+ (setv sout-wrapper (f.text-io-bytes-wrapper ""))
  (setv timest "2021-03-30 13:00:00")
  (f.update_app_state {:environ {"QUERY_STRING" "route=message"
                                 "CONTENT_LENGTH" (str (len content))}
                       :stdin read-wrapper
+                      :stdout sout-wrapper
                       :f-open-append (fn [] write-wrapper)
                       :f-timestamp (fn[] timest)})
  (core.main)
- (setv out "[\"^ \",\"~:name\",\"o\",\"~:message\",\"m\",\"~:timestamp\",\"2021-03-30 13:00:00\"]\n")
- (assert-equal out (wrapper-read write-wrapper 999)))
+ (assert-equal fileout (wrapper-read write-wrapper 999))
+ (assert-equal sout (wrapper-read sout-wrapper 999))
+)
+
+(defn test_main_2 []
+ (sub_main
+   "[\"^ \",\"~:name\",\"o\",\"~:message\",\"m\"]"
+   "[\"^ \",\"~:name\",\"o\",\"~:message\",\"m\",\"~:timestamp\",\"2021-03-30 13:00:00\"]\n"
+   "Content-Type: application/transit+json\n\n[\"^ \",\"~:result\",null]"))
+
+(defn test_main_3 []
+ (sub_main
+   "[\"^ \",\"~:name\",\"o\",\"~:message\",\"(+ 3 4)\"]"
+   "[\"^ \",\"~:name\",\"o\",\"~:message\",\"(+ 3 4)\",\"~:timestamp\",\"2021-03-30 13:00:00\"]\n"
+   "Content-Type: application/transit+json\n\n[\"^ \",\"~:result\",7]"))
