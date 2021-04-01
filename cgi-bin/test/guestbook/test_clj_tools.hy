@@ -1,4 +1,4 @@
-(import [guestbook.clj [clj-assoc clj-mapv]])
+(import [guestbook.clj_tools [clj-assoc clj-mapv]])
 
 (defn assert-equal [x y]
   (assert (= x y)))

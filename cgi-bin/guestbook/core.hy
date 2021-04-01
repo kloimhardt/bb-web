@@ -1,9 +1,9 @@
 (import
- [guestbook.clj [clj-assoc clj-mapv]]
+ [guestbook.clj_tools [clj-assoc clj-mapv]]
  [guestbook.frame
   [app-state write-log open-append open-read sprint
    eprint timestamp]]
- [guestbook.pytools [hyeval postwalk subs]]
+ [guestbook.py_tools [hyeval postwalk subs]]
  [transit.writer [Writer]]
  [transit.reader [Reader]]
  [transit.transit_types [Keyword :as TransitKeyword]]

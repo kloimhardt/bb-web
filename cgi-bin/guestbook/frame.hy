@@ -2,7 +2,7 @@
  [sys [stdin stdout stderr]]
  [os [environ]]
  [io [TextIOWrapper BytesIO]]
- [guestbook.pytools [MyTextIOWrapper]]
+ [guestbook.py_tools [MyTextIOWrapper]]
  [datetime [datetime]])
 
 (setv message-filename "examples/n.txt")
