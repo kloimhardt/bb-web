@@ -69,7 +69,9 @@
     (transit/write writer {:messages (vec (db-get-messages))})
     (.toString out)))
 
-(defn home-page [request] (html (slurp (first *command-line-args*))))
+(def cmd-line-args *command-line-args*)
+
+(defn home-page [request] (html (slurp (first cmd-line-args))))
 
 (defn home-routes [{:keys [:request-method :uri] :as req}]
   (case [request-method uri]

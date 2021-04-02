@@ -42,6 +42,8 @@
 (defn db-get-messages []
   (:messages (readfile)))
 
+(def cmd-line-args *command-line-args*)
+
 (defn layout-render
   [request template & [params]]
   (response/content-type
@@ -51,7 +53,7 @@
         (assoc params
                :page template
                :csrf-token (get-anti-forgery-token)
-               :cljs-code (slurp (first *command-line-args*))
+               :cljs-code (slurp (first cmd-line-args))
                :bb-web-js (slurp "js/bb_web/bb_web.js"))))
     "text/html; charset=utf-8"))
 
