@@ -5,9 +5,9 @@ Scripting React-ive web apps in Clojure without installing it.
 If you know the meaning of the sentence "I moved to Chlorine from Proto-Repl", stop reading. Otherwise, go on and take a look at Clojure and decide whether it is for you.
 
  The in-browser UI is interpreted Clojurescript code that you can change and run without having the Cljs-compiler installed.
-The Clojure server back-end is a single executable file. Alternatively, there is a Hy/Python backend. In any case, Java is not necessary.
+The Clojure backend code is processed by a single executable file, Java is not necessary. Alternatively, there is a Hy/Python backend.
 
-Examples go from "Hello World!" to back-end features like anti forgery protection, MS-Windows being first class.
+Examples go from "Hello World!" to backend features like anti forgery protection, MS-Windows being first class.
 
 ## Getting Started
 
@@ -36,7 +36,7 @@ The file `first.html` has only 12 lines of code:
 
 Open it in some text editor and change the button text to "Count up by one". Save and press the browser reload button. One other option is to copy-paste all code from the above online Guestbook and run it locally (although no nice styling - yet!).
 
-If Clojure is new to you, run the examples in [clj-tiles](https://kloimhardt.github.io/clj_blocks.html) and try the [Koans](http://clojurescriptkoans.com) (be patient with the white screen for some seconds). After that you will know how to use `deref` (amongst other things).
+If Clojure is new to you, run the examples in [clj-tiles](https://kloimhardt.github.io/cljtiles.html) and try the [Koans](http://clojurescriptkoans.com) (be patient with the white screen for some seconds). After that you will know how to use `deref` (amongst other things).
 
 Note that the variable `bb-web/state` you see in the code is special. It is automatically updated on the screen wherever its content is displayed (by means of  `deref`). Within bb-web, you cannot create such useful beasts on your own, but arguably having only one of those is exactly right for even the most sophisticated purposes.
 
@@ -99,13 +99,13 @@ Start by double-clicking on `start.bat` or type
 ```
 bb-web -cp examples -m parinfer-codemirror
 ```
-It shows the file `examples/hot_reload.cljs` in the Codemirror editor. As opposed to the usual editing experience, [Parinfer](http://shaunlebron.github.io/parinfer/demo) takes care of balancing parentheses according to your indentation. Decide whether it is for you<sup>[3](#myfootnote3)</sup>.
-
-It is meant that the above hot-relaod example is started along with this one.
+Within the Codemirror editor, the file `examples/hot_reload.cljs` is shown. It is best to start the hot-reload example described above in order to see the effects of editing and saving code. As opposed to the usual editing experience, [Parinfer](http://shaunlebron.github.io/parinfer/demo) takes care of balancing parentheses according to your indentation. Decide whether it is for you<sup>[3](#myfootnote3)</sup>.
 
 This example does not need WiFi connection for its CSS styling.
 
 ## Hy/Python backend
+[Hy](https://docs.hylang.org/en/stable/) is a language inspired by Clojure which compiles to [Python](https://www.python.org). Using Hy as backend languge opens up the vast Python ecosystem to ClojureScript whilst still remaining in the Lisp paradigm.
+
 You need to install [Python](https://www.python.org) and start a server with:
 
 ```
@@ -115,9 +115,9 @@ Then, in the adress bar of your browser, type:
 ```
 http://localhost:8000/guestbook_3.html
 ```
-Notice that the front end Clojurescript code of `guestbook_3` is virtually unchanged compared to `guestbook_1`. The according backend code is in the file `cgi-bin/guestbook/core.hy`. It is written in [Hy](https://docs.hylang.org/en/stable/), a language inspired by Clojure.
+Notice that the ClojureScript code thus called is virtually unchanged compared to `guestbook_1.cljs` which connects to the backends described above, written in Clojure.
 
-The main reason for providing a Hy backend is that most cheap web-hosting services do not support running executables, but some of them support Python.
+The main Hy code is in the file `cgi-bin/guestbook/core.hy`. It allows Hy expressions to be sent to the server, where they are executed. Try typing `(+ 7 (get {:a {:b 3}} :a :b))` into the message field of your guestbook and see what happens (notice that Hy's `get` is more akin to Clojure's `get-in`).
 
 ## Rationale of bb-web
 
@@ -131,11 +131,11 @@ The REPL is not needed because of Babashka's brisk start up time. Here are three
 
 1) The REPL distracts from the main hallmark of Clojure: immutable data structures with `swap!` being the exception. True, using the REPL, one can fix a bug in a running instance of a program, indeed an important feature of LISP languages. But this effectiveness of the REPL is based on mutation of code and data, which is exactly the opposite of demonstrating immutability. For this reason, the REPL is confusing for anyone trying to understand why Clojure people talk so much about immutability.
 
-2) The REPL has its own learning curve. The replacing or adding of code in a running program, because of being mutation, needs advanced knowledge and care (using #' or integrant/mount is only the peak of the iceberg). One can easily get to a state where what's in memory does not match up to what's on disk. As a result, a perfectly well functioning program can refuse to work after restart. A frustration to be avoided in a first step (but with time becoming THE indispensable tool for LISP programming because the save-compile cycle is skipped resulting in a fast feedback loop).
+2) The REPL has its own learning curve. The replacing or adding of code in a running program, because of being mutation, needs advanced knowledge and care (using #' or component/integrant/mount is only the peak of the iceberg). One can easily get to a state where what's in memory does not match up to what's on disk. As a result, a perfectly well functioning program can refuse to work after restart. A frustration to be avoided in a first step (but with time becoming THE indispensable tool for LISP programming because the save-compile cycle is skipped resulting in a fast feedback loop).
 
-3) The REPL is in practice not used without a properly configured development environment (i.e. editor). As said in this influential [Video](https://www.youtube.com/watch?v=Qx0-pViyIDU&feature=youtu.be&t=740) on the topic: "you work in your favourite tool", i.e. IntelliJ, Calva, Chlorine or Cider. This last tool is presented [here](https://www.youtube.com/watch?v=NDrpclY54E0), which demonstrates that one has to prepare a few things before using the REPL in its intended way. To be sure, after a cetain understanding of the bb-web examples, that preparation should be the second step.
+3) The REPL is in practice not used without a properly configured development environment (i.e. editor). As said in this influential [Video](https://www.youtube.com/watch?v=Qx0-pViyIDU&feature=youtu.be&t=740) on the topic: "you work in your favourite tool", i.e. IntelliJ, Calva, Chlorine or Cider. This last tool is presented [here](https://www.youtube.com/watch?v=NDrpclY54E0), which demonstrates that one has to prepare a few things before using the REPL in its intended way. To be sure, after a certain understanding of the bb-web examples, that preparation should be the second step.
 
-One valid objection to bb-web is: one does not need client-side cljs scripting for small web-apps, server side rendering in pure Clojure is sufficient. I can only respond that state management on client side is more intuitive to some of us. Moreover, a big advantage of Clojure over Python, Ruby, PHP, Erlang is in Clojurescript, and bb-web is a door leading there. Plus: the simplest example of this repository, the 12-line first.html, is pure ClojureScript - it needs no installation because the browser is everywhere.
+One valid objection to bb-web is: one does not need client-side cljs scripting for small web-apps, server side rendering is sufficient. I can only respond that state management on client side is more intuitive to some of us. Moreover, the simplest example of this repository, the 12-line first.html, is pure ClojureScript - it needs no installation because the browser is everywhere.
 
 ## Related projects
 
@@ -145,8 +145,6 @@ One valid objection to bb-web is: one does not need client-side cljs scripting f
 ## Advanced topics (Clojure experience required)
 
 The following descriptions are less complete than the previous sections. If you understand them, you do not need `bb-web` yourself. They show you how to give enhanced `bb-web` features to potential new Clojure users.
-
-For the following, switch to the `development` branch in `git`.
 
 ### Expose arbitrary Clojurescript libraries to the SCI 
 
@@ -189,4 +187,4 @@ Follow the [build instructions](https://github.com/borkdude/babashka/blob/master
 
 <a name="myfootnote3">3</a>: I started Clojure using Parinfer. Its ingenious (and only useful) "smart" mode was available early on in the Atom editor. I moved to Spacemacs though because of Cider (no smart mode there so learned Paredit). 
 
-<a name="myfootnote4">4</a>: The topic of using JVM+Clojure on native MS-Windows is not in scope here. [scoop-clojure](https://github.com/littleli/scoop-clojure) might be a good starting option. I develop in Windows using its Subsystem for Linux (WSL) - and the JVM.
+<a name="myfootnote4">4</a>: The topic of using JVM+Clojure on native MS-Windows is not in scope here. [scoop-clojure](https://github.com/littleli/scoop-clojure) might be a good starting option. I develop in Windows using its Subsystem for Linux (WSL) - and yes, also use the JVM.
