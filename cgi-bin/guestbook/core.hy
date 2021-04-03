@@ -2,7 +2,7 @@
  [guestbook.clj_tools [clj-assoc clj-mapv]]
  [guestbook.frame
   [app-state write-log open-append open-read sprint
-   eprint timestamp]]
+   eprint timestamp update-app-state text-io-bytes-wrapper]]
  [guestbook.py_tools [hyeval postwalk subs]]
  [transit.writer [Writer]]
  [transit.reader [Reader]]
@@ -49,9 +49,18 @@
       (clj-assoc {} (TransitKeyword "messages"))
       (.write (Writer (get app-state :stdout) "json"))))
 
-(defn main []
+(defn main-handler []
  (eprint "in Hy main")
  (setv qs (get app-state :environ "QUERY_STRING"))
  (cond
   [(= qs "route=messages") (write-transit)]
   [(= qs "route=message") (read-transit)]))
+
+(defn main-command []
+ (setv content "[\"^ \",\"~:name\",\"o\",\"~:message\",\"m\"]")
+ (setv read-wrapper (text-io-bytes-wrapper content))
+ (update_app_state {:environ {"QUERY_STRING" "route=message"
+                              "CONTENT_LENGTH" (str (len content))}
+                      :stdin read-wrapper
+                      :f-open-append  (get app-state :f-open-log)})
+ (main-handler))

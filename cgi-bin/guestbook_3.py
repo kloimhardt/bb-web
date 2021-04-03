@@ -8,4 +8,8 @@ import hy
 import guestbook.core
 
 if __name__ == "__main__":
-    guestbook.core.main()
+    if (len(sys.argv) > 1) and (sys.argv[1] == "run"):
+        guestbook.core.main_command()
+        print()
+    else:
+        guestbook.core.main_handler()
