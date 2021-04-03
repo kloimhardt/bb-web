@@ -16,7 +16,7 @@
                       :environ {"QUERY_STRING"  "route=messages"}
                       :stdout sout-wrapper})
 
- (core.main)
+ (core.main-handler)
  (assert-equal sout (wrapper-read sout-wrapper (len sout))))
 
 (defn test-main-1 []
@@ -35,7 +35,7 @@
                       :stdout sout-wrapper
                       :f-open-append (fn [] write-wrapper)
                       :f-timestamp (fn[] timest)})
- (core.main)
+ (core.main-handler)
  (assert-equal fileout (wrapper-read write-wrapper 999))
  (assert-equal sout (wrapper-read sout-wrapper 999)))
 
