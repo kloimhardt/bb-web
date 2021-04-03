@@ -56,3 +56,18 @@
                {(TransitKeyword "a")
                 {(TransitKeyword "b")
                  {(TransitKeyword "c") 1}}}))
+
+(defn test-main-4 []
+   (sub_main_post
+     "[\"^ \",\"~:message\",\"(str (do\\n(import [sympy [*]])\\n(setv x (Symbol \\\"x\\\"))\\n(+ x 1)\\n))\",\"~:name\",\"sympyval\"]"
+     "[\"^ \",\"~:message\",\"(str (do\\n(import [sympy [*]])\\n(setv x (Symbol \\\"x\\\"))\\n(+ x 1)\\n))\",\"~:name\",\"sympyval\",\"~:timestamp\",\"2021-03-30 13:00:00\"]\n"
+     "Content-Type: application/transit+json\n\n[\"^ \",\"~:result\",\"x + 1\"]"))
+
+(comment
+;;this works in the message field of the browser
+(str
+(do
+(import [sympy [*]])
+(setv x (Symbol "x"))
+[(limit (/ (sin x) x) x 0)
+(integrate (/ 1 x) x)])))
