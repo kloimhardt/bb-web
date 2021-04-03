@@ -9,13 +9,14 @@
 (setv log-filename "examples/log.txt")
 
 (setv app-state {:stdin stdin
-                   :stdout stdout
-                   :stderr stderr
-                   :f-open-read (fn[] (open message-filename "r"))
-                   :f-open-append (fn[] (open message-filename "a"))
-                   :f-open-log (fn[] (open log-filename "a"))
-                   :f-timestamp (fn[] (-> datetime .now (.strftime "%Y-%m-%d %H:%M:%S")))
-                   :environ environ})
+                 :stdout stdout
+                 :stderr stderr
+                 :f-open-read (fn[] (open message-filename "r"))
+                 :f-open-append (fn[] (open message-filename "a"))
+                 :f-open-log (fn[] (open log-filename "a"))
+                 :f-timestamp (fn[] (-> datetime .now (.strftime "%Y-%m-%d %H:%M:%S")))
+                 :environ environ
+                 :import-sympy False})
 
 (defn sprint [x]
  (print x :file (. app-state [:stdout])))
