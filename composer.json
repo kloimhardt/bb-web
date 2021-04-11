@@ -8,7 +8,7 @@
     "extra": {
         "phel": {
             "loader": {
-                "guestbook\\": "phelbackend/"
+                "app\\": "examples/"
             }
         }
     }

@@ -1,4 +1,4 @@
-(ns guestbook\boot
+(ns app\guestbook4
   (:require phel\http)
   (:require phel\html :refer [html doctype])
   (:require mabasic\json\json))
