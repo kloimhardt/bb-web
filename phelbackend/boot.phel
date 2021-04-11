@@ -1,0 +1,103 @@
+(ns guestbook\boot
+  (:require phel\http)
+  (:require phel\html :refer [html doctype])
+  (:require mabasic\json\json))
+
+(defstruct route [method url page])
+
+(defn readfile [filename]
+  (let [myfile (php/fopen filename "r")
+        code (php/fread myfile (php/filesize filename))
+        _ (php/fclose myfile)]
+    code))
+
+(defn readfile-to-array [filename]
+  (let [a (php/file_get_contents filename)
+        b (php/substr a 0 -1)
+        c (php/explode "\n" b)
+        d (map json/decode c)
+        e @{:messages d}]
+    (json/encode e)))
+
+(defn eprint [txt]
+  (let [myfile (php/fopen "klmlog.txt" "a")
+        code (php/fwrite myfile (str txt "\n"))
+        _ (php/fclose myfile)]
+    txt))
+
+(defn writefile[fname txt]
+  (let [myfile (php/fopen fname "a")
+        code (php/fwrite myfile (str txt "\n"))
+        _ (php/fclose myfile)]
+    txt))
+
+(def filename "./examples/o.txt")
+
+(defn pmsg [request]
+  (php/date_default_timezone_set "UTC")
+  (writefile filename
+    (-> (json/decode (php/file_get_contents "php://input"))
+        (put :timestamp (php/date php/DATE_RFC2822))
+        json/encode)))
+
+(defn readfile-to-array []
+  (let [empty @{}]
+    (->> (php/substr (php/file_get_contents filename) 0 -1)
+         (php/explode "\n")
+         (map json/decode)
+         (put empty :messages)
+         json/encode)))
+
+(defn get1 []
+  @{:status 200
+    :headers @{"Content-Type" "application/json"}
+    :body (readfile-to-array)})
+
+(defn home-render [request]
+  @{:status 200
+    :body (html
+            (doctype :html5)
+            [:html @{:lang "en"}
+             # (head/render "Titel" "Metadescription")
+             [:body
+              [:script @{:src "./js/bb_web/bb_web.js"}]
+              [:div @{:id "cljs-code" :style "display: none;"}
+               (php/file_get_contents "./examples/guestbook_4.cljs")]
+              [:div @{:id "cljs-app"}]
+              [:script @{:type "application/javascript"
+                         :src "./examples/runcljs.js"}]]])})
+
+(defn home-render2 []
+  @{:status 200
+    :body (html
+            (doctype :html5)
+            [:html @{:lang "en"}
+             # (head/render "Titel" "Metadescription")
+             [:body
+              [:p "hicksihucksi"]
+              ]])})
+
+(def routes
+  [(route "GET" "/" home-render)
+   (route "GET" "/messages" get1)
+   (route "POST" "/message" pmsg)])
+
+(defn route-match [request routes]
+  (let
+    [route (find
+            (fn [route]
+              (and
+               (=
+                (get route :url)
+                (get (get request :uri) :path))
+               (=
+                (get route :method)
+                (get request :method))))
+            routes)]
+    ((get route :page) request)))
+
+(defn emit-response [response]
+  (let [rsp (http/create-response-from-table response)]
+    (http/emit-response rsp)))
+
+(emit-response (route-match (http/request-from-globals) routes))

@@ -27,3 +27,5 @@ cgi-bin/hy/lex/__init__.pyc
 cgi-bin/hy/lex/exceptions.pyc
 cgi-bin/hy/models.pyc
 cgi-bin/test/guestbook/__pycache__/
+
+/vendor/
