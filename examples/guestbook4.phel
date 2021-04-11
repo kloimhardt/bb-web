@@ -3,6 +3,12 @@
   (:require phel\html :refer [html doctype])
   (:require mabasic\json\json))
 
+(defn eprint [txt]
+  (let [myfile (php/fopen "klmlog.txt" "a")
+        code (php/fwrite myfile (str txt "\n"))
+        _ (php/fclose myfile)]
+    txt))
+
 (defn home-html [cljs-code]
   (html
     (doctype :html5)
@@ -34,9 +40,9 @@
 
 (defn home-save-message! [request]
   (writefile filename
-    (-> (json/decode (php/file_get_contents "php://input"))
-        (put :timestamp (date))
-        json/encode)))
+             (-> (json/decode (php/file_get_contents "php://input"))
+                 (put :timestamp (date))
+                 json/encode)))
 
 (defn readfile []
   (let [empty @{}]
@@ -55,29 +61,35 @@
   @{:status 200
     :body (home-html (php/file_get_contents "./examples/guestbook_4.cljs"))})
 
-(defstruct route [method url page])
+(defstruct route [method url query page])
 
 (def routes
-  [(route "GET" "/" home-render)
-   (route "GET" "/messages" home-message-list)
-   (route "POST" "/message" home-save-message!)])
+  [(route "GET" "/" "" home-render)
+   (route "GET" "/" "messages" home-message-list)
+   (route "POST" "/" "message" home-save-message!)])
 
 (defn route-match [request routes]
   (let
-    [route (find
-            (fn [route]
-              (and
-               (=
-                (get route :url)
-                (get (get request :uri) :path))
-               (=
-                (get route :method)
-                (get request :method))))
-            routes)]
+      [query (get (get request :uri) :query)
+       altquery (if (nil? query) "" query)
+       route (find
+               (fn [route]
+                 (and
+                   (=
+                     (get route :url)
+                     (get (get request :uri) :path))
+                   (=
+                     (get route :method)
+                     (get request :method))
+                   (=
+                     (get route :query) altquery)))
+               routes)]
     ((get route :page) request)))
 
 (defn emit-response [response]
   (let [rsp (http/create-response-from-table response)]
     (http/emit-response rsp)))
 
-(emit-response (route-match (http/request-from-globals) routes))
+(def request (http/request-from-globals))
+
+(emit-response (route-match request routes))

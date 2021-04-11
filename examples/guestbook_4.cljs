@@ -22,7 +22,7 @@
 
 ;
 (defn get-messages [messages]
-  (GET "/messages"
+  (GET "?messages"
        {:response-format :json
         :keywords? true
         :handler (fn [r] (reset! messages (:messages r)))}))
@@ -42,7 +42,7 @@
 
 ;
 (defn send-message! [fields errors messages]
-  (POST "/message"
+  (POST "?message"
         {:format :json
          :headers
          {"Accept" "application/json"

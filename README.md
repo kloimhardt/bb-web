@@ -106,7 +106,7 @@ This example does not need WiFi connection for its CSS styling.
 ## Hy/Python backend
 [Hy](https://docs.hylang.org/en/stable/) is a language inspired by Clojure which compiles to [Python](https://www.python.org). Using Hy as backend languge opens up the vast Python ecosystem to ClojureScript whilst still remaining in the Lisp paradigm.
 
-You need to install [Python](https://www.python.org) and start a server with:
+You need to install Python 3.7 (or later) and start a server with:
 
 ```
 python3 -m http.server --cgi
@@ -118,6 +118,28 @@ http://localhost:8000/guestbook_3.html
 Notice that the ClojureScript code thus called is virtually unchanged compared to `guestbook_1.cljs` which connects to the backends described above, written in Clojure.
 
 The main Hy code is in the file `cgi-bin/guestbook/core.hy`. It allows Hy expressions to be sent to the server, where they are executed. Try typing `(+ 7 (get {:a {:b 3}} :a :b))` into the message field of your guestbook and see what happens (notice that Hy's `get` is more akin to Clojure's `get-in`).
+
+## Phel/PHP backend
+[Phel](https://phel-lang.org) is a language inspired by Clojure which compiles to [PHP](https://www.php.net). Using Phel as backend languge allows ClojureScript to run along with cheap shared hosting whilst still remaining in the Lisp paradigm.
+
+
+You need to install Python 7.4 (or later). Then download Phel with:
+```
+php composer.phar install
+
+```
+Start a server with:
+```
+php -S localhost:8000
+```
+Then, in the adress bar of your browser, type:
+```
+http://localhost:8000
+```
+
+The Phel code is in the file `examples/guestbook4.phel`, it is very similar to Clojure. The Clojurescript code is in `examples/guestbook_4.cljs`, the only change compared to `guestbook_1.cljs` is that JSON is used to exchange data instead of Transit.
+
+Thanks to [Mario Bašić](https://github.com/mabasic/mariobasic-n7) for opening the code of his personal website built with Phel.
 
 ## Rationale of bb-web
 
