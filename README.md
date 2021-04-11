@@ -104,7 +104,7 @@ Within the Codemirror editor, the file `examples/hot_reload.cljs` is shown. It i
 This example does not need WiFi connection for its CSS styling.
 
 ## Hy/Python backend
-[Hy](https://docs.hylang.org/en/stable/) is a language inspired by Clojure which compiles to [Python](https://www.python.org). Using Hy as backend language opens up the vast Python ecosystem to ClojureScript whilst still remaining in the Lisp paradigm.
+[Hy](https://docs.hylang.org/en/stable/) is inspired by Clojure, it compiles to [Python](https://www.python.org). Using Hy as backend language opens up the vast Python ecosystem to ClojureScript whilst still remaining in the Lisp paradigm.
 
 You need to install Python 3.7 (or later) and start a server with:
 
@@ -120,20 +120,25 @@ Notice that the ClojureScript code thus called is virtually unchanged compared t
 The main Hy code is in the file `cgi-bin/guestbook/core.hy`. It allows Hy expressions to be sent to the server, where they are executed. Try typing `(+ 7 (get {:a {:b 3}} :a :b))` into the message field of your guestbook and see what happens (notice that Hy's `get` is more akin to Clojure's `get-in`).
 
 ## Phel/PHP backend
-[Phel](https://phel-lang.org) is a language inspired by Clojure which compiles to [PHP](https://www.php.net). Using Phel as backend language allows ClojureScript to run along with cheap shared hostin# bb-web
+[Phel](https://phel-lang.org) is inspired by Clojure, it compiles to [PHP](https://www.php.net). Using Phel as backend language allows ClojureScript to be served on cheap shared hosting whilst still remaining in the Lisp paradigm.
 
-Scripting React-ive web apps in Clojure without installing it. 
+You need to install PHP 7.4 (or later). Then download Phel with:
+```
+php composer.phar install
 
-If you know the meaning of the sentence "I moved to Chlorine from Proto-Repl", stop reading. Otherwise, go on and take a look at Clojure and decide whether it is for you.
+```
+Start a server with:
+```
+php -S localhost:8000
+```
+Then, in the adress bar of your browser, type:
+```
+http://localhost:8000
+```
 
- The in-browser UI is interpreted Clojurescript code that you can change and run without having the Cljs-compiler installed.
-The Clojure backend code is processed by a single executable file, Java is not necessary. Alternatively, there is a Hy/Python backend.
+The Phel code is in the file `examples/guestbook4.phel`, it is very similar to Clojure. The Clojurescript code is in `examples/guestbook_4.cljs`, the only change compared to `guestbook_1.cljs` is that JSON is used to exchange data instead of Transit.
 
-Examples go from "Hello World!" to backend features like anti forgery protection, MS-Windows being first class.
-
-## Getting Started
-
-Click on [Guestbook .
+Thanks to [Mario Bašić](https://github.com/mabasic/mariobasic-n7) for opening the code of his personal website built with Phel.
 
 ## Rationale of bb-web
 
