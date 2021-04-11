@@ -3,12 +3,6 @@
   (:require phel\html :refer [html doctype])
   (:require mabasic\json\json))
 
-(defn eprint [txt]
-  (let [myfile (php/fopen "klmlog.txt" "a")
-        code (php/fwrite myfile (str txt "\n"))
-        _ (php/fclose myfile)]
-    txt))
-
 (defn home-html [cljs-code]
   (html
     (doctype :html5)
@@ -37,6 +31,9 @@
         code (php/fwrite myfile (str txt "\n"))
         _ (php/fclose myfile)]
     txt))
+
+(defn eprint [e]
+  (writefile "klmlog.txt" (print-str e)))
 
 (defn home-save-message! [request]
   (writefile filename
@@ -91,5 +88,7 @@
     (http/emit-response rsp)))
 
 (def request (http/request-from-globals))
+
+# (eprint request)
 
 (emit-response (route-match request routes))
