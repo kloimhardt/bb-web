@@ -1,0 +1,15 @@
+{
+    "name": "kloimhardt/bb-web",
+    "type": "project",
+    "require": {
+        "phel-lang/phel-lang": "^0.2.0",
+        "mabasic/phel-json": "^0.1.0"
+    },
+    "extra": {
+        "phel": {
+            "loader": {
+                "guestbook\\": "phelbackend/"
+            }
+        }
+    }
+}

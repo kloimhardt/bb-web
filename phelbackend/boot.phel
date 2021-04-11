@@ -3,27 +3,28 @@
   (:require phel\html :refer [html doctype])
   (:require mabasic\json\json))
 
-(defstruct route [method url page])
+(defn home-html [cljs-code]
+  (html
+    (doctype :html5)
+    [:html
+     [:head
+      [:meta @{:charset "UTF-8"}]
+      [:meta @{:name "viewport" :content "width=device-width, initial-scale=1"}]
+      [:link @{:rel "shortcut icon" :href "data:,"}]
+      [:link @{:rel "apple-touch-icon" :href "data:,"}]
+      [:link @{:rel "stylesheet" :href "https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css"}]
+      [:script @{:src "./js/bb_web/bb_web.js"}]
+      [:title "Guestbook 4"]]
+     [:body
+      [:div @{:id "cljs-app"} cljs-code]
+      [:script @{:type "application/javascript"
+                 :src "./examples/runcljs.js"}]]]))
 
-(defn readfile [filename]
-  (let [myfile (php/fopen filename "r")
-        code (php/fread myfile (php/filesize filename))
-        _ (php/fclose myfile)]
-    code))
+(defn date []
+  (php/date_default_timezone_set "Europe/Vienna")
+  (php/date php/DATE_RFC2822))
 
-(defn readfile-to-array [filename]
-  (let [a (php/file_get_contents filename)
-        b (php/substr a 0 -1)
-        c (php/explode "\n" b)
-        d (map json/decode c)
-        e @{:messages d}]
-    (json/encode e)))
-
-(defn eprint [txt]
-  (let [myfile (php/fopen "klmlog.txt" "a")
-        code (php/fwrite myfile (str txt "\n"))
-        _ (php/fclose myfile)]
-    txt))
+(def filename "./examples/o.txt")
 
 (defn writefile[fname txt]
   (let [myfile (php/fopen fname "a")
@@ -31,16 +32,13 @@
         _ (php/fclose myfile)]
     txt))
 
-(def filename "./examples/o.txt")
-
-(defn pmsg [request]
-  (php/date_default_timezone_set "UTC")
+(defn home-save-message! [request]
   (writefile filename
     (-> (json/decode (php/file_get_contents "php://input"))
-        (put :timestamp (php/date php/DATE_RFC2822))
+        (put :timestamp (date))
         json/encode)))
 
-(defn readfile-to-array []
+(defn readfile []
   (let [empty @{}]
     (->> (php/substr (php/file_get_contents filename) 0 -1)
          (php/explode "\n")
@@ -48,39 +46,21 @@
          (put empty :messages)
          json/encode)))
 
-(defn get1 []
+(defn home-message-list []
   @{:status 200
     :headers @{"Content-Type" "application/json"}
-    :body (readfile-to-array)})
+    :body (readfile)})
 
-(defn home-render [request]
+(defn home-render [_]
   @{:status 200
-    :body (html
-            (doctype :html5)
-            [:html @{:lang "en"}
-             # (head/render "Titel" "Metadescription")
-             [:body
-              [:script @{:src "./js/bb_web/bb_web.js"}]
-              [:div @{:id "cljs-code" :style "display: none;"}
-               (php/file_get_contents "./examples/guestbook_4.cljs")]
-              [:div @{:id "cljs-app"}]
-              [:script @{:type "application/javascript"
-                         :src "./examples/runcljs.js"}]]])})
+    :body (home-html (php/file_get_contents "./examples/guestbook_4.cljs"))})
 
-(defn home-render2 []
-  @{:status 200
-    :body (html
-            (doctype :html5)
-            [:html @{:lang "en"}
-             # (head/render "Titel" "Metadescription")
-             [:body
-              [:p "hicksihucksi"]
-              ]])})
+(defstruct route [method url page])
 
 (def routes
   [(route "GET" "/" home-render)
-   (route "GET" "/messages" get1)
-   (route "POST" "/message" pmsg)])
+   (route "GET" "/messages" home-message-list)
+   (route "POST" "/message" home-save-message!)])
 
 (defn route-match [request routes]
   (let
