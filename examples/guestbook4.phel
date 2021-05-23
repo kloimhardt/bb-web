@@ -8,16 +8,16 @@
     (doctype :html5)
     [:html
      [:head
-      [:meta @{:charset "UTF-8"}]
-      [:meta @{:name "viewport" :content "width=device-width, initial-scale=1"}]
-      [:link @{:rel "shortcut icon" :href "data:,"}]
-      [:link @{:rel "apple-touch-icon" :href "data:,"}]
-      [:link @{:rel "stylesheet" :href "https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css"}]
-      [:script @{:src "./js/bb_web/bb_web.js"}]
+      [:meta {:charset "UTF-8"}]
+      [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]
+      [:link {:rel "shortcut icon" :href "data:,"}]
+      [:link {:rel "apple-touch-icon" :href "data:,"}]
+      [:link {:rel "stylesheet" :href "https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css"}]
+      [:script {:src "./js/bb_web/bb_web.js"}]
       [:title "Guestbook 4"]]
      [:body
-      [:div @{:id "cljs-app"} cljs-code]
-      [:script @{:type "application/javascript"
+      [:div {:id "cljs-app"} cljs-code]
+      [:script {:type "application/javascript"
                  :src "./examples/runcljs.js"}]]]))
 
 (defn date []
@@ -42,21 +42,20 @@
                  json/encode)))
 
 (defn readfile []
-  (let [empty @{}]
-    (->> (php/substr (php/file_get_contents filename) 0 -1)
-         (php/explode "\n")
-         (map json/decode)
-         (put empty :messages)
-         json/encode)))
+  (->> (php/substr (php/file_get_contents filename) 0 -1)
+       (php/explode "\n")
+       (map json/decode)
+       (put {} :messages)
+       json/encode))
 
 (defn home-message-list []
-  @{:status 200
-    :headers @{"Content-Type" "application/json"}
-    :body (readfile)})
+  {:status 200
+   :headers {"Content-Type" "application/json"}
+   :body (readfile)})
 
 (defn home-render [_]
-  @{:status 200
-    :body (home-html (php/file_get_contents "./examples/guestbook_4.cljs"))})
+  {:status 200
+   :body (home-html (php/file_get_contents "./examples/guestbook_4.cljs"))})
 
 (defstruct route [method url query page])
 
@@ -84,7 +83,7 @@
     ((get route :page) request)))
 
 (defn emit-response [response]
-  (let [rsp (http/create-response-from-table response)]
+  (let [rsp (http/create-response-from-map response)]
     (http/emit-response rsp)))
 
 (def request (http/request-from-globals))
