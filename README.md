@@ -38,7 +38,7 @@ Open it in some text editor and change the button text to "Count up by one". Sav
 
 If Clojure is new to you, run the examples in [clj-tiles](https://kloimhardt.github.io/cljtiles.html) and try the [Koans](http://clojurescriptkoans.com) (be patient with the white screen for some seconds). After that you will know how to use `deref` (amongst other things).
 
-Note that the variable `bb-web/state` you see in the code is special. It is automatically updated on the screen wherever its content is displayed (by means of  `deref`). Within bb-web, you cannot create such useful beasts on your own, but arguably having only one of those is exactly right for even the most sophisticated purposes.
+Note that the variable `bb-web/state` you see in the code is special. It is automatically updated on the screen wherever its content is displayed (by means of  `deref`). Within bb-web, you cannot create such useful beasts on your own. However, you can do that after switching to the more feature rich [SCI Script Tag](https://borkdude.github.io/sci-script-tag/), a step which is not within scope here but nevertheless recommended after grasping the basics.
 
 ## Further examples
 
@@ -169,7 +169,9 @@ The following descriptions are less complete than the previous sections. If you 
 
 ### Expose arbitrary Clojurescript libraries to the SCI 
 
-You need to install and use [Shadow-cljs](http://shadow-cljs.org) (and thus Clojure on the JVM). 
+Before going this route, it is recommended to have a look at the more sophisticated [SCI Script Tag](https://borkdude.github.io/sci-script-tag/).
+
+To start hacking `bb-web`, you need to install and use [Shadow-cljs](http://shadow-cljs.org) (and thus Clojure on the JVM). 
 
 Only one Clojurescript file is behind the scenes of bb-web: ``js/src/bb_web/app.cljs``. It is 50 lines and the Clojurescript compiler of Shadow-cljs compiles it to the 1MB Javascript file `js/bb_web/bb_web.js`. 
 
