@@ -38,7 +38,7 @@ Open it in some text editor and change the button text to "Count up by one". Sav
 
 If Clojure is new to you, run the examples in [clj-tiles](https://kloimhardt.github.io/cljtiles.html) and try the [Koans](http://clojurescriptkoans.com) (be patient with the white screen for some seconds). After that you will know how to use `deref` (amongst other things).
 
-Note that the variable `bb-web/state` you see in the code is special. It is automatically updated on the screen wherever its content is displayed (by means of  `deref`). Within bb-web, you cannot create such useful beasts on your own. However, you can do that after switching to the more feature rich [Scittle](https://borkdude.github.io/scittle/), a step which is not within scope here but nevertheless recommended after grasping the basics.
+Note that the variable `bb-web/state` you see in the code is special. It is automatically updated on the screen wherever its content is displayed (by means of `deref`). Within bb-web, you cannot create such useful beasts on your own, but arguably having one of them is sufficient for even the most sophisticated purposes. However, after having grasped the bb-web examples below, also have a look at [Scittle](https://borkdude.github.io/scittle/) and start playing with more flexible client side state management.
 
 ## Further examples
 
@@ -162,6 +162,7 @@ One valid objection to bb-web is: one does not need client-side cljs scripting f
 
 [Lightmod](https://sekao.net/lightmod/) is a Clojure development environment which does not need Java installation.
 
+[Scittle](https://borkdude.github.io/scittle/) is the standard way to use the Small Clojure Interpreter in web pages.
 
 ## Advanced topics (Clojure experience required)
 
@@ -169,7 +170,7 @@ The following descriptions are less complete than the previous sections. If you 
 
 ### Expose arbitrary Clojurescript libraries to the SCI 
 
-Before going this route, it is recommended to have a look at the more sophisticated [Scittle](https://borkdude.github.io/scittle/).
+Before going this route, it is recommended to check whether the current version of [Scittle](https://borkdude.github.io/scittle/) already has what you need.
 
 To start hacking `bb-web`, you need to install and use [Shadow-cljs](http://shadow-cljs.org) (and thus Clojure on the JVM). 
 
