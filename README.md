@@ -138,6 +138,8 @@ http://localhost:8000
 
 The Phel code is in the file `examples/guestbook4.phel`, it is very similar to Clojure. The Clojurescript code is in `examples/guestbook_4.cljs`, the only change compared to `guestbook_1.cljs` is that JSON is used to exchange data instead of Transit.
 
+For more advanced things like database access look at the [lisp-webscript-examples](https://github.com/kloimhardt/lisp-webscript-examples).
+
 Thanks to [Mario Bašić](https://github.com/mabasic/mariobasic-n7) for opening the code of his personal website built with Phel.
 
 ## Rationale of bb-web
