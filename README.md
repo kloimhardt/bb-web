@@ -1,8 +1,8 @@
 # bb-web
 
-Scripting React-ive web apps in Clojure without installing it. 
+Scripting React-ive web apps in Clojure without installing it.
 
-If you know the meaning of the sentence "I moved to Chlorine from Proto-Repl", stop reading. Otherwise, go on and take a look at Clojure and decide whether it is for you.
+If you know the meaning of the sentence "I moved to Calva from Proto-Repl", stop reading. Otherwise, go on and take a look at Clojure and decide whether it is for you.
 
  The in-browser UI is interpreted Clojurescript code that you can change and run without having the Cljs-compiler installed.
 The Clojure backend code is processed by a single executable file, Java is not necessary. Alternatively, there are Phel/PHP and Hy/Python backends.
@@ -13,9 +13,11 @@ Examples go from "Hello World!" to backend features like anti forgery protection
 
 Click on [Guestbook online](https://kloimhardt.github.io/guestbook_0.html) for a first idea (use Chrome browser for best performance).
 
-Then, using the green `Code` button you see on top of this page, download the zip file of this `bb-web` repository. Unzip it, thereby creating some directory called `bb-web-master` or similar. 
+Then, using the green `Code` button you see on top of this page, download the zip file of this `bb-web` repository. Unzip it, thereby creating some directory called `bb-web-master` or similar.
 
-In your file explorer, double click on `first.html`. A button called "Count up" should appear. Press it and see the Small Clojure Interpreter ([SCI](https://github.com/borkdude/sci)) in action in the browser.
+In your file explorer, double click on `first.html`. A button called "Count up" should appear. Press this button and see what happens.
+
+This project uses the the Small Clojure Interpreter which has its own [SCI playground](https://github.com/borkdude/sci.web).
 
 The file `first.html` has only 12 lines of code:
 
